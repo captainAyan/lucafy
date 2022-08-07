@@ -1,0 +1,4 @@
+NODE_ENV = development
+PORT = 3001
+MONGODB_URI = ""
+SECRET_KEY = "abcdef"
