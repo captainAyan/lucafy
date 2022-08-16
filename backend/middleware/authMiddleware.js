@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
+const { ErrorResponse } = require("../middleware/errorMiddleware");
 
 const protect = asyncHandler(async (req, res, next) => {
   if (
@@ -15,13 +16,17 @@ const protect = asyncHandler(async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    req.user = await User.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      throw new ErrorResponse("User does not exist", StatusCodes.BAD_REQUEST);
+    }
+
+    req.user = user;
 
     next();
   } else {
-    const error = new Error("Not authenticated");
-    error.status = StatusCodes.UNAUTHORIZED;
-    next(error);
+    throw new ErrorResponse("Not authenticated", StatusCodes.UNAUTHORIZED);
   }
 });
 

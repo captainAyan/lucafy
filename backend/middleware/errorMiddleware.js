@@ -1,6 +1,13 @@
 const { StatusCodes } = require("http-status-codes");
 
-const errorHandler = (err, req, res, next) => {
+class ErrorResponse extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+
+const errorHandler = (err, req, res, _) => {
   res.status(err.status || StatusCodes.INTERNAL_SERVER_ERROR).send({
     error: {
       // actual error message
@@ -14,5 +21,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
+  ErrorResponse,
   errorHandler,
 };
