@@ -7,6 +7,11 @@ const {
   EQUITY,
 } = require("../constants/ledgerTypes");
 
+const {
+  LEDGER_NAME_MAX_LENGTH,
+  LEDGER_DESCRIPTION_MAX_LENGTH,
+} = require("../constants/policies");
+
 const ledgerSchema = new mongoose.Schema(
   {
     name: {
@@ -14,7 +19,7 @@ const ledgerSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 1,
-      maxlength: 50,
+      maxlength: LEDGER_NAME_MAX_LENGTH,
     },
     type: {
       type: String,
@@ -26,7 +31,7 @@ const ledgerSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 0,
-      maxlength: 200,
+      maxlength: LEDGER_DESCRIPTION_MAX_LENGTH,
     },
     balance: {
       type: Number,

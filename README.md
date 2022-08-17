@@ -34,13 +34,14 @@ The user can
 **Model**: id, user id, created at, updated at, name, type, description, balance
 
 **Note**: Balance is an internal field for holding the normalized value of ledger. The balance will not show up in the response. The current balance of the account (ledger) will not be provided in the response. For the balance of a ledger, use the Statement API (2nd point under the Statement head).
-### Entry ⌛
-1. /entry [POST] : Create journal entry
-2. /entry/:id [PUT] : Edit journal entry narration
-3. /entry [GET] : Get multiple entries (Paginated)
-4. /entry/:id [GET] : Get particular entry
+### Entry ✔️
+1. /entry [POST] : Create journal entry ✔️
+2. /entry/:id [PUT] : Edit journal entry ✔️
+    - Only narration can be edited
+3. /entry [GET] : Get multiple entries (Paginated) ✔️
+4. /entry/:id [GET] : Get particular entry ✔️
 
-**Model**: id, user id, created at, debit ledger id, credit ledger id, narration, tags
+**Model**: id, user id, created at, updated at, debit ledger id, credit ledger id, amount, narration
 ### Statement ⌛
 1. /statement/trial-balance [GET] : View trial balance
 2. /statement/ledger/:id [GET] : View ledger balance and associated entries

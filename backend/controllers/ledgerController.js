@@ -17,7 +17,7 @@ const getLedgers = asyncHandler(async (req, res, next) => {
 
   const response = {
     skip: PAGE * PAGINATION_LIMIT,
-    limit: LEDGER_LIMIT,
+    limit: PAGINATION_LIMIT,
     total: await Ledger.find({ user_id: req.user.id }).count(),
     ledgers,
   };
@@ -72,19 +72,14 @@ const createLedger = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse("Ledger limit reached", StatusCodes.FORBIDDEN);
   }
 
-  try {
-    const l = await Ledger.create({
-      ...req.body,
-      user_id: req.user.id,
-    });
+  const l = await Ledger.create({
+    ...req.body,
+    user_id: req.user.id,
+  });
 
-    const ledger = await Ledger.findById(l.id).select(["-user_id", "-balance"]);
+  const ledger = await Ledger.findById(l.id).select(["-user_id", "-balance"]);
 
-    res.status(StatusCodes.CREATED).json(ledger);
-  } catch (error1) {
-    console.log(error1);
-    throw new ErrorResponse("Unknown error", StatusCodes.INTERNAL_SERVER_ERROR);
-  }
+  res.status(StatusCodes.CREATED).json(ledger);
 });
 
 const editLedger = asyncHandler(async (req, res, next) => {
