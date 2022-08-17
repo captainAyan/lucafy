@@ -490,7 +490,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"bigshow@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"email\": \"cena@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1211,7 +1211,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"cash\",\r\n    \"type\": \"asset\",\r\n    \"description\": \"this a description\"\r\n}",
+							"raw": "{\r\n    \"name\": \"salary\",\r\n    \"type\": \"expenditure\",\r\n    \"description\": \"payment of salary\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1225,7 +1225,383 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"salary\",\r\n    \"type\": \"expenditure\",\r\n    \"description\": \"payment of salary\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}",
+									"host": [
+										"{{ledger_url}}"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "596"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c1-qnDR/UyXdihRN1c+4lRoIAsQMyc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 10:15:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"62fcbfde3aeacd5a84aa3c6a\",\n    \"name\": \"salary\",\n    \"type\": \"expenditure\",\n    \"description\": \"payment of salary\",\n    \"created_at\": \"2022-08-17T10:15:58.155Z\",\n    \"updated_at\": \"2022-08-17T10:15:58.155Z\",\n    \"__v\": 0\n}"
+						},
+						{
+							"name": "Invalid input",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"cash\",\r\n    \"type\": \"notasset\",\r\n    \"description\": \"this a description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}",
+									"host": [
+										"{{ledger_url}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "434"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "661"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"295-qfiMPFLXnduFOpCm6aIYd51jTZM\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Aug 2022 21:08:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\ledgerController.js:63:11\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\middleware\\\\authMiddleware.js:27:5\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+						},
+						{
+							"name": "Limit reached",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"debt\",\r\n    \"type\": \"liability\",\r\n    \"description\": \"the bank loan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}",
+									"host": [
+										"{{ledger_url}}"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "553"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"104-rWdu/a8kOUlsl3LqJAMC5c8wzCY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Aug 2022 21:11:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"message\": \"Ledger limit reached\",\n        \"stack\": \"Error: Ledger limit reached\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\ledgerController.js:69:11\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Ledgers",
@@ -1233,13 +1609,946 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ledger_url}}",
+							"raw": "{{ledger_url}}?page=0",
 							"host": [
 								"{{ledger_url}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ledger_url}}?page=0",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "546"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "811"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"32b-GC1cD6JGwwC8AlGhPW1mz4nk+54\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 10:18:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"skip\": 0,\n    \"limit\": 20,\n    \"total\": 4,\n    \"ledgers\": [\n        {\n            \"_id\": \"62fcbfde3aeacd5a84aa3c6a\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-17T10:15:58.155Z\",\n            \"updated_at\": \"2022-08-17T10:15:58.155Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcbfa854669bb2c90c109f\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-17T10:15:04.458Z\",\n            \"updated_at\": \"2022-08-17T10:15:04.458Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcb69013f39d24d2f0f5b3\",\n            \"name\": \"loan\",\n            \"type\": \"liability\",\n            \"description\": \"the personal loan\",\n            \"created_at\": \"2022-08-17T09:36:16.490Z\",\n            \"updated_at\": \"2022-08-17T09:36:16.490Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcb594966298530f592f86\",\n            \"name\": \"loan\",\n            \"type\": \"liability\",\n            \"description\": \"the personal loan\",\n            \"created_at\": \"2022-08-17T09:32:04.653Z\",\n            \"updated_at\": \"2022-08-17T09:32:04.653Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Ledgers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ledger_url}}/all",
+							"host": [
+								"{{ledger_url}}"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ledger_url}}/all",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "485"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "781"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30d-CY51kb24QCaqvvhCiMf1s4/gp6k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 10:19:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ledgers\": [\n        {\n            \"_id\": \"62fcbfde3aeacd5a84aa3c6a\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-17T10:15:58.155Z\",\n            \"updated_at\": \"2022-08-17T10:15:58.155Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcbfa854669bb2c90c109f\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-17T10:15:04.458Z\",\n            \"updated_at\": \"2022-08-17T10:15:04.458Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcb69013f39d24d2f0f5b3\",\n            \"name\": \"loan\",\n            \"type\": \"liability\",\n            \"description\": \"the personal loan\",\n            \"created_at\": \"2022-08-17T09:36:16.490Z\",\n            \"updated_at\": \"2022-08-17T09:36:16.490Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62fcb594966298530f592f86\",\n            \"name\": \"loan\",\n            \"type\": \"liability\",\n            \"description\": \"the personal loan\",\n            \"created_at\": \"2022-08-17T09:32:04.653Z\",\n            \"updated_at\": \"2022-08-17T09:32:04.653Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Ledger",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ledger_url}}/62fcc76b2885147200f9ff0f",
+							"host": [
+								"{{ledger_url}}"
+							],
+							"path": [
+								"62fcc76b2885147200f9ff0f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ledger_url}}/62fcbfde3aeacd5a84aa3c6a",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"62fcbfde3aeacd5a84aa3c6a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "399"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c1-qnDR/UyXdihRN1c+4lRoIAsQMyc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 10:20:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"62fcbfde3aeacd5a84aa3c6a\",\n    \"name\": \"salary\",\n    \"type\": \"expenditure\",\n    \"description\": \"payment of salary\",\n    \"created_at\": \"2022-08-17T10:15:58.155Z\",\n    \"updated_at\": \"2022-08-17T10:15:58.155Z\",\n    \"__v\": 0\n}"
+						},
+						{
+							"name": "Not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ledger_url}}/62fb",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"62fb"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "62"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "252"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fc-AwZrsCjIUywo30SXsZ1C26QR22Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Aug 2022 21:04:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"message\": \"Ledger not found\",\n        \"stack\": \"Error: Ledger not found\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\ledgerController.js:49:11\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit Ledger",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"salary\",\r\n    \"type\":\"expenditure\",\r\n    \"description\": \"payment of salary\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ledger_url}}/62fcc76b2885147200f9ff0f",
+							"host": [
+								"{{ledger_url}}"
+							],
+							"path": [
+								"62fcc76b2885147200f9ff0f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"salary\",\r\n    \"type\":\"expenditure\",\r\n    \"description\": \"payment of salary\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}/62fcc76b2885147200f9ff0f",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"62fcc76b2885147200f9ff0f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "539"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c1-cbCsl/Nmg/UUHVHOK2uh3pZM54Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 10:55:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"62fcc76b2885147200f9ff0f\",\n    \"name\": \"salary\",\n    \"type\": \"expenditure\",\n    \"description\": \"payment of salary\",\n    \"created_at\": \"2022-08-17T10:48:11.843Z\",\n    \"updated_at\": \"2022-08-17T10:54:18.044Z\",\n    \"__v\": 0\n}"
+						},
+						{
+							"name": "Not found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"bank\",\r\n    \"type\":\"asset\",\r\n    \"description\": \"the bank\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}/62fc07a63c82f4c3db8702",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"62fc07a63c82f4c3db8702"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "409"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "252"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fc-GKuV9pExBWBoYIq5ZBHAPotrrVA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 06:49:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"message\": \"Ledger not found\",\n        \"stack\": \"Error: Ledger not found\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\ledgerController.js:99:11\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+						},
+						{
+							"name": "Invalid input",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"bank\",\r\n    \"type\":\"not asset\",\r\n    \"description\": \"the bank\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ledger_url}}/62fc07a63c82f4c3db8702e8",
+									"host": [
+										"{{ledger_url}}"
+									],
+									"path": [
+										"62fc07a63c82f4c3db8702e8"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "385"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "661"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"295-aXNy0JlQIP+VGpubZwfgiIVl6ng\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Aug 2022 06:50:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\ledgerController.js:88:11\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\middleware\\\\authMiddleware.js:27:5\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+						}
+					]
 				}
 			]
 		}
@@ -1249,7 +2558,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "{{token_a}}",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
@@ -1306,8 +2615,14 @@
 			"type": "default"
 		},
 		{
-			"key": "token_a",
+			"key": "token",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZWZmNTE2NzM4NGI4YTBjMDFmNWEyYiIsImlhdCI6MTY1OTg5MzA1MiwiZXhwIjoxNjYyNDg1MDUyfQ.oZ55v8DJ327JB40HMRI7QskM0bk2A_sI5Woq32dVthM",
+			"type": "default",
+			"disabled": true
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmFiNmJlNmNmODY4ZjNlN2MzMmVjZSIsImlhdCI6MTY2MDczMzM2MCwiZXhwIjoxNjYzMzI1MzYwfQ.hracnf9HIMkS-ryDWet6nstQvveymrsoSY5hkMR7qOQ",
 			"type": "default"
 		}
 	]

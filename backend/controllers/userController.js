@@ -95,7 +95,7 @@ const editProfile = asyncHandler(async (req, res, next) => {
   }
   const { firstName, middleName, lastName, email } = req.body;
 
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id).select("-password");
 
   const userWithEmailExists = await User.findOne({ email });
 
