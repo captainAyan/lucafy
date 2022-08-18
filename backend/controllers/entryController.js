@@ -83,6 +83,13 @@ const createEntry = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse("Invalid credit ledger", StatusCodes.BAD_REQUEST);
   }
 
+  if (debit_ledger.id === credit_ledger.id) {
+    throw new ErrorResponse(
+      "Debit and credit ledger cannot be the same",
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
   const e = await Entry.create({
     ...req.body,
     debit_ledger: debit_ledger.id,
