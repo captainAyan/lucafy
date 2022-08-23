@@ -30,6 +30,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "axios": "^0.27.2",
+    "chai": "^4.3.6",
     "concurrently": "^7.3.0",
     "eslint": "^8.21.0",
     "eslint-config-airbnb": "^19.0.4",
