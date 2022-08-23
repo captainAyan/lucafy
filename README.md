@@ -44,4 +44,4 @@ The user can
 **Model**: id, user id, created at, updated at, debit ledger id, credit ledger id, amount, narration
 ### Statement ⌛
 1. /statement/trial-balance [GET] : View trial balance
-2. /statement/ledger/:id [GET] : View ledger balance and associated entries
+2. /statement/ledger/:id [GET] : View ledger balance and associated entries ✔️
