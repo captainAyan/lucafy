@@ -2,7 +2,6 @@ const Joi = require("joi");
 
 const {
   USER_FIRST_NAME_MAX_LENGTH,
-  USER_MIDDLE_NAME_MAX_LENGTH,
   USER_LAST_NAME_MAX_LENGTH,
   USER_EMAIL_MAX_LENGTH,
   USER_PASSWORD_MIN_LENGTH,
@@ -12,7 +11,6 @@ const {
 const createSchema = Joi.object({
   firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
   lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
-  middleName: Joi.string().min(0).max(USER_MIDDLE_NAME_MAX_LENGTH).required(),
   email: Joi.string().email().min(1).max(USER_EMAIL_MAX_LENGTH).required(),
   password: Joi.string()
     .min(USER_PASSWORD_MIN_LENGTH)
@@ -23,7 +21,6 @@ const createSchema = Joi.object({
 const editSchema = Joi.object({
   firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
   lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
-  middleName: Joi.string().min(0).max(USER_MIDDLE_NAME_MAX_LENGTH).required(),
   email: Joi.string().email().min(1).max(USER_EMAIL_MAX_LENGTH).required(),
 });
 

@@ -21,7 +21,6 @@ const login = asyncHandler(async (req, res, next) => {
     const response = {
       id: user.id,
       firstName: user.firstName,
-      middleName: user.middleName,
       lastName: user.lastName,
       email: user.email,
     };
@@ -64,7 +63,6 @@ const register = asyncHandler(async (req, res, next) => {
   const response = {
     id: user.id,
     firstName: user.firstName,
-    middleName: user.middleName,
     lastName: user.lastName,
     email: user.email,
   };
@@ -79,7 +77,6 @@ const getProfile = asyncHandler(async (req, res, next) => {
   const response = {
     id: req.user.id,
     firstName: req.user.firstName,
-    middleName: req.user.middleName,
     lastName: req.user.lastName,
     email: req.user.email,
   };
@@ -91,9 +88,9 @@ const editProfile = asyncHandler(async (req, res, next) => {
   const { error } = editSchema.validate(req.body);
 
   if (error) {
-    throw new ErrorResponse("Invalid input error", StatusCode.BAD_REQUEST);
+    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
   }
-  const { firstName, middleName, lastName, email } = req.body;
+  const { firstName, lastName, email } = req.body;
 
   const user = await User.findById(req.user.id).select("-password");
 
@@ -104,7 +101,6 @@ const editProfile = asyncHandler(async (req, res, next) => {
   }
 
   user.firstName = firstName;
-  user.middleName = middleName;
   user.lastName = lastName;
   user.email = email;
 
@@ -113,7 +109,6 @@ const editProfile = asyncHandler(async (req, res, next) => {
   const response = {
     id: user.id,
     firstName: user.firstName,
-    middleName: user.middleName,
     lastName: user.lastName,
     email: user.email,
   };

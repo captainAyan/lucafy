@@ -47,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"big\",\r\n    \"middleName\": \"\",\r\n    \"lastName\": \"show\",\r\n    \"email\": \"bigshow@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@asdf##@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -72,7 +72,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"amar\",\r\n    \"middleName\": \"sumit\",\r\n    \"lastName\": \"bachchan\",\r\n    \"email\": \"amarbachchan@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -163,7 +163,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "497"
+									"value": "547"
 								},
 								{
 									"key": "Content-Type",
@@ -171,15 +171,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "309"
+									"value": "280"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"135-kVVY4hikqfUqTxtnTxA39fsHCOA\""
+									"value": "W/\"118-U9N5xKroml6JBWeN8MgLMS9M+SE\""
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 07 Aug 2022 17:23:34 GMT"
+									"value": "Thu, 25 Aug 2022 10:26:29 GMT"
 								},
 								{
 									"key": "Connection",
@@ -191,7 +191,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"62eff5167384b8a0c01f5a2b\",\n    \"firstName\": \"amar\",\n    \"middleName\": \"sumit\",\n    \"lastName\": \"bachchan\",\n    \"email\": \"amarbachchan@mail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZWZmNTE2NzM4NGI4YTBjMDFmNWEyYiIsImlhdCI6MTY1OTg5MzAxNCwiZXhwIjoxNjYyNDg1MDE0fQ.XflBX0UbJvn5dLx6hPeT5km2FiHgxZxGDS7RGVvwUwU\"\n}"
+							"body": "{\n    \"id\": \"63074e54fc1a17d7e0a4faf3\",\n    \"firstName\": \"dwyen\",\n    \"lastName\": \"johnson\",\n    \"email\": \"rock@mail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDc0ZTU0ZmMxYTE3ZDdlMGE0ZmFmMyIsImlhdCI6MTY2MTQyMzE4OSwiZXhwIjoxNjY0MDE1MTg5fQ.Sxeu9Ttq0aHIWN9A10cRG4CRgtd6RZbPKCAfNiGhGZw\"\n}"
 						},
 						{
 							"name": "Email already exists",
@@ -200,7 +200,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"amar\",\r\n    \"middleName\": \"sumit\",\r\n    \"lastName\": \"bachchan\",\r\n    \"email\": \"amarbachchan@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -291,7 +291,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "479"
+									"value": "528"
 								},
 								{
 									"key": "Content-Type",
@@ -299,15 +299,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "258"
+									"value": "256"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"102-F8XZ4VKeue3Xz8B12Mh4CuA6LQI\""
+									"value": "W/\"100-sv+LuOHh2F0V7UDUD9Xsd+kZjwg\""
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 07 Aug 2022 17:23:52 GMT"
+									"value": "Thu, 25 Aug 2022 10:26:47 GMT"
 								},
 								{
 									"key": "Connection",
@@ -319,7 +319,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"message\": \"Email already exists\",\n        \"stack\": \"Error: Email already exists\\n    at D:\\\\webprojects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:75:18\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+							"body": "{\n    \"error\": {\n        \"message\": \"User already exists\",\n        \"stack\": \"Error: User already exists\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:48:11\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
 						},
 						{
 							"name": "Invalid input",
@@ -328,7 +328,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"xyz212343\",\r\n    \"middleName\": \"zz23\",\r\n    \"lastName\": \"xxd23\",\r\n    \"password\": \"password23\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@asdf##@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -419,7 +419,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "81"
+									"value": "495"
 								},
 								{
 									"key": "Content-Type",
@@ -431,11 +431,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"470-3O2dDsiNkC6wpT59RHIR0ZzPKO0\""
+									"value": "W/\"470-1WqgNt0EK4dWUlkq30mIR5KRObA\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 12 Aug 2022 21:39:39 GMT"
+									"value": "Thu, 25 Aug 2022 10:27:20 GMT"
 								},
 								{
 									"key": "Connection",
@@ -447,7 +447,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:49:20\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at Route.dispatch (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:114:3)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:284:15\\n    at Function.process_params (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:346:12)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:280:10)\\n    at Function.handle (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:175:3)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:41:11\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at Route.dispatch (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:114:3)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:284:15\\n    at Function.process_params (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:346:12)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:280:10)\\n    at Function.handle (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\index.js:175:3)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
 						}
 					]
 				},
@@ -490,7 +490,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"cena@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"pas123123sword\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -515,7 +515,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"amarbachchan@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"raw": "{\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -606,7 +606,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "458"
+									"value": "455"
 								},
 								{
 									"key": "Content-Type",
@@ -614,15 +614,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "309"
+									"value": "280"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"135-w7PiaGAGGH0B83nC3+SMRDAq2DI\""
+									"value": "W/\"118-X6eFVXQe53rjNhXokeRWZPaI9bs\""
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 07 Aug 2022 17:24:12 GMT"
+									"value": "Thu, 25 Aug 2022 10:28:01 GMT"
 								},
 								{
 									"key": "Connection",
@@ -634,7 +634,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"62eff5167384b8a0c01f5a2b\",\n    \"firstName\": \"amar\",\n    \"middleName\": \"sumit\",\n    \"lastName\": \"bachchan\",\n    \"email\": \"amarbachchan@mail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZWZmNTE2NzM4NGI4YTBjMDFmNWEyYiIsImlhdCI6MTY1OTg5MzA1MiwiZXhwIjoxNjYyNDg1MDUyfQ.oZ55v8DJ327JB40HMRI7QskM0bk2A_sI5Woq32dVthM\"\n}"
+							"body": "{\n    \"id\": \"63074e54fc1a17d7e0a4faf3\",\n    \"firstName\": \"dwyen\",\n    \"lastName\": \"johnson\",\n    \"email\": \"rock@mail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDc0ZTU0ZmMxYTE3ZDdlMGE0ZmFmMyIsImlhdCI6MTY2MTQyMzI4MSwiZXhwIjoxNjY0MDE1MjgxfQ.XJs1t_7ZqBQSM17kMcy8yf2Zt5RvFFpOG-sEkMzsQ7I\"\n}"
 						},
 						{
 							"name": "Invalid credentials",
@@ -643,7 +643,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"amarbachchan@mail.com\",\r\n    \"password\": \"password1\"\r\n}",
+									"raw": "{\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"pas123123sword\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -734,7 +734,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "391"
+									"value": "418"
 								},
 								{
 									"key": "Content-Type",
@@ -746,11 +746,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"b5-I4lf4vdBdjYaQV/mQqwNjux6QLU\""
+									"value": "W/\"b5-kMP0mRnFesHkBoxfzuz89sjA8Z0\""
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 07 Aug 2022 17:25:20 GMT"
+									"value": "Thu, 25 Aug 2022 10:28:37 GMT"
 								},
 								{
 									"key": "Connection",
@@ -762,7 +762,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"message\": \"Invalid credentials\",\n        \"stack\": \"Error: Invalid credentials\\n    at D:\\\\webprojects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:34:21\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+							"body": "{\n    \"error\": {\n        \"message\": \"Invalid credentials\",\n        \"stack\": \"Error: Invalid credentials\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:33:11\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
 						}
 					]
 				}
@@ -893,7 +893,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "441"
+									"value": "310"
 								},
 								{
 									"key": "Content-Type",
@@ -901,15 +901,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "127"
+									"value": "94"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"7f-2Uyp4jlvSOUZpVO/6vzL1PINhY0\""
+									"value": "W/\"5e-rWst+l7J6vY610BqIxv4WBDK7OI\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 11 Aug 2022 20:24:03 GMT"
+									"value": "Thu, 25 Aug 2022 10:22:26 GMT"
 								},
 								{
 									"key": "Connection",
@@ -921,7 +921,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"62eff5167384b8a0c01f5a2b\",\n    \"firstName\": \"amar\",\n    \"middleName\": \"sumit\",\n    \"lastName\": \"bachchan\",\n    \"email\": \"amarbachchan@mail.com\"\n}"
+							"body": "{\n    \"id\": \"62fab6be6cf868f3e7c32ece\",\n    \"firstName\": \"john\",\n    \"lastName\": \"cena\",\n    \"email\": \"cena@mail.com\"\n}"
 						}
 					]
 				},
@@ -932,7 +932,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"dwayne\",\r\n    \"middleName\": \"the rock\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"cena@mail.com\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"dwayne\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"cena@mail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -954,7 +954,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"amartya\",\r\n    \"middleName\": \"sumit\",\r\n    \"lastName\": \"bachchan\",\r\n    \"email\": \"amarbachchan@mail.com\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"dwayne\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"cena@mail.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1042,7 +1042,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "232"
+									"value": "231"
 								},
 								{
 									"key": "Content-Type",
@@ -1050,15 +1050,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "130"
+									"value": "99"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"82-UuGEWXxgOCQ2dUVRLdXGK0IXCu4\""
+									"value": "W/\"63-Yf5D0VQwViH0lP/fQdD/mpLcM64\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 11 Aug 2022 20:37:33 GMT"
+									"value": "Thu, 25 Aug 2022 10:23:42 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1070,7 +1070,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"62eff5167384b8a0c01f5a2b\",\n    \"firstName\": \"amartya\",\n    \"middleName\": \"sumit\",\n    \"lastName\": \"bachchan\",\n    \"email\": \"amarbachchan@mail.com\"\n}"
+							"body": "{\n    \"id\": \"62fab6be6cf868f3e7c32ece\",\n    \"firstName\": \"dwayne\",\n    \"lastName\": \"johnson\",\n    \"email\": \"cena@mail.com\"\n}"
 						},
 						{
 							"name": "Invalid input",
@@ -1079,7 +1079,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"dwayne\",\r\n    \"middleName\": \"the rock\",\r\n    \"1middleName\": \"the rock\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@mail.com\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"dwayne\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"cena@mai###@s.l.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1167,7 +1167,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "470"
+									"value": "598"
 								},
 								{
 									"key": "Content-Type",
@@ -1175,15 +1175,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "662"
+									"value": "659"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"296-h1dGcKiU5eNg08isIrYMjJFRv90\""
+									"value": "W/\"293-u8p8q4FRP7KQXc7RkKCvJTWOnn4\""
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 15 Aug 2022 20:58:34 GMT"
+									"value": "Thu, 25 Aug 2022 10:25:37 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1195,7 +1195,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\profileController.js:29:20\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\middleware\\\\authMiddleware.js:28:5\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
+							"body": "{\n    \"error\": {\n        \"message\": \"Invalid input error\",\n        \"stack\": \"Error: Invalid input error\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\controllers\\\\userController.js:91:11\\n    at asyncUtilWrap (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express-async-handler\\\\index.js:3:20)\\n    at Layer.handle [as handle_request] (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\layer.js:95:5)\\n    at next (D:\\\\WebProjects\\\\accounting\\\\node_modules\\\\express\\\\lib\\\\router\\\\route.js:144:13)\\n    at D:\\\\WebProjects\\\\accounting\\\\backend\\\\middleware\\\\authMiddleware.js:27:5\\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\",\n        \"type\": 0,\n        \"code\": 0\n    }\n}"
 						}
 					]
 				}
