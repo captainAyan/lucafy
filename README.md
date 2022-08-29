@@ -43,5 +43,27 @@ The user can
 
 **Model**: id, user id, created at, updated at, debit ledger id, credit ledger id, amount, narration
 ### Statement ⌛
-1. /statement/trial-balance [GET] : View trial balance
+1. /statement/trial-balance [GET] : View trial balance ⌛
 2. /statement/ledger/:id [GET] : View ledger balance and associated entries ✔️
+
+### Normalization ⌛
+1. /normalize [POST] : Normalize all documents ⌛
+
+## Frontend
+### Pages Required
+1. Login ✔️
+2. Register ✔️
+3. Profile (not an actual page) ✔️
+    1. View Profile (i.e. profile)
+    2. Edit Profile (i.e. profile/edit) ✔️
+4. Ledger (not an actual page) ✔️
+    1. Create Ledger (i.e. ledger) ✔️
+    2. View Ledger (i.e. ledger/:id) [Note: this is the Ledger Statement as mentioned in the api doc] ✔️
+    3. Edit Ledger (i.e. edit-ledger/:id) ✔️
+5. Entry (not an actual page) ✔️
+    1. Create Entry (i.e. entry) ✔️
+    2. Edit Entry (i.e. entry/:id/edit) ✔️
+    3. View Entry (i.e. entry/:id) ✔️
+6. Statements (**Note**: the definition of *‘statement’* in the frontend may not be similar to the definition of *‘statement’* in the backend. That is, *‘statement’* in frontend means Journal [The book of entries. It contains all the entries]), and Trial balance statement.
+    1. Journal ✔️
+    2. Trial Balance ✔️ [This feature has NOT been implemented in the backend either]
