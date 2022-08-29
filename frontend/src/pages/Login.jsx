@@ -1,6 +1,55 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import { login, reset } from "../features/auth/authSlice";
 
 export default function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  const [helperText, setHelperText] = useState("");
+
+  useEffect(() => {
+    if (isError) {
+      setHelperText(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    const userData = {
+      email,
+      password,
+    };
+
+    dispatch(login(userData));
+  };
+
   return (
     <div className="p-4 min-h-screen">
       <center>
@@ -15,8 +64,12 @@ export default function Login() {
               </label>
               <input
                 type="email"
+                name="email"
+                value={email}
+                onChange={onChange}
                 placeholder="Email"
                 className="input input-bordered"
+                autoFocus
               />
             </div>
             <div className="form-control">
@@ -24,13 +77,24 @@ export default function Login() {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="text"
+                type="password"
+                name="password"
+                value={password}
+                onChange={onChange}
                 placeholder="Password"
                 className="input input-bordered"
               />
             </div>
-            <div className="form-control mt-4">
-              <button className="btn btn-primary">Login</button>
+
+            <p className="text-red-500 text-sm text-left">{helperText}</p>
+
+            <div className="form-control mt-2">
+              <button
+                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
+                onClick={handleSubmit}
+              >
+                Login
+              </button>
             </div>
 
             <div className="form-control mt-2">

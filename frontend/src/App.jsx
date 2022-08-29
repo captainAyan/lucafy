@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
@@ -28,6 +29,8 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
+            <Route path="/" element={<Home />} />
+
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="settings" element={<Settings />} />
