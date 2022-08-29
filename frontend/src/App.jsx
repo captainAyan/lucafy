@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import Settings from "./pages/Settings";
 import Journal from "./pages/Journal";
+import TrialBalance from "./pages/TrialBalance";
 import CreateLedger from "./pages/CreateLedger";
 import CreateEntry from "./pages/CreateEntry";
 import ViewLedger from "./pages/ViewLedger";
@@ -39,6 +40,7 @@ function App() {
             <Route path="profile/edit" element={<EditProfile />} />
 
             <Route path="journal" element={<Journal />} />
+            <Route path="trial-balance" element={<TrialBalance />} />
 
             <Route path="entry" element={<CreateEntry />} />
             <Route path="entry/:id" element={<ViewEntry />} />
