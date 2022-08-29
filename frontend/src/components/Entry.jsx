@@ -8,7 +8,7 @@ export default function Entry(props) {
     <div className="card w-full max-w-sm bg-base-100 mb-4">
       <div className="card-body sm:w-96 w-full text-left py-4 px-6">
         <h1 className="text-2xs font-thin break-all capitalize">
-          <Link to={`/entry/${_id}`} class="link">
+          <Link to={`/entry/${_id}`} class="link text-blue-500">
             #{_id}
           </Link>
           <span className="ml-2">{time}</span>
