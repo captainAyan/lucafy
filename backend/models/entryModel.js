@@ -33,4 +33,12 @@ const entrySchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
+entrySchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+entrySchema.set("toJSON", {
+  virtuals: true,
+});
+
 module.exports = mongoose.model("Entry", entrySchema);

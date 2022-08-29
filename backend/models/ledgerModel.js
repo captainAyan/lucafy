@@ -30,7 +30,7 @@ const ledgerSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 0,
+      minlength: 1,
       maxlength: LEDGER_DESCRIPTION_MAX_LENGTH,
     },
     balance: {
@@ -46,5 +46,13 @@ const ledgerSchema = new mongoose.Schema(
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
+
+ledgerSchema.virtual("id").get(function () {
+  return this._id;
+});
+
+ledgerSchema.set("toJSON", {
+  virtuals: true,
+});
 
 module.exports = mongoose.model("Ledger", ledgerSchema);
