@@ -17,12 +17,15 @@ import {
 import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
 import { setPreference } from "../features/preference/preferenceSlice";
+import { deleteAccount, reset } from "../features/auth/authSlice";
 
 export default function Settings() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   const preference = useSelector((state) => state.preference);
 
   const [formData, setFormData] = useState({
@@ -34,11 +37,25 @@ export default function Settings() {
   const [preferenceSaveButtonLabel, setPreferenceSaveButtonLabel] =
     useState("Save");
 
+  const [helperText, setHelperText] = useState("");
+
   useEffect(() => {
+    if (isError) {
+      setHelperText(message);
+    }
+
+    if (isSuccess) {
+      navigate("/");
+    }
+
     if (!user) {
       navigate("/login");
     }
-  });
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -55,6 +72,10 @@ export default function Settings() {
 
     dispatch(setPreference(preference));
     setPreferenceSaveButtonLabel("Saved 🎉");
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteAccount());
   };
 
   return (
@@ -129,7 +150,12 @@ export default function Settings() {
             error suscipit rerum eaque accusantium dolorum, sint, consequuntur
             obcaecati mollitia amet quae. Cum?
           </p>
-          <button className="btn bg-red-500 text-white w-full mt-4">
+          <button
+            className={`btn bg-red-500 text-white w-full mt-4 ${
+              isLoading ? "loading" : ""
+            }`}
+            onClick={handleDelete}
+          >
             Delete
           </button>
         </div>

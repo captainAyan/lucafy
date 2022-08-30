@@ -76,7 +76,7 @@ const authService = {
   register,
   logout,
   login,
-  // deleteAccount,
+  deleteAccount,
   edit,
 };
 
