@@ -20,9 +20,9 @@ The user can
 ### Authentication ✔️
 1. /auth/login [POST] ✔️
 2. /auth/register [POST] ✔️
-### Profile ⌛
+### Profile ✔️
 1. /profile [GET] ✔️
-2. /profile [DELETE] ⌛
+2. /profile [DELETE] ✔️
 3. /profile [PUT] ✔️
 ### Ledger ✔️
 1. /ledger [POST] : Create ledger ✔️

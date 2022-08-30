@@ -3,6 +3,8 @@ const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
+const Entry = require("../models/entryModel");
+const Ledger = require("../models/ledgerModel");
 const { ErrorResponse } = require("../middleware/errorMiddleware");
 
 const {
@@ -118,8 +120,8 @@ const editProfile = asyncHandler(async (req, res, next) => {
 
 const deleteProfile = asyncHandler(async (req, res, next) => {
   await User.deleteOne({ _id: req.user.id });
-
-  // TODO delete other related data
+  await Entry.deleteMany({ user_id: req.user.id });
+  await Ledger.deleteMany({ user_id: req.user.id });
 
   res.status(StatusCodes.OK).json({
     id: req.user.id,
