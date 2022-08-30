@@ -1,4 +1,62 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  RUPEE,
+  DOLLAR,
+  EURO,
+  NAIRA,
+  NEW_SHEKEL,
+  POUND,
+  RUBLE,
+  TAKA,
+  WON,
+  YEN,
+} from "../constants/currency";
+import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
+
+import { setPreference } from "../features/preference/preferenceSlice";
+
 export default function Settings() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const preference = useSelector((state) => state.preference);
+
+  const [formData, setFormData] = useState({
+    amountFormat: preference.amountFormat,
+    currency: preference.currency,
+  });
+  const { amountFormat, currency } = formData;
+
+  const [preferenceSaveButtonLabel, setPreferenceSaveButtonLabel] =
+    useState("Save");
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  });
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handlePreferenceSubmit = () => {
+    const preference = {
+      amountFormat,
+      currency,
+    };
+
+    dispatch(setPreference(preference));
+    setPreferenceSaveButtonLabel("Saved 🎉");
+  };
+
   return (
     <>
       <div className="w-full max-w-sm sm:mt-4 mb-8">
@@ -15,9 +73,14 @@ export default function Settings() {
             <label className="label">
               <span className="label-text">Currency Format</span>
             </label>
-            <select className="select select-bordered">
-              <option value="ind">Indian</option>
-              <option value="int">International</option>
+            <select
+              className="select select-bordered"
+              name="amountFormat"
+              value={amountFormat}
+              onChange={onChange}
+            >
+              <option value={INDIAN}>Indian</option>
+              <option value={INTERNATIONAL}>International</option>
             </select>
           </div>
 
@@ -25,21 +88,31 @@ export default function Settings() {
             <label className="label">
               <span className="label-text">Currency Name</span>
             </label>
-            <select className="select select-bordered">
-              <option value="₹">Rupee (₹) 🇮🇳</option>
-              <option value="$">Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</option>
-              <option value="€">Euro (€) 🇪🇺</option>
-              <option value="₦">Naira (₦) 🇳🇬</option>
-              <option value="₪">New Shekel (₪) 🇮🇱</option>
-              <option value="£">Pound (£) 🇬🇧</option>
-              <option value="₽">Ruble (₽) 🇷🇺</option>
-              <option value="৳">Taka (৳) 🇧🇩</option>
-              <option value="₩">Won (₩) 🇰🇷</option>
-              <option value="¥">Yen (¥) 🇯🇵 🇨🇳</option>
+            <select
+              className="select select-bordered"
+              name="currency"
+              value={currency}
+              onChange={onChange}
+            >
+              <option value={RUPEE}>Rupee (₹) 🇮🇳</option>
+              <option value={DOLLAR}>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</option>
+              <option value={EURO}>Euro (€) 🇪🇺</option>
+              <option value={NAIRA}>Naira (₦) 🇳🇬</option>
+              <option value={NEW_SHEKEL}>New Shekel (₪) 🇮🇱</option>
+              <option value={POUND}>Pound (£) 🇬🇧</option>
+              <option value={RUBLE}>Ruble (₽) 🇷🇺</option>
+              <option value={TAKA}>Taka (৳) 🇧🇩</option>
+              <option value={WON}>Won (₩) 🇰🇷</option>
+              <option value={YEN}>Yen (¥) 🇯🇵 🇨🇳</option>
             </select>
           </div>
           <div className="form-control mt-4">
-            <button className="btn bg-green-500 text-white">Save</button>
+            <button
+              className="btn bg-green-500 text-white"
+              onClick={handlePreferenceSubmit}
+            >
+              {preferenceSaveButtonLabel}
+            </button>
           </div>
         </div>
       </div>

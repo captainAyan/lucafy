@@ -1,0 +1,10 @@
+export const RUPEE = "₹";
+export const DOLLAR = "$";
+export const EURO = "€";
+export const NAIRA = "₦";
+export const NEW_SHEKEL = "₪";
+export const POUND = "£";
+export const RUBLE = "₽";
+export const TAKA = "৳";
+export const WON = "₩";
+export const YEN = "¥";
