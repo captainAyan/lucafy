@@ -14,12 +14,8 @@ export default function Home() {
   });
 
   return (
-    <div className="p-4 min-h-screen ">
-      <center>
-        <div className="w-full max-w-sm sm:mt-4">
-          <h1 className="text-4xl font-bold text-left mb-8">Home</h1>
-        </div>
-      </center>
+    <div className="w-full max-w-sm sm:mt-4">
+      <h1 className="text-4xl font-bold text-left mb-8">Home</h1>
     </div>
   );
 }
