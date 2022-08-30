@@ -118,8 +118,9 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
 
-        state.user.name = action.payload.name;
-        state.user.username = action.payload.username;
+        state.user.firstName = action.payload.firstName;
+        state.user.lastName = action.payload.lastName;
+        state.user.email = action.payload.email;
       })
       .addCase(edit.rejected, (state, action) => {
         state.isLoading = false;
