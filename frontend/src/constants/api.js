@@ -18,7 +18,7 @@ export const DELETE_PROFILE_URL = `${BASE_PROFILE_URL}/`;
 export const BASE_LEDGER_URL = `${BASE_URL}/ledger`;
 export const CREATE_LEDGER_URL = `${BASE_LEDGER_URL}/`;
 export const GET_LEDGER_URL = `${BASE_LEDGER_URL}/`;
-export const GET_ALL_LEDGER_URL = `${BASE_LEDGER_URL}/`;
+export const GET_ALL_LEDGER_URL = `${BASE_LEDGER_URL}/all`;
 export const EDIT_LEDGER_URL = `${BASE_LEDGER_URL}/`;
 
 export const BASE_ENTRY_URL = `${BASE_URL}/entry`;
