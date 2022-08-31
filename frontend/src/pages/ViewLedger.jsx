@@ -39,71 +39,76 @@ export default function ViewLedger() {
           </div>
         </div>
       </div>
+
+      <div className="w-full max-w-sm sm:mt-4">
+        <h1 className="text-xl font-bold text-left mb-4">Entries</h1>
+      </div>
+
       <Posting
-        _id="1"
+        id="1"
         account="Expenses"
         amount="200.00"
         isNegative={true}
         narration="this is a test narration"
       />
       <Posting
-        _id="2"
+        id="2"
         account="Salary"
         amount="1,000.00"
         isNegative={false}
         narration="this is a test narration"
       />
       <Posting
-        _id="3"
+        id="3"
         account="Expenses"
         amount="200.00"
         isNegative={true}
         narration="this is a test narration"
       />
       <Posting
-        _id="4"
+        id="4"
         account="Salary"
         amount="1,000.00"
         isNegative={false}
         narration="this is a test narration"
       />
       <Posting
-        _id="5"
+        id="5"
         account="Expenses"
         amount="200.00"
         isNegative={true}
         narration="this is a test narration"
       />
       <Posting
-        _id="6"
+        id="6"
         account="Salary"
         amount="1,000.00"
         isNegative={false}
         narration="this is a test narration"
       />
       <Posting
-        _id="7"
+        id="7"
         account="Expenses"
         amount="200.00"
         isNegative={true}
         narration="this is a test narration"
       />
       <Posting
-        _id="8"
+        id="8"
         account="Salary"
         amount="1,000.00"
         isNegative={false}
         narration="this is a test narration"
       />
       <Posting
-        _id="9"
+        id="9"
         account="Expenses"
         amount="200.00"
         isNegative={true}
         narration="this is a test narration"
       />
       <Posting
-        _id="10"
+        id="10"
         account="Salary"
         amount="1,000.00"
         isNegative={false}
