@@ -1,7 +1,8 @@
 import "./App.css";
+import { useEffect } from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -21,8 +22,20 @@ import EditLedger from "./pages/EditLedger";
 import EditEntry from "./pages/EditEntry";
 import ViewEntry from "./pages/ViewEntry";
 
+import { getAll } from "./features/ledger/ledgerSlice";
+
 function App() {
+  const dispatch = useDispatch();
+
   const themeMode = useSelector((state) => state.theme.mode);
+  const { user } = useSelector((state) => state.auth);
+  const { gotAll } = useSelector((state) => state.ledger);
+
+  useEffect(() => {
+    if (user && !gotAll) {
+      dispatch(getAll());
+    }
+  }, [user, dispatch, gotAll]);
 
   return (
     <div className="App" data-theme={themeMode}>

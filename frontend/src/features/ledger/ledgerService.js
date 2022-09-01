@@ -19,9 +19,21 @@ const create = async (ledger, token) => {
   return response.data;
 };
 
+const getAll = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(GET_ALL_LEDGER_URL, config);
+
+  return response.data;
+};
+
 const ledgerService = {
   create,
-  // getAll,
+  getAll,
   // getOne,
   // edit,
 };

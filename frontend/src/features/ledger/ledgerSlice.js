@@ -6,6 +6,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  gotAll: false,
   message: "",
 };
 
@@ -79,13 +80,18 @@ export const ledgerSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
 
-        state.ledgers = [...state.ledgers, action.payload];
+        state.ledgers = [action.payload, ...state.ledgers];
       })
       .addCase(create.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
 
         state.message = action.payload;
+      })
+
+      .addCase(getAll.fulfilled, (state, action) => {
+        state.gotAll = true;
+        state.ledgers = action.payload.ledgers;
       });
   },
 });
