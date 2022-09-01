@@ -32,6 +32,7 @@ export default function CreateLedger() {
 
   useEffect(() => {
     if (isError) {
+      setSaveButtonLabel("Save");
       setHelperText(message);
     }
 
