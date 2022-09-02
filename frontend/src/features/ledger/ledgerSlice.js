@@ -70,6 +70,18 @@ export const ledgerSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
+    ledgersReset: (state) => {
+      /**
+       * When logging out from one account and then login using another one, the
+       * getAll ledgers system don't work properly. It doesn't remove the stored
+       * ledgers of the previous user.
+       *
+       * This can be fixed by resetting the value of state.gotAll to false on
+       * logout.
+       */
+      state.gotAll = false;
+      state.ledgers = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -96,5 +108,5 @@ export const ledgerSlice = createSlice({
   },
 });
 
-export const { reset } = ledgerSlice.actions;
+export const { reset, ledgersReset } = ledgerSlice.actions;
 export default ledgerSlice.reducer;

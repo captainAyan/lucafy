@@ -22,7 +22,7 @@ import EditLedger from "./pages/EditLedger";
 import EditEntry from "./pages/EditEntry";
 import ViewEntry from "./pages/ViewEntry";
 
-import { getAll } from "./features/ledger/ledgerSlice";
+import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +34,9 @@ function App() {
   useEffect(() => {
     if (user && !gotAll) {
       dispatch(getAll());
+    }
+    if (!user) {
+      dispatch(ledgersReset());
     }
   }, [user, dispatch, gotAll]);
 
