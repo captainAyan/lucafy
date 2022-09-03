@@ -44,35 +44,33 @@ function App() {
     <div className="App" data-theme={themeMode}>
       <div className="bg-base-200">
         <BrowserRouter>
-          <Header />
+          <div className="flex flex-col h-screen justify-between">
+            <Header />
 
-          <div className="p-4 min-h-screen">
-            <center>
-              <Routes>
-                <Route path="/" element={<Home />} />
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-                <Route path="register" element={<Register />} />
-                <Route path="login" element={<Login />} />
-                <Route path="settings" element={<Settings />} />
+              <Route path="register" element={<Register />} />
+              <Route path="login" element={<Login />} />
+              <Route path="settings" element={<Settings />} />
 
-                <Route path="profile" element={<Profile />} />
-                <Route path="profile/edit" element={<EditProfile />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="profile/edit" element={<EditProfile />} />
 
-                <Route path="journal" element={<Journal />} />
-                <Route path="trial-balance" element={<TrialBalance />} />
+              <Route path="journal" element={<Journal />} />
+              <Route path="trial-balance" element={<TrialBalance />} />
 
-                <Route path="entry" element={<CreateEntry />} />
-                <Route path="entry/:id" element={<ViewEntry />} />
-                <Route path="entry/:id/edit" element={<EditEntry />} />
+              <Route path="entry" element={<CreateEntry />} />
+              <Route path="entry/:id" element={<ViewEntry />} />
+              <Route path="entry/:id/edit" element={<EditEntry />} />
 
-                <Route path="ledger" element={<CreateLedger />} />
-                <Route path="ledger/:id" element={<ViewLedger />} />
-                <Route path="ledger/:id/edit" element={<EditLedger />} />
-              </Routes>
-            </center>
+              <Route path="ledger" element={<CreateLedger />} />
+              <Route path="ledger/:id" element={<ViewLedger />} />
+              <Route path="ledger/:id/edit" element={<EditLedger />} />
+            </Routes>
+
+            <Footer />
           </div>
-
-          <Footer />
         </BrowserRouter>
       </div>
     </div>

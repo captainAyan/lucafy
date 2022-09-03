@@ -54,43 +54,47 @@ export default function Journal() {
   };
 
   return (
-    <div className="w-full max-w-sm sm:mt-4">
-      <h1 className="text-4xl font-bold text-left mb-2">Journal</h1>
-      <p className="text-sm text-left mb-4">
-        Page <span>{page}</span> of <span>{totalPages}</span>
-      </p>
+    <div className="p-4 bg-base-200 mb-auto">
+      <center>
+        <div className="w-full max-w-sm sm:mt-4">
+          <h1 className="text-4xl font-bold text-left mb-2">Journal</h1>
+          <p className="text-sm text-left mb-4">
+            Page <span>{page}</span> of <span>{totalPages}</span>
+          </p>
 
-      <div className="btn-group w-full max-w-sm mb-4">
-        <button className="btn" onClick={() => setPage(page - 1)}>
-          «
-        </button>
-        <button className="btn">Page {page}</button>
-        <button className="btn" onClick={() => setPage(page + 1)}>
-          »
-        </button>
-      </div>
+          <div className="btn-group w-full max-w-sm mb-4">
+            <button className="btn" onClick={() => setPage(page - 1)}>
+              «
+            </button>
+            <button className="btn">Page {page}</button>
+            <button className="btn" onClick={() => setPage(page + 1)}>
+              »
+            </button>
+          </div>
 
-      {isLoading ? (
-        <progress className="progress w-full progress-primary bg-base" />
-      ) : null}
+          {isLoading ? (
+            <progress className="progress w-full progress-primary bg-base" />
+          ) : null}
 
-      {entries.map((entry) => {
-        return <Entry {...entry} key={entry.id} />;
-      })}
+          {entries.map((entry) => {
+            return <Entry {...entry} key={entry.id} />;
+          })}
 
-      {!isLoading && entries.length === 0 ? (
-        <h1 className="text-2xl font-thin text-left mb-4">No Data</h1>
-      ) : null}
+          {!isLoading && entries.length === 0 ? (
+            <h1 className="text-2xl font-thin text-left mb-4">No Data</h1>
+          ) : null}
 
-      <div className="btn-group w-full max-w-sm">
-        <button className="btn" onClick={() => setPage(page - 1)}>
-          «
-        </button>
-        <button className="btn">Page {page}</button>
-        <button className="btn" onClick={() => setPage(page + 1)}>
-          »
-        </button>
-      </div>
+          <div className="btn-group w-full max-w-sm">
+            <button className="btn" onClick={() => setPage(page - 1)}>
+              «
+            </button>
+            <button className="btn">Page {page}</button>
+            <button className="btn" onClick={() => setPage(page + 1)}>
+              »
+            </button>
+          </div>
+        </div>
+      </center>
     </div>
   );
 }
