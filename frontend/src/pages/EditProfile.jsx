@@ -10,9 +10,9 @@ export default function EditProfile() {
   );
 
   const [formData, setFormData] = useState({
-    firstName: user && user.firstName,
-    lastName: user && user.lastName,
-    email: user && user.email,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    email: user?.email,
   });
   const { firstName, lastName, email } = formData;
 
