@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Entry from "../components/Entry";
+import Loading from "../components/Loading";
 import { GET_ENTRY_URL } from "../constants/api";
 
 export default function Journal() {
@@ -33,6 +34,7 @@ export default function Journal() {
 
   const getJournal = async (page) => {
     setIsLoading(true);
+    setEntries([]);
     const query = new URLSearchParams({ page: page - 1 });
 
     const config = {
@@ -72,9 +74,7 @@ export default function Journal() {
             </button>
           </div>
 
-          {isLoading ? (
-            <progress className="progress w-full progress-primary bg-base" />
-          ) : null}
+          {isLoading ? <Loading width={8} height={8} className="mb-4" /> : null}
 
           {entries.map((entry) => {
             return <Entry {...entry} key={entry.id} />;
