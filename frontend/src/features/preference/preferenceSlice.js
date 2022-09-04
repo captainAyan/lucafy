@@ -8,8 +8,8 @@ const preference = JSON.parse(localStorage.getItem("preference"));
 export const preferenceSlice = createSlice({
   name: "theme",
   initialState: {
-    amountFormat: preference.amountFormat ? preference.amountFormat : INDIAN,
-    currency: preference.currency ? preference.currency : RUPEE,
+    amountFormat: preference?.amountFormat || INDIAN,
+    currency: preference?.currency || RUPEE,
   },
   reducers: {
     setPreference: (state, action) => {
