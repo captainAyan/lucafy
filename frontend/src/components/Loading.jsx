@@ -1,6 +1,7 @@
-export default function Loading({ width, height }) {
+export default function Loading(props) {
+  const { width, height } = props;
   return (
-    <div role="status">
+    <div role="status" className={props.className}>
       <svg
         aria-hidden="true"
         className={`w-${width} h-${height} text-gray-200 animate-spin dark:text-gray-500 fill-primary`}
