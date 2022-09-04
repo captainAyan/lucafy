@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 
-import { GET_ENTRY_URL, EDIT_ENTRY_URL } from "../constants/api";
+import entryService from "../features/entry/entryService";
 import Loading from "../components/Loading";
 
 export default function EditEntry() {
@@ -21,12 +20,6 @@ export default function EditEntry() {
   });
   const { narration } = formData;
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user?.token}`,
-    },
-  };
-
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -40,11 +33,13 @@ export default function EditEntry() {
       narration,
     };
     try {
-      const response = await axios.put(`${EDIT_ENTRY_URL}${id}`, data, config);
+      const e = await entryService.edit(id, data, user.token);
+
       setHelperText("");
       setSaveButtonLabel("Saved 🎉");
-      setFormData({ narration: response.data.narration });
+      setFormData({ narration: e.narration });
     } catch (e) {
+      setSaveButtonLabel("Save");
       setHelperText(e.response.data.error.message);
     }
     setIsLoading(false);
@@ -52,9 +47,10 @@ export default function EditEntry() {
 
   const getEntry = async () => {
     try {
-      const response = await axios.get(`${GET_ENTRY_URL}${id}`, config);
+      const e = await entryService.getById(id, user.token);
+
       setHelperText("");
-      setFormData({ narration: response.data.narration });
+      setFormData({ narration: e.narration });
     } catch (e) {
       setHelperText(e.response.data.error.message);
     }

@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
 
 import Loading from "../components/Loading";
-import { GET_ENTRY_URL } from "../constants/api";
-import { isError } from "joi";
+import entryService from "../features/entry/entryService";
 
 export default function ViewEntry() {
   const { user } = useSelector((state) => state.auth);
@@ -18,18 +16,12 @@ export default function ViewEntry() {
 
   const getEntry = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const response = await axios.get(`${GET_ENTRY_URL}${id}`, config);
+      const e = await entryService.getById(id, user.token);
 
       setEntry({
-        ...response.data,
-        debit: response.data.debit_ledger,
-        credit: response.data.credit_ledger,
+        ...e,
+        debit: e.debit_ledger,
+        credit: e.credit_ledger,
       });
       setError();
     } catch (e) {

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-import { CREATE_ENTRY_URL } from "../constants/api";
+import entryService from "../features/entry/entryService";
 
 export default function CreateEntry() {
   const navigate = useNavigate();
@@ -59,23 +58,16 @@ export default function CreateEntry() {
       narration,
     };
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-
     try {
-      await axios.post(CREATE_ENTRY_URL, data, config);
+      await entryService.create(data, user.token);
 
-      setIsLoading(false);
       setSaveButtonLabel("Saved 🎉");
       setHelperText("");
     } catch (e) {
-      setIsLoading(false);
       setSaveButtonLabel("Save");
       setHelperText(e.response.data.error.message);
     }
+    setIsLoading(false);
   };
 
   return (

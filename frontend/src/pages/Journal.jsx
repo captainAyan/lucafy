@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Entry from "../components/Entry";
 import Loading from "../components/Loading";
-import { GET_ENTRY_URL } from "../constants/api";
+import entryService from "../features/entry/entryService";
 
 export default function Journal() {
   const navigate = useNavigate();
@@ -35,24 +34,17 @@ export default function Journal() {
   const getJournal = async (page) => {
     setIsLoading(true);
     setEntries([]);
-    const query = new URLSearchParams({ page: page - 1 });
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
 
     try {
-      const response = await axios.get(`${GET_ENTRY_URL}?${query}`, config);
-      setEntries(response.data.entries);
-      const { limit, total } = response.data;
+      const data = await entryService.getJournal(page - 1, user.token);
+      const { total, limit } = data;
+
+      setEntries(data.entries);
       setTotalPages(Math.ceil(total / limit));
-      setIsLoading(false);
     } catch (e) {
       setEntries([]);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
