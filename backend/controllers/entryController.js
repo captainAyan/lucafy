@@ -8,7 +8,8 @@ const { createSchema, editSchema } = require("../util/entryValidationSchema");
 const { PAGINATION_LIMIT, ENTRY_LIMIT } = require("../constants/policies");
 
 const getEntries = asyncHandler(async (req, res, next) => {
-  const PAGE = parseInt(req.query.page, 10) || 0;
+  const PAGE =
+    parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
 
   const entries = await Entry.find({ user_id: req.user.id })
     .sort("-created_at")

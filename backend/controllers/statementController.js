@@ -9,7 +9,8 @@ const { PAGINATION_LIMIT } = require("../constants/policies");
 
 const viewLedgerStatement = asyncHandler(async (req, res, next) => {
   const { id: ledger_id } = req.params;
-  const PAGE = parseInt(req.query.page, 10) || 0;
+  const PAGE =
+    parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
 
   let ledger;
 

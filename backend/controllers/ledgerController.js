@@ -7,7 +7,8 @@ const { createSchema, editSchema } = require("../util/ledgerValidationSchema");
 const { LEDGER_LIMIT, PAGINATION_LIMIT } = require("../constants/policies");
 
 const getLedgers = asyncHandler(async (req, res, next) => {
-  const PAGE = parseInt(req.query.page, 10) || 0;
+  const PAGE =
+    parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
 
   const ledgers = await Ledger.find({ user_id: req.user.id })
     .sort("-created_at")
