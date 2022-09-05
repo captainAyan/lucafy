@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import timeFormat from "../util/timeFormat";
 
 export default function Posting(props) {
   const { entry, ledger } = props;
@@ -8,7 +9,7 @@ export default function Posting(props) {
       ? entry.credit_ledger
       : entry.debit_ledger;
 
-  const time = new Date(entry.created_at).toLocaleDateString("en-GB");
+  const time = timeFormat(entry.created_at);
 
   const toOrBy = entry.debit_ledger.id === ledger.id ? "To" : "By";
 

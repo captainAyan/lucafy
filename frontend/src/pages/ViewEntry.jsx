@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Loading from "../components/Loading";
 import entryService from "../features/entry/entryService";
+import timeFormat from "../util/timeFormat";
 
 export default function ViewEntry() {
   const { user } = useSelector((state) => state.auth);
@@ -79,7 +80,7 @@ export default function ViewEntry() {
                   <h1 className="text-2xs font-thin break-all uppercase">
                     #{id}
                     <span className="ml-2">
-                      {new Date(entry?.created_at).toLocaleDateString("en-GB")}
+                      {timeFormat(entry?.created_at)}
                     </span>
                   </h1>
 

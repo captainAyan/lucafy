@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import timeFormat from "../util/timeFormat";
 
 export default function Entry(props) {
   const {
@@ -9,7 +10,7 @@ export default function Entry(props) {
     narration,
     created_at,
   } = props;
-  const time = new Date(created_at).toLocaleDateString("en-GB");
+  const time = timeFormat(created_at);
 
   return (
     <div className="card w-full max-w-sm bg-base-100 mb-4">
