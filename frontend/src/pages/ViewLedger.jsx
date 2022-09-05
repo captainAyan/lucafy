@@ -42,7 +42,7 @@ export default function ViewLedger() {
       const statement = await ledgerService.getStatement(
         id,
         page - 1,
-        user.token
+        user?.token
       );
 
       const { total, limit } = statement;

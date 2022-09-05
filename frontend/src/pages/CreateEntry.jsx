@@ -59,7 +59,7 @@ export default function CreateEntry() {
     };
 
     try {
-      await entryService.create(data, user.token);
+      await entryService.create(data, user?.token);
 
       setSaveButtonLabel("Saved 🎉");
       setHelperText("");

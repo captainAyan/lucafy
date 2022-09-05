@@ -17,7 +17,7 @@ export default function ViewEntry() {
 
   const getEntry = async () => {
     try {
-      const e = await entryService.getById(id, user.token);
+      const e = await entryService.getById(id, user?.token);
 
       setEntry({
         ...e,

@@ -33,7 +33,7 @@ export default function EditEntry() {
       narration,
     };
     try {
-      const e = await entryService.edit(id, data, user.token);
+      const e = await entryService.edit(id, data, user?.token);
 
       setHelperText("");
       setSaveButtonLabel("Saved 🎉");
@@ -47,7 +47,7 @@ export default function EditEntry() {
 
   const getEntry = async () => {
     try {
-      const e = await entryService.getById(id, user.token);
+      const e = await entryService.getById(id, user?.token);
 
       setHelperText("");
       setFormData({ narration: e.narration });

@@ -36,7 +36,7 @@ export default function Journal() {
     setEntries([]);
 
     try {
-      const data = await entryService.getJournal(page - 1, user.token);
+      const data = await entryService.getJournal(page - 1, user?.token);
       const { total, limit } = data;
 
       setEntries(data.entries);
