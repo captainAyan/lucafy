@@ -5,6 +5,7 @@ import {
   GET_LEDGER_URL,
   GET_ALL_LEDGER_URL,
   EDIT_LEDGER_URL,
+  GET_LEDGER_STATEMENT_URL,
 } from "../../constants/api";
 
 const create = async (ledger, token) => {
@@ -31,9 +32,25 @@ const getAll = async (token) => {
   return response.data;
 };
 
+const getStatement = async (id, page, token) => {
+  const query = new URLSearchParams({ page });
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(
+    `${GET_LEDGER_STATEMENT_URL}${id}?${query}`,
+    config
+  );
+
+  return response.data;
+};
+
 const ledgerService = {
   create,
   getAll,
+  getStatement,
   // getOne,
   // edit,
 };
