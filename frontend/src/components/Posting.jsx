@@ -16,7 +16,7 @@ export default function Posting(props) {
     <div className="card w-full max-w-sm bg-base-100 mb-4">
       <div className="card-body sm:w-96 w-full text-left py-4 px-6">
         <h1 className="text-2xs font-thin break-all uppercase">
-          <Link to={`/entry/${entry.id}`} class="link text-blue-500">
+          <Link to={`/entry/${entry.id}`} className="link text-blue-500">
             #{entry.id}
           </Link>
           <span className="ml-2">{time}</span>
