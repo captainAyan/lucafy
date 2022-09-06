@@ -120,12 +120,12 @@ export default function ViewLedger() {
 
                 <div className="grid grid-rows-2 grid-flow-col">
                   <div className="col-span-1 row-span-1">
-                    <h1 className="text-xl font-bold break-all capitalize">
+                    <h1 className="text-xl font-bold capitalize line-clamp-1">
                       {statement?.ledger?.name || "-"} A/c
                     </h1>
                   </div>
                   <div className="col-span-1 mt-1">
-                    <h1 className="text-2lg font-thin break-all capitalize">
+                    <h1 className="text-2lg font-thin capitalize">
                       {statement?.ledger?.type || "-"}
                     </h1>
                   </div>

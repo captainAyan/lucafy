@@ -87,14 +87,14 @@ export default function ViewEntry() {
                   <div className="grid grid-rows-2 grid-flow-col">
                     <div className="col-span-1 row-span-1">
                       <Link to={`/ledger/${entry?.debit?.id}`}>
-                        <h1 className="text-xl font-bold break-all capitalize">
+                        <h1 className="text-xl font-bold capitalize line-clamp-1">
                           {entry?.debit?.name || "-"} A/c
                         </h1>
                       </Link>
                     </div>
                     <div className="col-span-1 mt-1">
                       <Link to={`/ledger/${entry?.credit?.id || ""}`}>
-                        <h1 className="text-2lg font-thin break-all capitalize">
+                        <h1 className="text-2lg font-thin capitalize line-clamp-1">
                           {entry?.credit?.name || "-"} A/c
                         </h1>
                       </Link>

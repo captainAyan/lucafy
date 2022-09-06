@@ -25,7 +25,7 @@ export default function Posting(props) {
 
         <div className="grid grid-rows-1 grid-flow-col">
           <div className="col-span-1 row-span-1">
-            <h1 className="text-lg font-normal break-all">
+            <h1 className="text-lg font-normal line-clamp-1">
               <span className="font-bold">{toOrBy}</span> &middot;{" "}
               <span className="capitalize">{account.name}</span> A/c
             </h1>

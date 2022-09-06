@@ -25,14 +25,14 @@ export default function Entry(props) {
         <div className="grid grid-rows-2 grid-flow-col">
           <div className="col-span-1 row-span-1">
             <Link to={`/ledger/${debit._id}`} title={debit.description}>
-              <h1 className="text-xl font-bold break-all capitalize">
+              <h1 className="text-xl font-bold capitalize line-clamp-1">
                 {debit.name} A/c
               </h1>
             </Link>
           </div>
           <div className="col-span-1 mt-1">
             <Link to={`/ledger/${credit._id}`} title={credit.description}>
-              <h1 className="text-2lg font-thin break-all capitalize">
+              <h1 className="text-2lg font-thin capitalize line-clamp-1">
                 {credit.name} A/c
               </h1>
             </Link>
