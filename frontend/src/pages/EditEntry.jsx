@@ -92,6 +92,7 @@ export default function EditEntry() {
                 onChange={onChange}
                 value={narration}
                 name="narration"
+                autoFocus
               ></textarea>
               <label className="label">
                 <span className="label-text-alt">({narration.length}/200)</span>

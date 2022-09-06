@@ -86,6 +86,7 @@ export default function CreateLedger() {
                 value={name}
                 placeholder="Name"
                 className="input input-bordered"
+                autoFocus
               />
             </div>
             <div className="form-control">

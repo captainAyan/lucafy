@@ -87,6 +87,7 @@ export default function CreateEntry() {
                 name="debit_ledger_id"
                 onChange={onChange}
                 value={debit_ledger_id}
+                autoFocus
               >
                 {ledgers.map((item) => {
                   return (
