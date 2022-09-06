@@ -6,6 +6,7 @@ import {
   EDIT_PROFILE_URL,
   DELETE_PROFILE_URL,
 } from "../../constants/api";
+import authConfig from "../../util/authConfig";
 
 // Register user
 const register = async (userData) => {
@@ -31,12 +32,11 @@ const login = async (userData) => {
 
 // edit profile
 const edit = async (userData, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.put(EDIT_PROFILE_URL, userData, config);
+  const response = await axios.put(
+    EDIT_PROFILE_URL,
+    userData,
+    authConfig(token)
+  );
 
   if (response.data) {
     localStorage.setItem(
@@ -53,12 +53,7 @@ const edit = async (userData, token) => {
 
 // delete profile
 const deleteAccount = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.delete(DELETE_PROFILE_URL, config);
+  const response = await axios.delete(DELETE_PROFILE_URL, authConfig(token));
 
   if (response.data) {
     localStorage.removeItem("user");

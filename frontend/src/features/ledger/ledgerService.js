@@ -7,41 +7,30 @@ import {
   EDIT_LEDGER_URL,
   GET_LEDGER_STATEMENT_URL,
 } from "../../constants/api";
+import authConfig from "../../util/authConfig";
 
 const create = async (ledger, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.post(CREATE_LEDGER_URL, ledger, config);
+  const response = await axios.post(
+    CREATE_LEDGER_URL,
+    ledger,
+    authConfig(token)
+  );
 
   return response.data;
 };
 
 const getAll = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.get(GET_ALL_LEDGER_URL, config);
+  const response = await axios.get(GET_ALL_LEDGER_URL, authConfig(token));
 
   return response.data;
 };
 
 const getStatement = async (id, page, token) => {
   const query = new URLSearchParams({ page });
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+
   const response = await axios.get(
     `${GET_LEDGER_STATEMENT_URL}${id}?${query}`,
-    config
+    authConfig(token)
   );
 
   return response.data;
