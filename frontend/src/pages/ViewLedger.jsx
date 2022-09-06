@@ -16,11 +16,14 @@ import {
   LIABILITY,
 } from "../constants/ledgerTypes";
 import Loading from "../components/Loading";
-import Entry from "../components/Entry";
 import Posting from "../components/Posting";
+import amountFormat from "../util/amountFormat";
 
 export default function ViewLedger() {
   const { user } = useSelector((state) => state.auth);
+  const { amountFormat: currencyFormat, currency } = useSelector(
+    (state) => state.preference
+  );
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -135,7 +138,11 @@ export default function ViewLedger() {
                         isNegative ? "text-red-500" : null
                       }`}
                     >
-                      ₹ {Math.abs(statement?.balance) || 0}
+                      {amountFormat(
+                        statement?.balance || 0,
+                        currencyFormat,
+                        currency
+                      )}
                     </h1>
                   </div>
                 </div>
@@ -169,7 +176,13 @@ export default function ViewLedger() {
 
           {entries.map((entry) => {
             return (
-              <Posting key={entry.id} entry={entry} ledger={statement.ledger} />
+              <Posting
+                key={entry.id}
+                entry={entry}
+                ledger={statement.ledger}
+                currencyFormat={currencyFormat}
+                currencySymbol={currency}
+              />
             );
           })}
 

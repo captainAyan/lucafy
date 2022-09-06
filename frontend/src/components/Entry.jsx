@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import timeFormat from "../util/timeFormat";
+import amountFormat from "../util/amountFormat";
 
 export default function Entry(props) {
   const {
@@ -9,8 +10,11 @@ export default function Entry(props) {
     amount,
     narration,
     created_at,
+    currencySymbol,
+    currencyFormat,
   } = props;
   const time = timeFormat(created_at);
+  const formattedAmount = amountFormat(amount, currencyFormat, currencySymbol);
 
   return (
     <div className="card w-full max-w-sm bg-base-100 mb-4">
@@ -39,7 +43,7 @@ export default function Entry(props) {
           </div>
           <div className="col-span-2 row-span-2">
             <h1 className="text-3xl font-thin break-all text-right mt-2">
-              ₹ {amount}
+              {formattedAmount}
             </h1>
           </div>
         </div>

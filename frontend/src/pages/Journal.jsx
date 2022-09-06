@@ -10,6 +10,7 @@ export default function Journal() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
+  const { amountFormat, currency } = useSelector((state) => state.preference);
 
   const [isLoading, setIsLoading] = useState(true);
   const [entries, setEntries] = useState([]);
@@ -69,7 +70,14 @@ export default function Journal() {
           {isLoading ? <Loading width={8} height={8} className="mb-4" /> : null}
 
           {entries.map((entry) => {
-            return <Entry {...entry} key={entry.id} />;
+            return (
+              <Entry
+                {...entry}
+                key={entry.id}
+                currencyFormat={amountFormat}
+                currencySymbol={currency}
+              />
+            );
           })}
 
           {!isLoading && entries.length === 0 ? (

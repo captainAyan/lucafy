@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import amountFormat from "../util/amountFormat";
 import timeFormat from "../util/timeFormat";
 
 export default function Posting(props) {
-  const { entry, ledger } = props;
+  const { entry, ledger, currencyFormat, currencySymbol } = props;
 
   const account =
     entry.debit_ledger.id === ledger.id
@@ -10,6 +11,7 @@ export default function Posting(props) {
       : entry.debit_ledger;
 
   const time = timeFormat(entry.created_at);
+  const amount = amountFormat(entry.amount, currencyFormat, currencySymbol);
 
   const toOrBy = entry.debit_ledger.id === ledger.id ? "To" : "By";
 
@@ -32,7 +34,7 @@ export default function Posting(props) {
           </div>
           <div className="col-span-2 row-span-1">
             <h1 className={`text-lg font-bold break-all text-right `}>
-              ₹ {entry.amount}
+              {amount}
             </h1>
           </div>
         </div>

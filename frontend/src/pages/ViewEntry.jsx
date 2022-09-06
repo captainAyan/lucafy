@@ -5,9 +5,13 @@ import { useSelector } from "react-redux";
 import Loading from "../components/Loading";
 import entryService from "../features/entry/entryService";
 import timeFormat from "../util/timeFormat";
+import amountFormat from "../util/amountFormat";
 
 export default function ViewEntry() {
   const { user } = useSelector((state) => state.auth);
+  const { amountFormat: currencyFormat, currency } = useSelector(
+    (state) => state.preference
+  );
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -101,7 +105,11 @@ export default function ViewEntry() {
                     </div>
                     <div className="col-span-2 row-span-2">
                       <h1 className="text-3xl font-thin break-all text-right mt-2">
-                        ₹ {entry?.amount || "0"}
+                        {amountFormat(
+                          entry?.amount || 0,
+                          currencyFormat,
+                          currency
+                        )}
                       </h1>
                     </div>
                   </div>
