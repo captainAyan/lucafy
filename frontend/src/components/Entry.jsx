@@ -44,7 +44,7 @@ export default function Entry(props) {
           </div>
         </div>
 
-        <p className="text-sm break-all text-justify">({narration})</p>
+        <p className="text-sm break-words text-justify">({narration})</p>
       </div>
     </div>
   );

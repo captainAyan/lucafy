@@ -106,7 +106,7 @@ export default function ViewEntry() {
                     </div>
                   </div>
 
-                  <p className="text-sm break-all text-justify">
+                  <p className="text-sm break-words text-justify">
                     ({entry?.narration})
                   </p>
 

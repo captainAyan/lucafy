@@ -36,7 +36,7 @@ export default function Posting(props) {
             </h1>
           </div>
         </div>
-        <p className="text-sm break-all text-justify">({entry.narration})</p>
+        <p className="text-sm break-words text-justify">({entry.narration})</p>
       </div>
     </div>
   );
