@@ -27,7 +27,7 @@ import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 function App() {
   const dispatch = useDispatch();
 
-  const themeMode = useSelector((state) => state.theme.mode);
+  const { theme } = useSelector((state) => state.preference);
   const { user } = useSelector((state) => state.auth);
   const { gotAll } = useSelector((state) => state.ledger);
 
@@ -41,7 +41,7 @@ function App() {
   }, [user, dispatch, gotAll]);
 
   return (
-    <div className="App" data-theme={themeMode}>
+    <div className="App" data-theme={theme}>
       <div className="bg-base-200">
         <BrowserRouter>
           <div className="flex flex-col h-screen justify-between">

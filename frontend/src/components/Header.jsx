@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore, useDispatch, useSelector } from "react-redux";
-import { toDarkMode } from "../features/theme/themeSlice";
+import { setTheme } from "../features/preference/preferenceSlice";
 import { logout, reset } from "../features/auth/authSlice";
+import { DARK, LIGHT } from "../constants/theme";
 
 export default function Header() {
   const dispatch = useDispatch();
   const store = useStore();
 
   const [checked, setChecked] = useState(
-    store.getState().theme.mode === "dark"
+    store.getState().preference.theme === DARK
   );
 
   const { user } = useSelector((state) => state.auth);
 
   const handleChange = (event) => {
-    dispatch(toDarkMode(event.target.checked));
+    dispatch(setTheme(event.target.checked ? DARK : LIGHT));
     setChecked(event.target.checked);
   };
 
