@@ -34,26 +34,17 @@ export const getAll = createAsyncThunk("ledger/getAll", async (_, thunkAPI) => {
   }
 });
 
-// get one ledger
-export const getOne = createAsyncThunk(
-  "ledger/getOne",
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await ledgerService.getOne(id, token);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error.message);
-    }
-  }
-);
-
 // edit ledger
 export const edit = createAsyncThunk(
   "ledger/edit",
-  async (ledger, thunkAPI) => {
+  async (ledgerEditObject, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await ledgerService.edit(ledger, token);
+      return await ledgerService.edit(
+        ledgerEditObject.id,
+        ledgerEditObject.body,
+        token
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.error.message);
     }
@@ -104,6 +95,28 @@ export const ledgerSlice = createSlice({
       .addCase(getAll.fulfilled, (state, action) => {
         state.gotAll = true;
         state.ledgers = action.payload.ledgers;
+      })
+
+      .addCase(edit.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(edit.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+
+        var newLedgersArray = state.ledgers.map((l) => {
+          if (l.id === action.payload.id) {
+            return action.payload;
+          } else return l;
+        });
+
+        state.ledgers = newLedgersArray;
+      })
+      .addCase(edit.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+
+        state.message = action.payload;
       });
   },
 });

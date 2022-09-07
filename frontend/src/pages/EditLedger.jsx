@@ -1,7 +1,92 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
+import ledgerService from "../features/ledger/ledgerService";
+import { edit, reset } from "../features/ledger/ledgerSlice";
+import Loading from "../components/Loading";
 
 export default function EditLedger() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { id } = useParams();
+
+  const { user } = useSelector((state) => state.auth);
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.ledger
+  );
+
+  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [helperText, setHelperText] = useState();
+  const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+    description: "",
+  });
+  const { name, type, description } = formData;
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    const data = {
+      name,
+      type,
+      description,
+    };
+
+    dispatch(edit({ id, body: data }));
+  };
+
+  const getLedger = async () => {
+    try {
+      const l = await ledgerService.getById(id, user?.token);
+
+      setHelperText("");
+      setFormData({
+        name: l.name,
+        type: l.type,
+        description: l.description,
+      });
+    } catch (e) {
+      setHelperText(e.response.data.error.message);
+    }
+    setIsLoadingData(false);
+  };
+
+  useEffect(() => {
+    getLedger();
+  }, []);
+
+  useEffect(() => {
+    if (isError) {
+      setSaveButtonLabel("Save");
+      setHelperText(message);
+    }
+
+    if (isSuccess) {
+      setSaveButtonLabel("Saved 🎉");
+      setHelperText("");
+    }
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [isError, isSuccess, message, navigate, dispatch]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="p-4 bg-base-200">
@@ -11,25 +96,35 @@ export default function EditLedger() {
             <div className="card-title">
               <h1 className="text-4xl font-bold">Edit Ledger</h1>
             </div>
-            <h1 className="text-2xs font-thin break-all capitalize text-justify">
+            <h1 className="text-2xs font-thin break-all uppercase text-justify">
               #{id}
             </h1>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
+
+                {isLoadingData ? <Loading height={4} width={4} /> : null}
               </label>
               <input
                 type="text"
                 placeholder="Name"
                 className="input input-bordered"
-                value="Salary"
+                value={name}
+                onChange={onChange}
+                name="name"
+                autoFocus
               />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Type</span>
               </label>
-              <select className="select select-bordered" value="income">
+              <select
+                className="select select-bordered"
+                value={type}
+                onChange={onChange}
+                name="type"
+              >
                 <option value="asset">Asset</option>
                 <option value="liability">Liability</option>
                 <option value="income">Income</option>
@@ -46,15 +141,26 @@ export default function EditLedger() {
                 className="textarea textarea-bordered"
                 placeholder="Description"
                 maxLength={200}
-                value="Description of the ledger"
+                value={description}
+                onChange={onChange}
+                name="description"
               ></textarea>
               <label className="label">
-                <span className="label-text-alt">(25/200)</span>
+                <span className="label-text-alt">
+                  ({description.length}/200)
+                </span>
               </label>
             </div>
 
-            <div className="form-control mt-4">
-              <button className="btn btn-primary">Save</button>
+            <p className="text-red-500 text-sm text-left">{helperText}</p>
+
+            <div className="form-control mt-2">
+              <button
+                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
+                onClick={handleSubmit}
+              >
+                {saveButtonLabel}
+              </button>
             </div>
           </div>
         </div>

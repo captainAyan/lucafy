@@ -25,6 +25,22 @@ const getAll = async (token) => {
   return response.data;
 };
 
+const getById = async (id, token) => {
+  const response = await axios.get(`${GET_LEDGER_URL}${id}`, authConfig(token));
+
+  return response.data;
+};
+
+const edit = async (id, data, token) => {
+  const response = await axios.put(
+    `${EDIT_LEDGER_URL}${id}`,
+    data,
+    authConfig(token)
+  );
+
+  return response.data;
+};
+
 const getStatement = async (id, page, token) => {
   const query = new URLSearchParams({ page });
 
@@ -40,8 +56,8 @@ const ledgerService = {
   create,
   getAll,
   getStatement,
-  // getOne,
-  // edit,
+  getById,
+  edit,
 };
 
 export default ledgerService;
