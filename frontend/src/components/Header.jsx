@@ -61,6 +61,9 @@ export default function Header() {
                   <Link to="journal">Journal</Link>
                 </li>
                 <li>
+                  <Link to="ledgers">Ledger</Link>
+                </li>
+                <li>
                   <Link to="trial-balance">Trial Balance</Link>
                 </li>
               </ul>

@@ -21,6 +21,7 @@ import ViewLedger from "./pages/ViewLedger";
 import EditLedger from "./pages/EditLedger";
 import EditEntry from "./pages/EditEntry";
 import ViewEntry from "./pages/ViewEntry";
+import SelectLedger from "./pages/SelectLedger";
 
 import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 
@@ -64,6 +65,7 @@ function App() {
               <Route path="entry/:id" element={<ViewEntry />} />
               <Route path="entry/:id/edit" element={<EditEntry />} />
 
+              <Route path="ledgers" element={<SelectLedger />} />
               <Route path="ledger" element={<CreateLedger />} />
               <Route path="ledger/:id" element={<ViewLedger />} />
               <Route path="ledger/:id/edit" element={<EditLedger />} />
