@@ -31,7 +31,7 @@ export default function EditProfile() {
     }
 
     if (!user) {
-      navigate("/");
+      navigate("/login");
     }
 
     return () => {
