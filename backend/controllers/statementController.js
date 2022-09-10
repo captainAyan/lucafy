@@ -51,6 +51,7 @@ const viewLedgerStatement = asyncHandler(async (req, res, next) => {
       {
         $match: {
           $and: [
+            // don't know if this $and is needed or not
             {
               $or: [
                 { debit_ledger: ledger._id },
@@ -100,7 +101,112 @@ const viewLedgerStatement = asyncHandler(async (req, res, next) => {
   });
 });
 
-const viewTrialBalance = asyncHandler(async (req, res, next) => {});
+const viewTrialBalance = asyncHandler(async (req, res, next) => {
+  const ledgers = await Ledger.find({
+    user_id: req.user.id,
+  }).select(["balance"]);
+
+  // key-value pair list <ledger id, balance> (balance is the normalized balance)
+  const normalizedBalanceList = {};
+
+  /**
+   * ledgerList is an array of ledger ids
+   * In addition, the map function also populates the normalizedBalanceList
+   */
+  const ledgerList = ledgers.map((l) => {
+    normalizedBalanceList[l._id] = l.balance;
+    return l._id;
+  });
+
+  // list of ledgers with the total of their debit side
+  const debitResult = await Entry.aggregate([
+    {
+      $match: {
+        debit_ledger: { $in: ledgerList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$debit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // list of ledgers with the total of their credit side
+  const creditResult = await Entry.aggregate([
+    {
+      $match: {
+        credit_ledger: { $in: ledgerList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$credit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // populating with other ledger values for the
+  await Ledger.populate(debitResult, {
+    path: "ledger",
+    select: "-user_id -balance",
+  });
+  await Ledger.populate(creditResult, {
+    path: "ledger",
+    select: "-user_id -balance",
+  });
+
+  // Now calculate the balances
+  const tb = {};
+
+  // debit side value
+  for (const el of debitResult) {
+    tb[el.ledger.id] = el;
+  }
+
+  // credit side value
+  for (const el of creditResult) {
+    if (!tb[el.ledger.id]) {
+      tb[el.ledger.id] = {
+        total: el.total * -1,
+        ...el,
+      };
+    } else {
+      tb[el.ledger.id].total -= el.total;
+    }
+  }
+
+  // final object
+  const trial_balance = [];
+
+  for (const el of Object.keys(tb)) {
+    const balance = tb[el].total + normalizedBalanceList[el];
+    delete tb[el].total;
+    trial_balance.push({ balance, ...tb[el] });
+  }
+
+  res.status(StatusCodes.OK).json(trial_balance);
+});
 
 module.exports = {
   viewLedgerStatement,

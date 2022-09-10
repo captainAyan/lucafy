@@ -5297,6 +5297,262 @@
 							"body": "{\n    \"skip\": 0,\n    \"limit\": 10,\n    \"total\": 11,\n    \"balance\": -20,\n    \"ledger\": {\n        \"_id\": \"62fd55eefd96f0328c58f434\",\n        \"name\": \"salary\",\n        \"type\": \"expenditure\",\n        \"description\": \"payment of salary\",\n        \"created_at\": \"2022-08-17T20:56:14.787Z\",\n        \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n        \"__v\": 0,\n        \"id\": \"62fd55eefd96f0328c58f434\"\n    },\n    \"entries\": [\n        {\n            \"_id\": \"63162245d6a8db0ae7699042\",\n            \"debit_ledger\": {\n                \"_id\": \"6304ab9c240b5bb7ff759b89\",\n                \"name\": \"test\",\n                \"type\": \"asset\",\n                \"description\": \"test account\",\n                \"created_at\": \"2022-08-23T10:27:40.125Z\",\n                \"updated_at\": \"2022-08-23T10:27:40.125Z\",\n                \"__v\": 0,\n                \"id\": \"6304ab9c240b5bb7ff759b89\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"this entry will make salary value negative\",\n            \"amount\": 500,\n            \"created_at\": \"2022-09-05T16:22:29.451Z\",\n            \"updated_at\": \"2022-09-05T16:22:29.451Z\",\n            \"__v\": 0,\n            \"id\": \"63162245d6a8db0ae7699042\"\n        },\n        {\n            \"_id\": \"630d214a5372048e3020db80\",\n            \"debit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55fafd96f0328c58f439\",\n                \"name\": \"cash\",\n                \"type\": \"asset\",\n                \"description\": \"cash in hand\",\n                \"created_at\": \"2022-08-17T20:56:26.293Z\",\n                \"updated_at\": \"2022-08-17T20:56:26.293Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55fafd96f0328c58f439\"\n            },\n            \"narration\": \"paid salary\",\n            \"amount\": 500,\n            \"created_at\": \"2022-08-29T20:27:54.974Z\",\n            \"updated_at\": \"2022-08-29T20:30:52.689Z\",\n            \"__v\": 0,\n            \"id\": \"630d214a5372048e3020db80\"\n        },\n        {\n            \"_id\": \"6304e673c638e33584c97dae\",\n            \"debit_ledger\": {\n                \"_id\": \"62fd55fafd96f0328c58f439\",\n                \"name\": \"cash\",\n                \"type\": \"asset\",\n                \"description\": \"cash in hand\",\n                \"created_at\": \"2022-08-17T20:56:26.293Z\",\n                \"updated_at\": \"2022-08-17T20:56:26.293Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55fafd96f0328c58f439\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"This is test generated entry No.9\",\n            \"amount\": 340,\n            \"created_at\": \"2022-08-23T14:38:43.544Z\",\n            \"updated_at\": \"2022-08-23T14:38:43.544Z\",\n            \"__v\": 0,\n            \"id\": \"6304e673c638e33584c97dae\"\n        },\n        {\n            \"_id\": \"6304e672c638e33584c97d8a\",\n            \"debit_ledger\": {\n                \"_id\": \"6304ab9c240b5bb7ff759b89\",\n                \"name\": \"test\",\n                \"type\": \"asset\",\n                \"description\": \"test account\",\n                \"created_at\": \"2022-08-23T10:27:40.125Z\",\n                \"updated_at\": \"2022-08-23T10:27:40.125Z\",\n                \"__v\": 0,\n                \"id\": \"6304ab9c240b5bb7ff759b89\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"This is test generated entry No.5\",\n            \"amount\": 470,\n            \"created_at\": \"2022-08-23T14:38:42.027Z\",\n            \"updated_at\": \"2022-08-23T14:38:42.027Z\",\n            \"__v\": 0,\n            \"id\": \"6304e672c638e33584c97d8a\"\n        },\n        {\n            \"_id\": \"6304e61597ab9d6c03685633\",\n            \"debit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"6304ab9c240b5bb7ff759b89\",\n                \"name\": \"test\",\n                \"type\": \"asset\",\n                \"description\": \"test account\",\n                \"created_at\": \"2022-08-23T10:27:40.125Z\",\n                \"updated_at\": \"2022-08-23T10:27:40.125Z\",\n                \"__v\": 0,\n                \"id\": \"6304ab9c240b5bb7ff759b89\"\n            },\n            \"narration\": \"This is test generated entry No.8\",\n            \"amount\": 210,\n            \"created_at\": \"2022-08-23T14:37:09.423Z\",\n            \"updated_at\": \"2022-08-23T14:37:09.423Z\",\n            \"__v\": 0,\n            \"id\": \"6304e61597ab9d6c03685633\"\n        },\n        {\n            \"_id\": \"6304e61497ab9d6c03685621\",\n            \"debit_ledger\": {\n                \"_id\": \"62fe44b1182c5f37698d0c3d\",\n                \"name\": \"sale\",\n                \"type\": \"income\",\n                \"description\": \"income from sales\",\n                \"created_at\": \"2022-08-18T13:54:57.335Z\",\n                \"updated_at\": \"2022-08-18T13:54:57.335Z\",\n                \"__v\": 0,\n                \"id\": \"62fe44b1182c5f37698d0c3d\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"This is test generated entry No.6\",\n            \"amount\": 780,\n            \"created_at\": \"2022-08-23T14:37:08.674Z\",\n            \"updated_at\": \"2022-08-23T14:37:08.674Z\",\n            \"__v\": 0,\n            \"id\": \"6304e61497ab9d6c03685621\"\n        },\n        {\n            \"_id\": \"6304e60d97ab9d6c036855e0\",\n            \"debit_ledger\": {\n                \"_id\": \"6304ab9c240b5bb7ff759b89\",\n                \"name\": \"test\",\n                \"type\": \"asset\",\n                \"description\": \"test account\",\n                \"created_at\": \"2022-08-23T10:27:40.125Z\",\n                \"updated_at\": \"2022-08-23T10:27:40.125Z\",\n                \"__v\": 0,\n                \"id\": \"6304ab9c240b5bb7ff759b89\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"This is test generated entry No.0\",\n            \"amount\": 40,\n            \"created_at\": \"2022-08-23T14:37:02.000Z\",\n            \"updated_at\": \"2022-08-23T14:37:02.000Z\",\n            \"__v\": 0,\n            \"id\": \"6304e60d97ab9d6c036855e0\"\n        },\n        {\n            \"_id\": \"63039494da7f1df25b6bc762\",\n            \"debit_ledger\": {\n                \"_id\": \"62fe44e8182c5f37698d0c44\",\n                \"name\": \"bank\",\n                \"type\": \"asset\",\n                \"description\": \"bank account\",\n                \"created_at\": \"2022-08-18T13:55:52.074Z\",\n                \"updated_at\": \"2022-08-18T13:55:52.074Z\",\n                \"__v\": 0,\n                \"id\": \"62fe44e8182c5f37698d0c44\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"narration\": \"This is test generated entry No.9\",\n            \"amount\": 490,\n            \"created_at\": \"2022-08-22T14:37:08.156Z\",\n            \"updated_at\": \"2022-08-22T14:37:08.156Z\",\n            \"__v\": 0,\n            \"id\": \"63039494da7f1df25b6bc762\"\n        },\n        {\n            \"_id\": \"63039493da7f1df25b6bc759\",\n            \"debit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fe44e8182c5f37698d0c44\",\n                \"name\": \"bank\",\n                \"type\": \"asset\",\n                \"description\": \"bank account\",\n                \"created_at\": \"2022-08-18T13:55:52.074Z\",\n                \"updated_at\": \"2022-08-18T13:55:52.074Z\",\n                \"__v\": 0,\n                \"id\": \"62fe44e8182c5f37698d0c44\"\n            },\n            \"narration\": \"This is test generated entry No.8\",\n            \"amount\": 770,\n            \"created_at\": \"2022-08-22T14:37:07.829Z\",\n            \"updated_at\": \"2022-08-22T14:37:07.829Z\",\n            \"__v\": 0,\n            \"id\": \"63039493da7f1df25b6bc759\"\n        },\n        {\n            \"_id\": \"63039493da7f1df25b6bc747\",\n            \"debit_ledger\": {\n                \"_id\": \"62fd55eefd96f0328c58f434\",\n                \"name\": \"salary\",\n                \"type\": \"expenditure\",\n                \"description\": \"payment of salary\",\n                \"created_at\": \"2022-08-17T20:56:14.787Z\",\n                \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n                \"__v\": 0,\n                \"id\": \"62fd55eefd96f0328c58f434\"\n            },\n            \"credit_ledger\": {\n                \"_id\": \"62fe44b1182c5f37698d0c3d\",\n                \"name\": \"sale\",\n                \"type\": \"income\",\n                \"description\": \"income from sales\",\n                \"created_at\": \"2022-08-18T13:54:57.335Z\",\n                \"updated_at\": \"2022-08-18T13:54:57.335Z\",\n                \"__v\": 0,\n                \"id\": \"62fe44b1182c5f37698d0c3d\"\n            },\n            \"narration\": \"This is test generated entry No.6\",\n            \"amount\": 930,\n            \"created_at\": \"2022-08-22T14:37:07.310Z\",\n            \"updated_at\": \"2022-08-22T14:37:07.310Z\",\n            \"__v\": 0,\n            \"id\": \"63039493da7f1df25b6bc747\"\n        }\n    ]\n}"
 						}
 					]
+				},
+				{
+					"name": "Trial Balance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{statement_url}}/trial-balance",
+							"host": [
+								"{{statement_url}}"
+							],
+							"path": [
+								"trial-balance"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{statement_url}}/trial-balance",
+									"host": [
+										"{{statement_url}}"
+									],
+									"path": [
+										"trial-balance"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "396"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1716"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6b4-35I3rortVw5kJJyewwHyu30HqsY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Sep 2022 21:28:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"balance\": -1160,\n        \"ledger\": {\n            \"_id\": \"6304ab9c240b5bb7ff759b89\",\n            \"name\": \"test\",\n            \"type\": \"asset\",\n            \"description\": \"test account\",\n            \"created_at\": \"2022-08-23T10:27:40.125Z\",\n            \"updated_at\": \"2022-08-23T10:27:40.125Z\",\n            \"__v\": 0,\n            \"id\": \"6304ab9c240b5bb7ff759b89\"\n        }\n    },\n    {\n        \"balance\": 2359,\n        \"ledger\": {\n            \"_id\": \"62fd55fafd96f0328c58f439\",\n            \"name\": \"cash\",\n            \"type\": \"asset\",\n            \"description\": \"cash in hand\",\n            \"created_at\": \"2022-08-17T20:56:26.293Z\",\n            \"updated_at\": \"2022-08-17T20:56:26.293Z\",\n            \"__v\": 0,\n            \"id\": \"62fd55fafd96f0328c58f439\"\n        }\n    },\n    {\n        \"balance\": 0,\n        \"ledger\": {\n            \"_id\": \"6316654affbb01a758567ca1\",\n            \"name\": \"new ledger\",\n            \"type\": \"asset\",\n            \"description\": \"this is a new ledger\",\n            \"created_at\": \"2022-09-05T21:08:26.021Z\",\n            \"updated_at\": \"2022-09-05T21:08:26.021Z\",\n            \"__v\": 0,\n            \"id\": \"6316654affbb01a758567ca1\"\n        }\n    },\n    {\n        \"balance\": 420,\n        \"ledger\": {\n            \"_id\": \"62fe44e8182c5f37698d0c44\",\n            \"name\": \"bank\",\n            \"type\": \"asset\",\n            \"description\": \"bank account\",\n            \"created_at\": \"2022-08-18T13:55:52.074Z\",\n            \"updated_at\": \"2022-08-18T13:55:52.074Z\",\n            \"__v\": 0,\n            \"id\": \"62fe44e8182c5f37698d0c44\"\n        }\n    },\n    {\n        \"balance\": -29,\n        \"ledger\": {\n            \"_id\": \"62fd55eefd96f0328c58f434\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-17T20:56:14.787Z\",\n            \"updated_at\": \"2022-08-17T20:56:14.787Z\",\n            \"__v\": 0,\n            \"id\": \"62fd55eefd96f0328c58f434\"\n        }\n    },\n    {\n        \"balance\": -1070,\n        \"ledger\": {\n            \"_id\": \"62fe44b1182c5f37698d0c3d\",\n            \"name\": \"sale\",\n            \"type\": \"income\",\n            \"description\": \"income from sales\",\n            \"created_at\": \"2022-08-18T13:54:57.335Z\",\n            \"updated_at\": \"2022-08-18T13:54:57.335Z\",\n            \"__v\": 0,\n            \"id\": \"62fe44b1182c5f37698d0c3d\"\n        }\n    },\n    {\n        \"balance\": 500,\n        \"ledger\": {\n            \"_id\": \"6304ea98e9d7aff5840fab36\",\n            \"name\": \"salary\",\n            \"type\": \"expenditure\",\n            \"description\": \"payment of salary\",\n            \"created_at\": \"2022-08-23T14:56:24.445Z\",\n            \"updated_at\": \"2022-08-29T20:27:13.537Z\",\n            \"__v\": 0,\n            \"id\": \"6304ea98e9d7aff5840fab36\"\n        }\n    }\n]"
+						},
+						{
+							"name": "No entries",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{statement_url}}/trial-balance",
+									"host": [
+										"{{statement_url}}"
+									],
+									"path": [
+										"trial-balance"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "false"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "0"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "420"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Sep 2022 21:34:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
 				}
 			]
 		}
