@@ -19,6 +19,7 @@ import Loading from "../components/Loading";
 import Posting from "../components/Posting";
 import amountFormat from "../util/amountFormat";
 import Alert from "../components/Alert";
+import balanceIsNegative from "../util/balanceIsNegative";
 
 export default function ViewLedger() {
   const { user } = useSelector((state) => state.auth);
@@ -55,19 +56,9 @@ export default function ViewLedger() {
       setEntries(statement.entries);
       setError();
 
-      /**
-       * +ve balance in EXPENDITURE, and ASSET is positive
-       * -ve balance in EQUITY, LIABILITY, and INCOME is positive
-       * ⚠️unexpected vales will be shown in red color
-       */
-      if (
-        (statement.ledger.type === (EXPENDITURE || ASSET) &&
-          statement.balance < 0) ||
-        (statement.ledger.type === (INCOME || LIABILITY || EQUITY) &&
-          0 < statement.balance)
-      ) {
-        setIsNegative(true);
-      }
+      setIsNegative(
+        balanceIsNegative(statement.ledger.type, statement.balance)
+      );
     } catch (e) {
       setEntries([]);
       setError(e.response.data.error.message);
