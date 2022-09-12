@@ -20,7 +20,7 @@ import {
 
 export default function balanceIsNegative(type, balance) {
   return (
-    (type === (EXPENDITURE || ASSET) && balance < 0) ||
-    (type === (INCOME || LIABILITY || EQUITY) && 0 > balance)
+    ((type === EXPENDITURE || type === ASSET) && balance < 0) ||
+    ((type === INCOME || type === LIABILITY || type === EQUITY) && 0 < balance)
   );
 }
