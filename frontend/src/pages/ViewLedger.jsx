@@ -128,6 +128,11 @@ export default function ViewLedger() {
             </div>
           )}
 
+          <p className="text-sm mt-4 text-justify">
+            * If the entries don't add up to the shown ledger balance, look up
+            the normalization feature.
+          </p>
+
           <h1 className="text-xl font-bold text-left mb-2 mt-4">Entries</h1>
           <p className="text-sm text-left mb-4">
             Page <span>{page}</span> of <span>{totalPages}</span>
