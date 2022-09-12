@@ -119,6 +119,10 @@ export default function ViewLedger() {
                   </div>
                 </div>
 
+                <p className="text-sm break-words text-justify">
+                  ({statement?.ledger?.description})
+                </p>
+
                 <div className="form-control mt-2">
                   <Link to={`edit`} className="btn btn-primary">
                     Edit
