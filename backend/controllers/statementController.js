@@ -181,31 +181,29 @@ const viewTrialBalance = asyncHandler(async (req, res, next) => {
 
   // debit side value
   for (const el of debitResult) {
-    tb[el.ledger.id] = el;
+    tb[el.ledger.id] = { ...el };
   }
 
   // credit side value
   for (const el of creditResult) {
     if (!tb[el.ledger.id]) {
-      tb[el.ledger.id] = {
-        total: el.total * -1,
-        ...el,
-      };
+      tb[el.ledger.id] = { ...el };
+      tb[el.ledger.id].total = -el.total;
     } else {
       tb[el.ledger.id].total -= el.total;
     }
   }
 
   // final object
-  const trial_balance = [];
+  const trialBalance = [];
 
   for (const el of Object.keys(tb)) {
     const balance = tb[el].total + normalizedBalanceList[el];
     delete tb[el].total;
-    trial_balance.push({ balance, ...tb[el] });
+    trialBalance.push({ balance, ...tb[el] });
   }
 
-  res.status(StatusCodes.OK).json(trial_balance);
+  res.status(StatusCodes.OK).json(trialBalance);
 });
 
 module.exports = {
