@@ -1,6 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
-var mongoose = require("mongoose");
 
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
@@ -104,17 +103,17 @@ const viewLedgerStatement = asyncHandler(async (req, res, next) => {
 const viewTrialBalance = asyncHandler(async (req, res, next) => {
   const ledgers = await Ledger.find({
     user_id: req.user.id,
-  }).select(["balance"]);
+  }).select(["-user_id"]);
 
-  // key-value pair list <ledger id, balance> (balance is the normalized balance)
-  const normalizedBalanceList = {};
+  // array of ledgers with normalized balances
+  const ledgerWithNormalizedBalanceArray = [];
 
   /**
-   * ledgerList is an array of ledger ids
-   * In addition, the map function also populates the normalizedBalanceList
+   * ledgerIdList is an array of ledger ids
+   * In addition, the map function also populates the ledgerWithNormalizedBalanceArray
    */
-  const ledgerList = ledgers.map((l) => {
-    normalizedBalanceList[l._id] = l.balance;
+  const ledgerIdList = ledgers.map((l) => {
+    if (l.balance !== 0) ledgerWithNormalizedBalanceArray.push(l);
     return l._id;
   });
 
@@ -122,7 +121,7 @@ const viewTrialBalance = asyncHandler(async (req, res, next) => {
   const debitResult = await Entry.aggregate([
     {
       $match: {
-        debit_ledger: { $in: ledgerList },
+        debit_ledger: { $in: ledgerIdList },
       },
     },
 
@@ -146,7 +145,7 @@ const viewTrialBalance = asyncHandler(async (req, res, next) => {
   const creditResult = await Entry.aggregate([
     {
       $match: {
-        credit_ledger: { $in: ledgerList },
+        credit_ledger: { $in: ledgerIdList },
       },
     },
 
@@ -194,11 +193,26 @@ const viewTrialBalance = asyncHandler(async (req, res, next) => {
     }
   }
 
+  // ledgers with normalized balances
+  for (const el of ledgerWithNormalizedBalanceArray) {
+    if (tb[el.id]) {
+      tb[el.id].total += el.balance;
+    } else {
+      const balance = el.balance;
+      delete el._doc.balance;
+
+      tb[el.id] = {
+        balance,
+        ledger: el,
+      };
+    }
+  }
+
   // final object
   const trialBalance = [];
 
   for (const el of Object.keys(tb)) {
-    const balance = tb[el].total + normalizedBalanceList[el];
+    const balance = tb[el].total;
     delete tb[el].total;
     trialBalance.push({ balance, ...tb[el] });
   }
