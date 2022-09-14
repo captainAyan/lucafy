@@ -8,13 +8,6 @@ import {
 import { useSelector } from "react-redux";
 
 import ledgerService from "../features/ledger/ledgerService";
-import {
-  EXPENDITURE,
-  ASSET,
-  INCOME,
-  EQUITY,
-  LIABILITY,
-} from "../constants/ledgerTypes";
 import Loading from "../components/Loading";
 import Posting from "../components/Posting";
 import amountFormat from "../util/amountFormat";
