@@ -5,6 +5,7 @@ const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
 const { ErrorResponse } = require("../middleware/errorMiddleware");
 const { PAGINATION_LIMIT } = require("../constants/policies");
+const { INCOME, EXPENDITURE, ASSET } = require("../constants/ledgerTypes");
 
 const viewLedgerStatement = asyncHandler(async (req, res, next) => {
   const { id: ledger_id } = req.params;
@@ -220,7 +221,138 @@ const viewTrialBalance = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(trialBalance);
 });
 
+const viewMicroStatement = asyncHandler(async (req, res, next) => {
+  const ledgers = await Ledger.find({
+    type: { $in: [INCOME, EXPENDITURE, ASSET] },
+    user_id: req.user.id,
+  }).select(["balance", "id", "type", "name"]);
+
+  // array of ledgers with normalized balances
+  const ledgerWithNormalizedBalanceArray = [];
+
+  /**
+   * ledgerIdList is an array of ledger ids
+   * In addition, the map function also populates the ledgerWithNormalizedBalanceArray
+   */
+  const ledgerIdList = ledgers.map((l) => {
+    if (l.balance !== 0) ledgerWithNormalizedBalanceArray.push(l);
+    return l._id;
+  });
+
+  // list of ledgers with the total of their debit side
+  const debitResult = await Entry.aggregate([
+    {
+      $match: {
+        debit_ledger: { $in: ledgerIdList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$debit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // list of ledgers with the total of their credit side
+  const creditResult = await Entry.aggregate([
+    {
+      $match: {
+        credit_ledger: { $in: ledgerIdList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$credit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // populating with other ledger values for the
+  await Ledger.populate(debitResult, {
+    path: "ledger",
+    select: "id type name",
+  });
+  await Ledger.populate(creditResult, {
+    path: "ledger",
+    select: "id type name",
+  });
+
+  // Now calculate the balances
+  const tb = {};
+
+  // debit side value
+  for (const el of debitResult) {
+    tb[el.ledger.id] = { ...el };
+  }
+
+  // credit side value
+  for (const el of creditResult) {
+    if (!tb[el.ledger.id]) {
+      tb[el.ledger.id] = { ...el };
+      tb[el.ledger.id].total = -el.total;
+    } else {
+      tb[el.ledger.id].total -= el.total;
+    }
+  }
+
+  // ledgers with normalized balances
+  for (const el of ledgerWithNormalizedBalanceArray) {
+    if (tb[el.id]) {
+      tb[el.id].total += el.balance;
+    } else {
+      const balance = el.balance;
+      delete el._doc.balance;
+
+      tb[el.id] = {
+        balance,
+        ledger: el,
+      };
+    }
+  }
+
+  // micro statement
+  const statement = {
+    asset: 0,
+    income: 0,
+    expenditure: 0,
+  };
+
+  for (const el of Object.keys(tb)) {
+    const balance = tb[el].total;
+    delete tb[el].total;
+    const a = { balance, ...tb[el] };
+
+    statement[a.ledger.type] += a.balance;
+  }
+
+  // Since incomes are credit type, therefore are negative
+  statement.income *= -1;
+
+  res.status(StatusCodes.OK).json(statement);
+});
+
 module.exports = {
   viewLedgerStatement,
   viewTrialBalance,
+  viewMicroStatement,
 };
