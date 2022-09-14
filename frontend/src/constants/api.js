@@ -29,3 +29,4 @@ export const EDIT_ENTRY_URL = `${BASE_ENTRY_URL}/`;
 export const BASE_STATEMENT_URL = `${BASE_URL}/statement`;
 export const GET_LEDGER_STATEMENT_URL = `${BASE_STATEMENT_URL}/ledger/`;
 export const GET_TRIAL_BALANCE_URL = `${BASE_STATEMENT_URL}/trial-balance`;
+export const GET_MICRO_STATEMENT_URL = `${BASE_STATEMENT_URL}/micro-statement`;
