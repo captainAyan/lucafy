@@ -22,6 +22,7 @@ import EditLedger from "./pages/EditLedger";
 import EditEntry from "./pages/EditEntry";
 import ViewEntry from "./pages/ViewEntry";
 import SelectLedger from "./pages/SelectLedger";
+import Export from "./pages/Export";
 
 import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 
@@ -54,6 +55,7 @@ function App() {
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="export" element={<Export />} />
 
               <Route path="profile" element={<Profile />} />
               <Route path="profile/edit" element={<EditProfile />} />

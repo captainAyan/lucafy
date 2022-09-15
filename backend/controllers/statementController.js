@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
+const json2csv = require("json2csv");
 
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
@@ -387,9 +388,53 @@ const viewCalendarHeatmap = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(calendarHeatMap);
 });
 
+const exportJournalStatement = asyncHandler(async (req, res, next) => {
+  const entries = await Entry.find({ user_id: req.user.id })
+    .populate("debit_ledger", "-user_id -balance")
+    .populate("credit_ledger", "-user_id -balance")
+    .select(["-user_id"]);
+
+  const fields = [
+    "id",
+    "narration",
+    "amount",
+    "created_at",
+    "debit_leader_id",
+    "debit_leader_name",
+    "debit_ledger_type",
+    "debit_ledger_description",
+    "credit_leader_id",
+    "credit_leader_name",
+    "credit_ledger_type",
+    "credit_ledger_description",
+  ];
+  const opts = { fields };
+  const response = [];
+
+  for (const entry of entries) {
+    response.push({
+      id: entry.id,
+      narration: entry.narration,
+      amount: entry.amount,
+      created_at: entry.created_at,
+      debit_leader_id: entry.debit_ledger.id,
+      debit_leader_name: entry.debit_ledger.name,
+      debit_ledger_type: entry.debit_ledger.type,
+      debit_ledger_description: entry.debit_ledger.description,
+      credit_leader_id: entry.credit_ledger.id,
+      credit_leader_name: entry.credit_ledger.name,
+      credit_ledger_type: entry.credit_ledger.type,
+      credit_ledger_description: entry.credit_ledger.description,
+    });
+  }
+
+  res.status(StatusCodes.OK).send(json2csv.parse(response, opts));
+});
+
 module.exports = {
   viewLedgerStatement,
   viewTrialBalance,
   viewMicroStatement,
   viewCalendarHeatmap,
+  exportJournalStatement,
 };
