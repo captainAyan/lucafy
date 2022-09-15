@@ -146,10 +146,7 @@ export default function Settings() {
             </div>
 
             <p className="text-justify text-xs mt-2">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam id
-              praesentium laudantium ratione vel necessitatibus distinctio, quas
-              error suscipit rerum eaque accusantium dolorum, sint, consequuntur
-              obcaecati mollitia amet quae. Cum?
+              ⚠️ Once deleted, your account can not be recovered.
             </p>
             <button
               className={`btn bg-red-500 text-white w-full mt-4 ${
@@ -169,11 +166,43 @@ export default function Settings() {
             </div>
 
             <p className="text-justify text-xs mt-2">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam id
-              praesentium laudantium ratione vel necessitatibus distinctio, quas
-              error suscipit rerum eaque accusantium dolorum, sint, consequuntur
-              obcaecati mollitia amet quae. Cum?
+              The maximum number of entries you can create is 100. Once that
+              limit is reached, you can still utilize this application by{" "}
+              <i>Normalization</i> of the entries.
             </p>
+            <p className="text-justify text-xs">
+              Normalization will get rid of all the individual entries, and
+              store the current ledger balances into the system. Upon creation
+              of new entries, the ledger balance will be computed by taking into
+              account the stored normalized balances and as usual, the entries.
+            </p>
+
+            <p className="text-justify text-xs">
+              <b>Pros :</b>
+              <li>
+                Use the app even though the limit of 100 entries has been
+                reached.
+              </li>
+              <li>No loss in accuracy of the balances.</li>
+            </p>
+
+            <p className="text-justify text-xs">
+              <b>Cons :</b>
+              <li>
+                Old transaction details won't be displayed in the journal.{" "}
+                <i>
+                  (You can still export a report of all the transaction
+                  available at that time)
+                </i>
+              </li>
+            </p>
+
+            <p className="text-justify text-xs">
+              <b>Note: </b>It's a good idea to export a report before
+              normalizing the accounts, so that you don't lose old transaction
+              details.
+            </p>
+
             <button className="btn bg-yellow-500 text-white w-full mt-4">
               Normalize
             </button>
