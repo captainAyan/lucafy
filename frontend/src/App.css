@@ -16,6 +16,10 @@
  * Default color scale
  */
 
+.react-calendar-heatmap {
+  fill: rgba(0, 0, 0, 0.15);
+}
+
 .react-calendar-heatmap .color-empty {
   fill: rgba(0, 0, 0, 0.15);
 }
