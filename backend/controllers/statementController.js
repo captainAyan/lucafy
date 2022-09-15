@@ -6,6 +6,7 @@ const Ledger = require("../models/ledgerModel");
 const { ErrorResponse } = require("../middleware/errorMiddleware");
 const { PAGINATION_LIMIT } = require("../constants/policies");
 const { INCOME, EXPENDITURE, ASSET } = require("../constants/ledgerTypes");
+const mongoose = require("mongoose");
 
 const viewLedgerStatement = asyncHandler(async (req, res, next) => {
   const { id: ledger_id } = req.params;
@@ -351,8 +352,44 @@ const viewMicroStatement = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(statement);
 });
 
+const viewCalendarHeatmap = asyncHandler(async (req, res, next) => {
+  const user_id = mongoose.Types.ObjectId(req.user.id);
+
+  const calendarHeatMap = await Entry.aggregate([
+    {
+      $match: { user_id },
+    },
+
+    {
+      $project: {
+        yearMonthDay: {
+          $dateToString: { format: "%Y-%m-%d", date: "$created_at" },
+        },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$yearMonthDay",
+        frequency: { $sum: 1 },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        date: "$_id",
+        frequency: 1,
+      },
+    },
+  ]).exec();
+
+  res.status(StatusCodes.OK).json(calendarHeatMap);
+});
+
 module.exports = {
   viewLedgerStatement,
   viewTrialBalance,
   viewMicroStatement,
+  viewCalendarHeatmap,
 };
