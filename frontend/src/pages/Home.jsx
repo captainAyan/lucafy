@@ -139,7 +139,8 @@ export default function Home() {
             <button className="btn btn-accent w-full mt-4">Create Entry</button>
           </Link>
 
-          <div className="mt-8 text-sm text-white">
+          <h1 className="text-xl font-bold text-left mt-6">Activity</h1>
+          <div className="mt-4 text-sm">
             <CalendarHeatmap
               startDate={shiftDate(today, -150)}
               endDate={today}
