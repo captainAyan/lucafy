@@ -140,9 +140,140 @@ const editEntry = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(entry);
 });
 
+const normalizeEntries = asyncHandler(async (req, res, next) => {
+  const ledgers = await Ledger.find({
+    user_id: req.user.id,
+  }).select(["-user_id"]);
+
+  // array of ledgers with normalized balances
+  const ledgerWithNormalizedBalanceArray = [];
+
+  /**
+   * ledgerIdList is an array of ledger ids
+   * In addition, the map function also populates the ledgerWithNormalizedBalanceArray
+   */
+  const ledgerIdList = ledgers.map((l) => {
+    if (l.balance !== 0) ledgerWithNormalizedBalanceArray.push(l);
+    return l._id;
+  });
+
+  // list of ledgers with the total of their debit side
+  const debitResult = await Entry.aggregate([
+    {
+      $match: {
+        debit_ledger: { $in: ledgerIdList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$debit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // list of ledgers with the total of their credit side
+  const creditResult = await Entry.aggregate([
+    {
+      $match: {
+        credit_ledger: { $in: ledgerIdList },
+      },
+    },
+
+    {
+      $group: {
+        _id: "$credit_ledger",
+        total: { $sum: "$amount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        ledger: "$_id",
+        total: 1,
+      },
+    },
+  ]).exec();
+
+  // populating with other ledger values for the
+  await Ledger.populate(debitResult, {
+    path: "ledger",
+    select: "-user_id -balance",
+  });
+  await Ledger.populate(creditResult, {
+    path: "ledger",
+    select: "-user_id -balance",
+  });
+
+  // Now calculate the balances
+  const tb = {};
+
+  // debit side value
+  for (const el of debitResult) {
+    tb[el.ledger.id] = { ...el };
+  }
+
+  // credit side value
+  for (const el of creditResult) {
+    if (!tb[el.ledger.id]) {
+      tb[el.ledger.id] = { ...el };
+      tb[el.ledger.id].total = -el.total;
+    } else {
+      tb[el.ledger.id].total -= el.total;
+    }
+  }
+
+  // ledgers with normalized balances
+  for (const el of ledgerWithNormalizedBalanceArray) {
+    if (tb[el.id]) {
+      tb[el.id].total += el.balance;
+    } else {
+      const balance = el.balance;
+      delete el._doc.balance;
+
+      tb[el.id] = {
+        balance,
+        ledger: el,
+      };
+    }
+  }
+
+  // balances object
+  const trialBalance = [];
+
+  for (const el of Object.keys(tb)) {
+    const balance = tb[el].total;
+    delete tb[el].total;
+    trialBalance.push({ balance, ...tb[el] });
+  }
+
+  // bulk update ledger balance
+  const bulk = Ledger.collection.initializeOrderedBulkOp();
+  for (const i of trialBalance) {
+    bulk.find({ _id: i.ledger._id }).update({ $set: { balance: i.balance } });
+  }
+  const result = await bulk.execute();
+
+  // delete entries
+  await Entry.deleteMany({ user_id: req.user.id });
+
+  res.status(StatusCodes.OK).json({ success: true });
+});
+
 module.exports = {
   createEntry,
   getEntry,
   getEntries,
   editEntry,
+  normalizeEntries,
 };

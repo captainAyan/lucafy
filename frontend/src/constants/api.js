@@ -24,6 +24,7 @@ export const EDIT_LEDGER_URL = `${BASE_LEDGER_URL}/`;
 export const BASE_ENTRY_URL = `${BASE_URL}/entry`;
 export const CREATE_ENTRY_URL = `${BASE_ENTRY_URL}/`;
 export const GET_ENTRY_URL = `${BASE_ENTRY_URL}/`;
+export const NORMALIZE_ENTRIES_URL = `${BASE_ENTRY_URL}/normalize`;
 export const EDIT_ENTRY_URL = `${BASE_ENTRY_URL}/`;
 
 export const BASE_STATEMENT_URL = `${BASE_URL}/statement`;

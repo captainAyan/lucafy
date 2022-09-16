@@ -4,6 +4,7 @@ import {
   CREATE_ENTRY_URL,
   GET_ENTRY_URL,
   EDIT_ENTRY_URL,
+  NORMALIZE_ENTRIES_URL,
 } from "../../constants/api";
 import authConfig from "../../util/authConfig";
 
@@ -39,11 +40,22 @@ const edit = async (id, data, token) => {
   return response.data;
 };
 
+const normalize = async (token) => {
+  const response = await axios.put(
+    `${NORMALIZE_ENTRIES_URL}`,
+    {},
+    authConfig(token)
+  );
+
+  return response.data;
+};
+
 const entryService = {
   create,
   getJournal,
   getById,
   edit,
+  normalize,
 };
 
 export default entryService;

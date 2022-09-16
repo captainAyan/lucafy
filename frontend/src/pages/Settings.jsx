@@ -18,6 +18,7 @@ import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
 import { setPreference } from "../features/preference/preferenceSlice";
 import { deleteAccount, reset } from "../features/auth/authSlice";
+import entryService from "../features/entry/entryService";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ export default function Settings() {
   );
   const preference = useSelector((state) => state.preference);
 
+  const [isNormalizeLoading, setIsNormalizeLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     amountFormat: preference.amountFormat,
     currency: preference.currency,
@@ -37,11 +40,9 @@ export default function Settings() {
   const [preferenceSaveButtonLabel, setPreferenceSaveButtonLabel] =
     useState("Save");
 
-  const [helperText, setHelperText] = useState("");
-
   useEffect(() => {
     if (isError) {
-      setHelperText(message);
+      alert(message);
     }
 
     if (isSuccess) {
@@ -76,6 +77,12 @@ export default function Settings() {
 
   const handleDelete = () => {
     dispatch(deleteAccount());
+  };
+
+  const handleNormalize = async () => {
+    setIsNormalizeLoading(true);
+    await entryService.normalize(user?.token);
+    setIsNormalizeLoading(false);
   };
 
   return (
@@ -195,6 +202,10 @@ export default function Settings() {
                   available at that time)
                 </i>
               </li>
+              <li>
+                Activity heatmap will not show the show activities that occurred
+                before normalization.
+              </li>
             </p>
 
             <p className="text-justify text-xs">
@@ -203,7 +214,12 @@ export default function Settings() {
               details.
             </p>
 
-            <button className="btn bg-yellow-500 text-white w-full mt-4">
+            <button
+              className={`btn bg-yellow-500 text-white w-full mt-4 ${
+                isNormalizeLoading ? "loading" : ""
+              }`}
+              onClick={handleNormalize}
+            >
               Normalize
             </button>
           </div>
