@@ -203,8 +203,8 @@ export default function Settings() {
                 </i>
               </li>
               <li>
-                Activity heatmap will not show the show activities that occurred
-                before normalization.
+                Activities occurred before normalization will not show up in the
+                activity heatmap.
               </li>
             </p>
 
