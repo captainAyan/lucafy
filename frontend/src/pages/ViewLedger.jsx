@@ -61,15 +61,13 @@ export default function ViewLedger() {
   };
 
   useEffect(() => {
-    getStatement(page);
-    navigate(`?page=${page}`);
-  }, [page]);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getStatement(page);
+      navigate(`?page=${page}`);
     }
-  }, [user, navigate]);
+  }, [user, navigate, page]);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">

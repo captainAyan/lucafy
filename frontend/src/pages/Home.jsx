@@ -85,13 +85,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getStatement();
-    getHeatmap();
-  }, []);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getStatement();
+      getHeatmap();
     }
   }, [user, navigate]);
 

@@ -58,12 +58,10 @@ export default function EditEntry() {
   };
 
   useEffect(() => {
-    getEntry();
-  }, []);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getEntry();
     }
   }, [user, navigate]);
 

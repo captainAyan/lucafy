@@ -63,10 +63,6 @@ export default function EditLedger() {
   };
 
   useEffect(() => {
-    getLedger();
-  }, []);
-
-  useEffect(() => {
     if (isError) {
       setSaveButtonLabel("Save");
       setHelperText(message);
@@ -85,6 +81,8 @@ export default function EditLedger() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getLedger();
     }
   }, [user, navigate]);
 

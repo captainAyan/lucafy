@@ -38,12 +38,10 @@ export default function ViewEntry() {
   };
 
   useEffect(() => {
-    getEntry();
-  }, []);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getEntry();
     }
   }, [user, navigate]);
 

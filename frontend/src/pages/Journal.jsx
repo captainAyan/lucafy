@@ -20,17 +20,13 @@ export default function Journal() {
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);
 
   useEffect(() => {
-    getJournal(page);
-    navigate(`?page=${page}`);
-  }, [page]);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getJournal(page);
+      navigate(`?page=${page}`);
     }
-
-    return () => {};
-  }, [user, navigate]);
+  }, [user, navigate, page]);
 
   const getJournal = async (page) => {
     setIsLoading(true);

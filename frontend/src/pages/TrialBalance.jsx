@@ -32,12 +32,10 @@ export default function TrialBalance() {
   };
 
   useEffect(() => {
-    getTrialBalance();
-  }, []);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      getTrialBalance();
     }
   }, [user, navigate]);
 
