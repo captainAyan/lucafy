@@ -25,6 +25,7 @@ import SelectLedger from "./pages/SelectLedger";
 import Export from "./pages/Export";
 
 import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
+import { get } from "./features/auth/authSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ function App() {
   useEffect(() => {
     if (user && !gotAll) {
       dispatch(getAll());
+
+      // syncing user
+      dispatch(get());
     }
     if (!user) {
       dispatch(ledgersReset());

@@ -46,6 +46,16 @@ export const edit = createAsyncThunk("auth/edit", async (user, thunkAPI) => {
   }
 });
 
+// get profile and update local-storage (syncing user)
+export const get = createAsyncThunk("auth/get", async (user, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await authService.get(token);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.error.message);
+  }
+});
+
 // delete profile
 export const deleteAccount = createAsyncThunk(
   "auth/delete",
@@ -127,6 +137,12 @@ export const authSlice = createSlice({
         state.isError = true;
 
         state.message = action.payload;
+      })
+
+      .addCase(get.fulfilled, (state, action) => {
+        state.user.firstName = action.payload.firstName;
+        state.user.lastName = action.payload.lastName;
+        state.user.email = action.payload.email;
       })
 
       .addCase(deleteAccount.pending, (state) => {
