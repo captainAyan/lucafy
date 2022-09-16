@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect } from "react";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Header from "./components/Header";
@@ -75,6 +75,8 @@ function App() {
               <Route path="ledger" element={<CreateLedger />} />
               <Route path="ledger/:id" element={<ViewLedger />} />
               <Route path="ledger/:id/edit" element={<EditLedger />} />
+
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
 
             <Footer />
