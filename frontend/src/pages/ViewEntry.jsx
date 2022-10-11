@@ -52,7 +52,9 @@ export default function ViewEntry() {
           <h1 className="text-4xl font-bold text-left mb-8">Entry</h1>
 
           {isLoading ? (
-            <Loading width={8} height={8} className="mb-4" />
+            <div className="mb-4">
+              <Loading />
+            </div>
           ) : error ? (
             <Alert type="error" message={error} />
           ) : (

@@ -81,7 +81,7 @@ export default function EditEntry() {
               <label className="label">
                 <span className="label-text">Narration</span>
 
-                {isLoadingData ? <Loading height={4} width={4} /> : null}
+                {isLoadingData ? <Loading /> : null}
               </label>
               <textarea
                 className="textarea textarea-bordered"

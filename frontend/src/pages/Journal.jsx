@@ -63,7 +63,7 @@ export default function Journal() {
             </button>
           </div>
 
-          {isLoading ? <Loading width={8} height={8} className="mb-4" /> : null}
+          <div className="mb-4">{isLoading ? <Loading /> : null}</div>
 
           {entries.map((entry) => {
             return (

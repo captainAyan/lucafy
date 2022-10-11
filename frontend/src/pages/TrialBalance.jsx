@@ -47,7 +47,7 @@ export default function TrialBalance() {
 
           {error ? <Alert type="error" message={error} /> : null}
 
-          {isLoading ? <Loading width={8} height={8} className="mb-4" /> : null}
+          <div className="mb-4">{isLoading ? <Loading /> : null}</div>
 
           {trialBalanceItems.map((item) => {
             return (
