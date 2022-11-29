@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import profilePictureUri from "../util/profilePictureUri";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Profile() {
         <div className="card w-full max-w-sm bg-base-100">
           <figure>
             <img
-              src={`https://pixel-profile-pic.herokuapp.com/api?width=20&cell=5&color=4da3ff&seed=${user?.id}`}
+              src={profilePictureUri(user?.id)}
               alt="Profile"
               className="mt-8 border-4 rounded-full"
             />
