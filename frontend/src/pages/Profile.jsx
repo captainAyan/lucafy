@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import profilePictureUri from "../util/profilePictureUri";
+import Avatar from "../components/Avatar";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -19,9 +19,11 @@ export default function Profile() {
       <center>
         <div className="card w-full max-w-sm bg-base-100">
           <figure>
-            <img
-              src={profilePictureUri(user?.id)}
-              alt="Profile"
+            <Avatar
+              width={20}
+              cell={5}
+              color={"#4da3ff"}
+              seed={user?.id}
               className="mt-8 border-4 rounded-full"
             />
           </figure>

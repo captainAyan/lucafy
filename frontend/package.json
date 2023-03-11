@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "alea": "^1.0.1",
     "axios": "^0.27.2",
     "js-file-download": "^0.4.12",
     "react": "^18.2.0",

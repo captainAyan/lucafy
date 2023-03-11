@@ -4,7 +4,7 @@ import { useStore, useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../features/preference/preferenceSlice";
 import { logout, reset } from "../features/auth/authSlice";
 import { DARK, LIGHT } from "../constants/theme";
-import profilePictureUri from "../util/profilePictureUri";
+import Avatar from "./Avatar";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -171,7 +171,7 @@ export default function Header() {
               className="btn btn-ghost btn-circle btn-outline avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="Profile" src={profilePictureUri(user.id)} />
+                <Avatar width={20} cell={5} color={"#4da3ff"} seed={user.id} />
               </div>
             </label>
             <ul
