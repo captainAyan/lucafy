@@ -31,11 +31,11 @@ export default function Settings() {
 
   const [isNormalizeLoading, setIsNormalizeLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [currencyPreferenceFormData, setCurrencyPreferenceFormData] = useState({
     amountFormat: preference.amountFormat,
     currency: preference.currency,
   });
-  const { amountFormat, currency } = formData;
+  const { amountFormat, currency } = currencyPreferenceFormData;
 
   const [preferenceSaveButtonLabel, setPreferenceSaveButtonLabel] =
     useState("Save");
@@ -58,8 +58,8 @@ export default function Settings() {
     };
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
+  const onChangeCurrencyForm = (e) => {
+    setCurrencyPreferenceFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -106,7 +106,7 @@ export default function Settings() {
                 className="select select-bordered"
                 name="amountFormat"
                 value={amountFormat}
-                onChange={onChange}
+                onChange={onChangeCurrencyForm}
               >
                 <option value={INDIAN}>Indian</option>
                 <option value={INTERNATIONAL}>International</option>
@@ -121,7 +121,7 @@ export default function Settings() {
                 className="select select-bordered"
                 name="currency"
                 value={currency}
-                onChange={onChange}
+                onChange={onChangeCurrencyForm}
               >
                 <option value={RUPEE}>Rupee (₹) 🇮🇳</option>
                 <option value={DOLLAR}>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</option>
