@@ -6,6 +6,7 @@ import {
   EDIT_PROFILE_URL,
   DELETE_PROFILE_URL,
   GET_PROFILE_URL,
+  CHANGE_PASSWORD_URL,
 } from "../../constants/api";
 import authConfig from "../../util/authConfig";
 
@@ -27,6 +28,18 @@ const login = async (userData) => {
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
+
+  return response.data;
+};
+
+const changePassword = async (newPasswordData, token) => {
+  const response = await axios.put(
+    CHANGE_PASSWORD_URL,
+    newPasswordData,
+    authConfig(token)
+  );
+
+  console.log(response);
 
   return response.data;
 };
@@ -89,6 +102,7 @@ const authService = {
   register,
   logout,
   login,
+  changePassword,
   deleteAccount,
   edit,
   get,

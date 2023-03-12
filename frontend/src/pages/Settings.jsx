@@ -17,7 +17,11 @@ import {
 import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
 import { setPreference } from "../features/preference/preferenceSlice";
-import { deleteAccount, reset } from "../features/auth/authSlice";
+import {
+  changePassword,
+  deleteAccount,
+  reset,
+} from "../features/auth/authSlice";
 import entryService from "../features/entry/entryService";
 
 export default function Settings() {
@@ -40,6 +44,13 @@ export default function Settings() {
   const [preferenceSaveButtonLabel, setPreferenceSaveButtonLabel] =
     useState("Save");
 
+  /**
+   * ⛔ The current implementation prevents us from handling the successes/errors
+   * differently for different changes (i.e. normalization, password change etc,
+   * are all handled in the similar way)
+   *
+   * This will be changed later
+   */
   useEffect(() => {
     if (isError) {
       alert(message);
@@ -83,6 +94,28 @@ export default function Settings() {
     setIsNormalizeLoading(true);
     await entryService.normalize(user?.token);
     setIsNormalizeLoading(false);
+  };
+
+  const [passwordFormData, setPasswordFormData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    newPasswordConfirm: "",
+  });
+  const { oldPassword, newPassword, newPasswordConfirm } = passwordFormData;
+  const [helperText, setHelperText] = useState("");
+
+  const onChangePasswordForm = (e) => {
+    setHelperText("");
+    setPasswordFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handlePasswordForm = () => {
+    if (newPassword === newPasswordConfirm) {
+      dispatch(changePassword({ oldPassword, newPassword }));
+    } else setHelperText("New passwords don't match");
   };
 
   return (
@@ -222,6 +255,66 @@ export default function Settings() {
             >
               Normalize
             </button>
+          </div>
+        </div>
+
+        <div className="card w-full max-w-sm bg-base-100 mb-8">
+          <div className="card-body sm:w-96 w-full">
+            <div className="card-title">
+              <h1 className="text-2xl font-bold">Change Password</h1>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Old Password</span>
+              </label>
+              <input
+                type="password"
+                name="oldPassword"
+                value={oldPassword}
+                onChange={onChangePasswordForm}
+                placeholder="Old Password"
+                className="input input-bordered"
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">New Password</span>
+              </label>
+              <input
+                type="password"
+                name="newPassword"
+                value={newPassword}
+                onChange={onChangePasswordForm}
+                placeholder="New Password"
+                className="input input-bordered"
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Confirm New Password</span>
+              </label>
+              <input
+                type="password"
+                name="newPasswordConfirm"
+                value={newPasswordConfirm}
+                onChange={onChangePasswordForm}
+                placeholder="Confirm New Password"
+                className="input input-bordered"
+              />
+            </div>
+
+            <p className="text-red-500 text-sm text-left">{helperText}</p>
+
+            <div className="form-control mt-4">
+              <button
+                className={`btn btn-info text-white ${
+                  isLoading ? "loading" : ""
+                }`}
+                onClick={handlePasswordForm}
+              >
+                Change Password
+              </button>
+            </div>
           </div>
         </div>
       </center>
