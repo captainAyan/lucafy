@@ -128,8 +128,6 @@ const changePassword = asyncHandler(async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   let user;
 
-  console.log(req.user);
-
   try {
     user = await User.findOne({ _id: req.user.id });
   } catch (error) {
