@@ -1,7 +1,7 @@
 import Alea from "alea";
 import { useRef } from "react";
 
-export default function Avatar({ width, cell, color, seed, ...attr }) {
+export default function Avatar({ width, cell, color, seed = "", ...attr }) {
   const canvas = useRef(document.createElement("canvas"));
   canvas.current.width = width * cell;
   canvas.current.height = width * cell;
