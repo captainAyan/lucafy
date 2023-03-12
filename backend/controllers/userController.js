@@ -118,6 +118,45 @@ const editProfile = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(response);
 });
 
+const changePassword = asyncHandler(async (req, res, next) => {
+  const { error } = passwordChangeSchema.validate(req.body);
+
+  if (error) {
+    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+  }
+
+  const { oldPassword, newPassword } = req.body;
+  let user;
+
+  console.log(req.user);
+
+  try {
+    user = await User.findOne({ _id: req.user.id });
+  } catch (error) {
+    // for invalid mongodb objectid
+    throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
+  }
+
+  if (!user) {
+    throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
+  }
+
+  if (user && (await bcrypt.compare(oldPassword, user.password))) {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    user.password = hash;
+
+    await user.save();
+
+    const response = { message: "success" };
+
+    res.status(StatusCodes.OK).json(response);
+  } else {
+    throw new ErrorResponse("Invalid password", StatusCodes.BAD_REQUEST);
+  }
+});
+
 const deleteProfile = asyncHandler(async (req, res, next) => {
   await User.deleteOne({ _id: req.user.id });
   await Entry.deleteMany({ user_id: req.user.id });
@@ -128,4 +167,11 @@ const deleteProfile = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = { login, register, getProfile, editProfile, deleteProfile };
+module.exports = {
+  login,
+  register,
+  getProfile,
+  editProfile,
+  changePassword,
+  deleteProfile,
+};

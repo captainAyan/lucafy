@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
-const { ErrorResponse } = require("../middleware/errorMiddleware");
+const { ErrorResponse } = require("./errorMiddleware");
 
 const protect = asyncHandler(async (req, res, next) => {
   if (
