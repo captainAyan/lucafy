@@ -6,7 +6,7 @@ import ReactTooltip from "react-tooltip";
 
 import statementService from "../features/statement/statementService";
 import Alert from "../components/Alert";
-import amountFormat from "../util/amountFormat";
+import MicroStatement from "../components/MicroStatement";
 
 const today = new Date();
 
@@ -30,23 +30,9 @@ export default function Home() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { amountFormat: currencyFormat, currency } = useSelector(
-    (state) => state.preference
-  );
 
-  const [statement, setStatement] = useState({});
   const [heatmap, setHeatmap] = useState([]);
   const [error, setError] = useState();
-
-  const getStatement = async () => {
-    try {
-      const s = await statementService.getMicroStatement(user?.token);
-      setStatement(s);
-    } catch (e) {
-      setStatement({});
-      setError(e.response.data.error.message);
-    }
-  };
 
   const getHeatmap = async () => {
     try {
@@ -88,7 +74,6 @@ export default function Home() {
     if (!user) {
       navigate("/login");
     } else {
-      getStatement();
       getHeatmap();
     }
   }, [user, navigate]);
@@ -107,33 +92,7 @@ export default function Home() {
 
           {error ? <Alert type="error" message={error} /> : null}
 
-          <div className="stats mt-4 w-full">
-            <div className="stat">
-              <div className="stat-title">Assets</div>
-              <div className="stat-value font-thin">
-                {amountFormat(statement?.asset || 0, currencyFormat, currency)}
-              </div>
-              <div className="stat-desc mt-2">Total Assets</div>
-            </div>
-
-            <div className="stat">
-              <div className="stat-title">Net Income</div>
-              <div
-                className={`stat-value font-thin ${
-                  statement?.income - statement?.expenditure < 0
-                    ? "text-red-500"
-                    : null
-                }`}
-              >
-                {amountFormat(
-                  statement?.income - statement?.expenditure || 0,
-                  currencyFormat,
-                  currency
-                )}
-              </div>
-              <div className="stat-desc mt-2">Income less Expenditures</div>
-            </div>
-          </div>
+          <MicroStatement />
 
           <Link to="/entry">
             <button className="btn btn-accent w-full mt-4">Create Entry</button>
