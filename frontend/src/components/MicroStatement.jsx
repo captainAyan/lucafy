@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import statementService from "../features/statement/statementService";
+import { useQuery } from "@tanstack/react-query";
 import amountFormat from "../util/amountFormat";
+import axios from "axios";
+import { GET_MICRO_STATEMENT_URL } from "../constants/api";
+import authConfig from "../util/authConfig";
 
 export default function MicroStatement() {
   const { user } = useSelector((state) => state.auth);
@@ -11,20 +14,13 @@ export default function MicroStatement() {
 
   const [statement, setStatement] = useState({});
 
-  const getStatement = async () => {
-    try {
-      const s = await statementService.getMicroStatement(user?.token);
-      setStatement(s);
-    } catch (e) {
-      setStatement({});
-    }
-  };
+  const { data } = useQuery(["micro-statement"], () =>
+    axios.get(GET_MICRO_STATEMENT_URL, authConfig(user?.token))
+  );
 
   useEffect(() => {
-    if (user) {
-      getStatement();
-    }
-  }, [user]);
+    setStatement(data?.data);
+  }, [data]);
 
   return (
     <div className="stats mt-4 w-full">
