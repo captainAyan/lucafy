@@ -38,7 +38,7 @@ export default function ActivityHeatMap() {
       const hm_default = [];
       const hm_actual = [];
 
-      for (let index = 0; index <= 150; index++) {
+      for (let index = 0; index <= 154; index++) {
         hm_default.push({
           date: shiftDate(today, -index),
           count: 0,
