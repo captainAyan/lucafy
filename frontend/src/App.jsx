@@ -28,6 +28,7 @@ import Export from "./pages/Export";
 
 import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 import { get } from "./features/auth/authSlice";
+import AuthProtectedRoute from "./components/AuthProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,7 +60,14 @@ function App() {
               <Header />
 
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route
+                  path="/"
+                  element={
+                    <AuthProtectedRoute>
+                      <Home />
+                    </AuthProtectedRoute>
+                  }
+                />
 
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />

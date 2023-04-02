@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import MicroStatement from "../components/MicroStatement";
 import ActivityHeatMap from "../components/ActivityHeatMap";
 
 export default function Home() {
-  const navigate = useNavigate();
-
   const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">
