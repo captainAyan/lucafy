@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
 import amountFormat from "../util/amountFormat";
-import axios from "axios";
-import { GET_MICRO_STATEMENT_URL } from "../constants/api";
-import authConfig from "../util/authConfig";
+import useMicroStatementData from "../hooks/useMicroStatementData";
 
 export default function MicroStatement() {
   const { user } = useSelector((state) => state.auth);
@@ -13,10 +10,7 @@ export default function MicroStatement() {
   );
 
   const [statement, setStatement] = useState({});
-
-  const { data } = useQuery(["micro-statement"], () =>
-    axios.get(GET_MICRO_STATEMENT_URL, authConfig(user?.token))
-  );
+  const { data } = useMicroStatementData(user?.token);
 
   useEffect(() => {
     setStatement(data?.data);

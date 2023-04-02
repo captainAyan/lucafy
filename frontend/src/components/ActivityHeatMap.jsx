@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import ReactTooltip from "react-tooltip";
-import authConfig from "../util/authConfig";
-import { GET_CALENDAR_HEATMAP_URL } from "../constants/api";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import useActivityHeatMapData from "../hooks/useActivityHeatMapData";
 
 const today = new Date();
 
@@ -28,10 +25,7 @@ export default function ActivityHeatMap() {
   const { user } = useSelector((state) => state.auth);
 
   const [heatmap, setHeatmap] = useState([]);
-
-  const { data } = useQuery(["activity-heatmap"], () =>
-    axios.get(GET_CALENDAR_HEATMAP_URL, authConfig(user?.token))
-  );
+  const { data } = useActivityHeatMapData(user?.token);
 
   useEffect(() => {
     if (data) {
