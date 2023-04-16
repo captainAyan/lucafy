@@ -15,7 +15,7 @@ export const create = createAsyncThunk(
   "ledger/create",
   async (ledger, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
+      const { token } = thunkAPI.getState().auth2;
       return await ledgerService.create(ledger, token);
     } catch (error) {
       console.log(error.response.data.error.message);
@@ -27,7 +27,7 @@ export const create = createAsyncThunk(
 // get all ledgers
 export const getAll = createAsyncThunk("ledger/getAll", async (_, thunkAPI) => {
   try {
-    const token = thunkAPI.getState().auth.user.token;
+    const { token } = thunkAPI.getState().auth2;
     return await ledgerService.getAll(token);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.error.message);
@@ -39,7 +39,7 @@ export const edit = createAsyncThunk(
   "ledger/edit",
   async (ledgerEditObject, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
+      const { token } = thunkAPI.getState().auth2;
       return await ledgerService.edit(
         ledgerEditObject.id,
         ledgerEditObject.body,

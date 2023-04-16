@@ -9,7 +9,7 @@ import entryService from "../features/entry/entryService";
 export default function Journal() {
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth2);
   const { amountFormat, currency } = useSelector((state) => state.preference);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -20,20 +20,16 @@ export default function Journal() {
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getJournal(page);
-      navigate(`?page=${page}`);
-    }
-  }, [user, navigate, page]);
+    getJournal(page);
+    navigate(`?page=${page}`);
+  }, [navigate, page]);
 
   const getJournal = async (page) => {
     setIsLoading(true);
     setEntries([]);
 
     try {
-      const data = await entryService.getJournal(page - 1, user?.token);
+      const data = await entryService.getJournal(page - 1, token);
       const { total, limit } = data;
 
       setEntries(data.entries);

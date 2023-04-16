@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import fileDownload from "js-file-download";
 
 import statementService from "../features/statement/statementService";
 
 export default function Export() {
-  const navigate = useNavigate();
-
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth2);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
 
   const handleExport = async () => {
     setIsLoading(true);
-    const csv = await statementService.exportJournalStatement(user?.token);
+    const csv = await statementService.exportJournalStatement(token);
     fileDownload(csv, `journal_export_${user.id}_${new Date().getTime()}.csv`);
     setIsLoading(false);
   };

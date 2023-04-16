@@ -27,27 +27,32 @@ import SelectLedger from "./pages/SelectLedger";
 import Export from "./pages/Export";
 
 import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
-import { get } from "./features/auth/authSlice";
+import { updateUser } from "./features/auth/authSlice2";
 import AuthProtectedRoute from "./components/AuthProtectedRoute";
+import axios from "axios";
+import { GET_PROFILE_URL } from "./constants/api";
+import authConfig from "./util/authConfig";
 
 function App() {
   const dispatch = useDispatch();
 
   const { theme } = useSelector((state) => state.preference);
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth2);
   const { gotAll } = useSelector((state) => state.ledger);
 
   useEffect(() => {
-    if (user && !gotAll) {
+    if (token && !gotAll) {
       dispatch(getAll());
 
       // syncing user
-      dispatch(get());
+      axios.get(GET_PROFILE_URL, authConfig(token)).then((response) => {
+        dispatch(updateUser(response.data));
+      });
     }
     if (!user) {
       dispatch(ledgersReset());
     }
-  }, [user, dispatch, gotAll]);
+  }, [user, token, dispatch, gotAll]);
 
   const queryClient = new QueryClient();
 
@@ -71,23 +76,114 @@ function App() {
 
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="export" element={<Export />} />
+                <Route
+                  path="settings"
+                  element={
+                    <AuthProtectedRoute>
+                      <Settings />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="export"
+                  element={
+                    <AuthProtectedRoute>
+                      <Export />
+                    </AuthProtectedRoute>
+                  }
+                />
 
-                <Route path="profile" element={<Profile />} />
-                <Route path="profile/edit" element={<EditProfile />} />
+                <Route
+                  path="profile"
+                  element={
+                    <AuthProtectedRoute>
+                      <Profile />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="profile/edit"
+                  element={
+                    <AuthProtectedRoute>
+                      <EditProfile />
+                    </AuthProtectedRoute>
+                  }
+                />
 
-                <Route path="journal" element={<Journal />} />
-                <Route path="trial-balance" element={<TrialBalance />} />
+                <Route
+                  path="journal"
+                  element={
+                    <AuthProtectedRoute>
+                      <Journal />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="trial-balance"
+                  element={
+                    <AuthProtectedRoute>
+                      <TrialBalance />
+                    </AuthProtectedRoute>
+                  }
+                />
 
-                <Route path="entry" element={<CreateEntry />} />
-                <Route path="entry/:id" element={<ViewEntry />} />
-                <Route path="entry/:id/edit" element={<EditEntry />} />
+                <Route
+                  path="entry"
+                  element={
+                    <AuthProtectedRoute>
+                      <CreateEntry />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="entry/:id"
+                  element={
+                    <AuthProtectedRoute>
+                      <ViewEntry />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="entry/:id/edit"
+                  element={
+                    <AuthProtectedRoute>
+                      <EditEntry />
+                    </AuthProtectedRoute>
+                  }
+                />
 
-                <Route path="ledgers" element={<SelectLedger />} />
-                <Route path="ledger" element={<CreateLedger />} />
-                <Route path="ledger/:id" element={<ViewLedger />} />
-                <Route path="ledger/:id/edit" element={<EditLedger />} />
+                <Route
+                  path="ledgers"
+                  element={
+                    <AuthProtectedRoute>
+                      <SelectLedger />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="ledger"
+                  element={
+                    <AuthProtectedRoute>
+                      <CreateLedger />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="ledger/:id"
+                  element={
+                    <AuthProtectedRoute>
+                      <ViewLedger />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="ledger/:id/edit"
+                  element={
+                    <AuthProtectedRoute>
+                      <EditLedger />
+                    </AuthProtectedRoute>
+                  }
+                />
 
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

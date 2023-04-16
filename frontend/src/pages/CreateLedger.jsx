@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { create, reset } from "../features/ledger/ledgerSlice";
@@ -19,13 +18,12 @@ export default function CreateLedger() {
   });
   const { name, type, description } = formData;
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.ledger
   );
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth2);
 
   const [helperText, setHelperText] = useState("");
   const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
@@ -41,14 +39,10 @@ export default function CreateLedger() {
       setHelperText("");
     }
 
-    if (!user) {
-      navigate("/login");
-    }
-
     return () => {
       dispatch(reset());
     };
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, isError, isSuccess, message, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

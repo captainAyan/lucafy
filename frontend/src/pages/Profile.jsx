@@ -1,18 +1,10 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Avatar from "../components/Avatar";
 
 export default function Profile() {
-  const navigate = useNavigate();
-
-  const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
+  const { user } = useSelector((state) => state.auth2);
 
   return (
     <div className="p-4 bg-base-200">

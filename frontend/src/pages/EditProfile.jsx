@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { EDIT_PROFILE_URL } from "../constants/api";
+import authConfig from "../util/authConfig";
 
-import { edit, reset } from "../features/auth/authSlice";
+import { updateUser } from "../features/auth/authSlice2";
 
 export default function EditProfile() {
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, token } = useSelector((state) => state.auth2);
 
   const [formData, setFormData] = useState({
     firstName: user?.firstName,
@@ -19,25 +20,22 @@ export default function EditProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseData, setResponseData] = useState();
+  const [errorData, setErrorData] = useState();
+
   const [helperText, setHelperText] = useState("");
 
   useEffect(() => {
-    if (isError) {
-      setHelperText(message);
+    if (errorData) {
+      setHelperText(errorData.message);
     }
 
-    if (isSuccess) {
+    if (responseData) {
+      dispatch(updateUser(responseData));
       navigate("/profile");
     }
-
-    if (!user) {
-      navigate("/login");
-    }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [errorData, responseData, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -53,7 +51,12 @@ export default function EditProfile() {
       email,
     };
 
-    dispatch(edit(userData));
+    setIsLoading(true);
+    axios
+      .put(EDIT_PROFILE_URL, userData, authConfig(token))
+      .then(({ data }) => setResponseData(data))
+      .catch((error) => setErrorData(error.response.data.error))
+      .finally(() => setIsLoading(false));
   };
 
   return (

@@ -4,13 +4,13 @@ import amountFormat from "../util/amountFormat";
 import useMicroStatementData from "../hooks/useMicroStatementData";
 
 export default function MicroStatement() {
-  const { user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth2);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );
 
   const [statement, setStatement] = useState({});
-  const { data } = useMicroStatementData(user?.token);
+  const { data } = useMicroStatementData(token);
 
   useEffect(() => {
     setStatement(data?.data);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Loading from "../components/Loading";
@@ -9,11 +9,10 @@ import amountFormat from "../util/amountFormat";
 import Alert from "../components/Alert";
 
 export default function ViewEntry() {
-  const { user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth2);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const [entry, setEntry] = useState({});
@@ -22,7 +21,7 @@ export default function ViewEntry() {
 
   const getEntry = async () => {
     try {
-      const e = await entryService.getById(id, user?.token);
+      const e = await entryService.getById(id, token);
 
       setEntry({
         ...e,
@@ -38,12 +37,8 @@ export default function ViewEntry() {
   };
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getEntry();
-    }
-  }, [user, navigate]);
+    getEntry();
+  }, []);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">

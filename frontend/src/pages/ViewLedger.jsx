@@ -15,7 +15,7 @@ import Alert from "../components/Alert";
 import balanceIsNegative from "../util/balanceIsNegative";
 
 export default function ViewLedger() {
-  const { user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth2);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );
@@ -37,11 +37,7 @@ export default function ViewLedger() {
   const getStatement = async () => {
     setIsLoading(true);
     try {
-      const statement = await ledgerService.getStatement(
-        id,
-        page - 1,
-        user?.token
-      );
+      const statement = await ledgerService.getStatement(id, page - 1, token);
 
       const { total, limit } = statement;
       setTotalPages(Math.ceil(total / limit));
@@ -61,13 +57,9 @@ export default function ViewLedger() {
   };
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getStatement(page);
-      navigate(`?page=${page}`);
-    }
-  }, [user, navigate, page]);
+    getStatement(page);
+    navigate(`?page=${page}`);
+  }, [navigate, page]);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">

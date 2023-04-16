@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore, useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../features/preference/preferenceSlice";
-import { logout, reset } from "../features/auth/authSlice";
+import { logout } from "../features/auth/authSlice2";
 import { DARK, LIGHT } from "../constants/theme";
 import Avatar from "./Avatar";
 
@@ -14,7 +14,7 @@ export default function Header() {
     store.getState().preference.theme === DARK
   );
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth2);
 
   const handleChange = (event) => {
     dispatch(setTheme(event.target.checked ? DARK : LIGHT));
@@ -187,8 +187,8 @@ export default function Header() {
               <li>
                 <span
                   onClick={() => {
+                    localStorage.setItem("token", "");
                     dispatch(logout());
-                    dispatch(reset());
                   }}
                 >
                   Logout

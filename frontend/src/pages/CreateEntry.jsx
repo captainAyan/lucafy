@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import entryService from "../features/entry/entryService";
 
 export default function CreateEntry() {
-  const navigate = useNavigate();
-
   const { ledgers, gotAll } = useSelector((state) => state.ledger);
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth2);
 
   const [formData, setFormData] = useState({
     debit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
@@ -23,10 +20,6 @@ export default function CreateEntry() {
   const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-
     if (gotAll) {
       /**
        * In case the user directly opens up this page and the ledgers are not
@@ -38,9 +31,7 @@ export default function CreateEntry() {
         credit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
       }));
     }
-
-    return () => {};
-  }, [user, navigate, gotAll, ledgers]);
+  }, [user, gotAll, ledgers]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -59,7 +50,7 @@ export default function CreateEntry() {
     };
 
     try {
-      await entryService.create(data, user?.token);
+      await entryService.create(data, token);
 
       setSaveButtonLabel("Saved 🎉");
       setHelperText("");

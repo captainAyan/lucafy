@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import ledgerService from "../features/ledger/ledgerService";
 import { edit, reset } from "../features/ledger/ledgerSlice";
 import Loading from "../components/Loading";
 
 export default function EditLedger() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
-  const { user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth2);
   const { isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.ledger
   );
@@ -48,7 +47,7 @@ export default function EditLedger() {
 
   const getLedger = async () => {
     try {
-      const l = await ledgerService.getById(id, user?.token);
+      const l = await ledgerService.getById(id, token);
 
       setHelperText("");
       setFormData({
@@ -76,15 +75,11 @@ export default function EditLedger() {
     return () => {
       dispatch(reset());
     };
-  }, [isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, isSuccess, message, dispatch]);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getLedger();
-    }
-  }, [user, navigate]);
+    getLedger();
+  }, []);
 
   return (
     <div className="p-4 bg-base-200">

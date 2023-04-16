@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 export default function EditEntry() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth2);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -33,7 +33,7 @@ export default function EditEntry() {
       narration,
     };
     try {
-      const e = await entryService.edit(id, data, user?.token);
+      const e = await entryService.edit(id, data, token);
 
       setHelperText("");
       setSaveButtonLabel("Saved 🎉");
@@ -47,7 +47,7 @@ export default function EditEntry() {
 
   const getEntry = async () => {
     try {
-      const e = await entryService.getById(id, user?.token);
+      const e = await entryService.getById(id, token);
 
       setHelperText("");
       setFormData({ narration: e.narration });
@@ -58,12 +58,8 @@ export default function EditEntry() {
   };
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getEntry();
-    }
-  }, [user, navigate]);
+    getEntry();
+  }, []);
 
   return (
     <div className="p-4 bg-base-200">

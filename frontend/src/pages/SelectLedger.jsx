@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SelectLedger() {
-  const navigate = useNavigate();
-
-  const { user } = useSelector((state) => state.auth);
   const { ledgers, gotAll } = useSelector((state) => state.ledger);
 
   const [selectedLedgerId, setSelectedLedgerId] = useState("");
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-
     if (gotAll) {
       setSelectedLedgerId(ledgers.length > 0 ? ledgers[0].id : "");
     }
-  }, [user, gotAll]);
+  }, [gotAll]);
 
   const onChange = (e) => {
     setSelectedLedgerId(e.target.value);

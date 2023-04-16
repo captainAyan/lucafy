@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { register, reset } from "../features/auth/authSlice";
+import { register } from "../features/auth/authSlice2";
+import axios from "axios";
+import { REGISTER_URL } from "../constants/api";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -17,25 +19,28 @@ export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseData, setResponseData] = useState();
+  const [errorData, setErrorData] = useState();
 
   const [helperText, setHelperText] = useState("");
 
+  const { token, user } = useSelector((state) => state.auth2);
+
   useEffect(() => {
-    if (isError) {
-      setHelperText(message);
+    if (errorData && !user) {
+      setHelperText(errorData.message);
     }
 
-    if (isSuccess || user) {
+    if (responseData && !user) {
+      localStorage.setItem("token", responseData.token);
+      dispatch(register(responseData));
+    }
+
+    if (token && user) {
       navigate("/");
     }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, token, errorData, responseData, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -55,7 +60,12 @@ export default function Register() {
         password,
       };
 
-      dispatch(register(userData));
+      setIsLoading(true);
+      axios
+        .post(REGISTER_URL, userData)
+        .then(({ data }) => setResponseData(data))
+        .catch((error) => setErrorData(error.response.data.error))
+        .finally(() => setIsLoading(false));
     }
   };
 
