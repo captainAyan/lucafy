@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import fileDownload from "js-file-download";
-
-import statementService from "../features/statement/statementService";
+import axios from "axios";
+import { GET_EXPORT_JOURNAL_URL } from "../constants/api";
+import authConfig from "../util/authConfig";
 
 export default function Export() {
   const { user, token } = useSelector((state) => state.auth2);
@@ -10,7 +11,10 @@ export default function Export() {
 
   const handleExport = async () => {
     setIsLoading(true);
-    const csv = await statementService.exportJournalStatement(token);
+    const { data: csv } = await axios.get(
+      GET_EXPORT_JOURNAL_URL,
+      authConfig(token)
+    );
     fileDownload(csv, `journal_export_${user.id}_${new Date().getTime()}.csv`);
     setIsLoading(false);
   };
