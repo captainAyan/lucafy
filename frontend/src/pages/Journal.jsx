@@ -4,41 +4,21 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Entry from "../components/Entry";
 import Loading from "../components/Loading";
-import entryService from "../features/entry/entryService";
+import useJournalDataHook from "../hooks/useJournalDataHook";
 
 export default function Journal() {
   const navigate = useNavigate();
 
-  const { user, token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth2);
   const { amountFormat, currency } = useSelector((state) => state.preference);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [entries, setEntries] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);
 
   useEffect(() => {
-    getJournal(page);
     navigate(`?page=${page}`);
   }, [navigate, page]);
 
-  const getJournal = async (page) => {
-    setIsLoading(true);
-    setEntries([]);
-
-    try {
-      const data = await entryService.getJournal(page - 1, token);
-      const { total, limit } = data;
-
-      setEntries(data.entries);
-      setTotalPages(Math.ceil(total / limit));
-    } catch (e) {
-      setEntries([]);
-    }
-    setIsLoading(false);
-  };
+  const { data, isLoading } = useJournalDataHook(token, page - 1);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">
@@ -46,7 +26,7 @@ export default function Journal() {
         <div className="w-full max-w-sm sm:mt-4">
           <h1 className="text-4xl font-bold text-left mb-2">Journal</h1>
           <p className="text-sm text-left mb-4">
-            Page <span>{page}</span> of <span>{totalPages}</span>
+            Page <span>{page}</span> of <span>{data?.data?.total}</span>
           </p>
 
           <div className="btn-group w-full max-w-sm mb-4">
@@ -61,7 +41,7 @@ export default function Journal() {
 
           <div className="mb-4">{isLoading ? <Loading /> : null}</div>
 
-          {entries.map((entry) => {
+          {data?.data?.entries?.map((entry) => {
             return (
               <Entry
                 {...entry}
@@ -72,7 +52,7 @@ export default function Journal() {
             );
           })}
 
-          {!isLoading && entries.length === 0 ? (
+          {!isLoading && data?.data?.entries?.length === 0 ? (
             <h1 className="text-2xl font-thin text-left mb-4">No Data</h1>
           ) : null}
 
