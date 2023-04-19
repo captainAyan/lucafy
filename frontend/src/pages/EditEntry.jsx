@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import entryService from "../features/entry/entryService";
 import Loading from "../components/Loading";
+import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
+import Alert from "../components/Alert";
 
 export default function EditEntry() {
-  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth2);
   const { id } = useParams();
-  const { user, token } = useSelector((state) => state.auth2);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingData, setIsLoadingData] = useState(true);
-  const [helperText, setHelperText] = useState();
-  const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
 
   const [formData, setFormData] = useState({
     narration: "",
@@ -28,38 +23,28 @@ export default function EditEntry() {
   };
 
   const handleSubmit = async (e) => {
-    setIsLoading(true);
-    const data = {
-      narration,
-    };
-    try {
-      const e = await entryService.edit(id, data, token);
-
-      setHelperText("");
-      setSaveButtonLabel("Saved 🎉");
-      setFormData({ narration: e.narration });
-    } catch (e) {
-      setSaveButtonLabel("Save");
-      setHelperText(e.response.data.error.message);
-    }
-    setIsLoading(false);
+    const data = { narration };
+    editEntry(data);
   };
 
-  const getEntry = async () => {
-    try {
-      const e = await entryService.getById(id, token);
+  const {
+    mutate: editEntry,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useEditEntryHook(token, id);
 
-      setHelperText("");
-      setFormData({ narration: e.narration });
-    } catch (e) {
-      setHelperText(e.response.data.error.message);
-    }
-    setIsLoadingData(false);
-  };
+  const {
+    isLoading: isFetching,
+    error: fetchingError,
+    isError: isFetchingError,
+    data: fetchedData,
+  } = useEntryDataHook(token, id);
 
   useEffect(() => {
-    getEntry();
-  }, []);
+    setFormData({ narration: fetchedData?.data?.narration });
+  }, [fetchedData]);
 
   return (
     <div className="p-4 bg-base-200">
@@ -69,6 +54,14 @@ export default function EditEntry() {
             <div className="card-title">
               <h1 className="text-4xl font-bold">Edit Entry</h1>
             </div>
+
+            {isFetchingError && (
+              <Alert
+                type="error"
+                message={fetchingError?.response?.data?.error?.message}
+              />
+            )}
+
             <h1 className="text-2xs font-thin break-all text-justify uppercase">
               #{id}
             </h1>
@@ -77,7 +70,7 @@ export default function EditEntry() {
               <label className="label">
                 <span className="label-text">Narration</span>
 
-                {isLoadingData ? <Loading /> : null}
+                {isFetching ? <Loading /> : null}
               </label>
               <textarea
                 className="textarea textarea-bordered"
@@ -89,18 +82,22 @@ export default function EditEntry() {
                 autoFocus
               ></textarea>
               <label className="label">
-                <span className="label-text-alt">({narration.length}/200)</span>
+                <span className="label-text-alt">
+                  ({narration?.length || 0}/200)
+                </span>
               </label>
             </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+            <p className="text-red-500 text-sm text-left">
+              {isError && error?.response?.data?.error?.message}
+            </p>
 
             <div className="form-control mt-2">
               <button
                 className={`btn btn-primary ${isLoading ? "loading" : ""}`}
                 onClick={handleSubmit}
               >
-                {saveButtonLabel}
+                {isSuccess ? "Saved 🎉" : "Save"}
               </button>
             </div>
           </div>

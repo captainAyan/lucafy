@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import entryService from "../features/entry/entryService";
+import { useAddEntryHook } from "../hooks/useEntryDataHook";
 
 export default function CreateEntry() {
   const { ledgers, gotAll } = useSelector((state) => state.ledger);
@@ -14,10 +14,6 @@ export default function CreateEntry() {
     narration: "",
   });
   const { debit_ledger_id, credit_ledger_id, amount, narration } = formData;
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [helperText, setHelperText] = useState("");
-  const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
 
   useEffect(() => {
     if (gotAll) {
@@ -41,25 +37,22 @@ export default function CreateEntry() {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     const data = {
       debit_ledger_id,
       credit_ledger_id,
       amount,
       narration,
     };
-
-    try {
-      await entryService.create(data, token);
-
-      setSaveButtonLabel("Saved 🎉");
-      setHelperText("");
-    } catch (e) {
-      setSaveButtonLabel("Save");
-      setHelperText(e.response.data.error.message);
-    }
-    setIsLoading(false);
+    addEntry(data);
   };
+
+  const {
+    mutate: addEntry,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useAddEntryHook(token);
 
   return (
     <div className="p-4 bg-base-200">
@@ -141,14 +134,16 @@ export default function CreateEntry() {
               </label>
             </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+            <p className="text-red-500 text-sm text-left">
+              {isError && error?.response?.data?.error?.message}
+            </p>
 
             <div className="form-control mt-2">
               <button
                 className={`btn btn-primary ${isLoading ? "loading" : ""}`}
                 onClick={handleSubmit}
               >
-                {saveButtonLabel}
+                {isSuccess ? "Saved 🎉" : "Save"}
               </button>
             </div>
           </div>

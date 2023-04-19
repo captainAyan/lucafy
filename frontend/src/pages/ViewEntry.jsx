@@ -3,10 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Loading from "../components/Loading";
-import entryService from "../features/entry/entryService";
 import timeFormat from "../util/timeFormat";
 import amountFormat from "../util/amountFormat";
 import Alert from "../components/Alert";
+import { useEntryDataHook } from "../hooks/useEntryDataHook";
 
 export default function ViewEntry() {
   const { token } = useSelector((state) => state.auth2);
@@ -14,31 +14,13 @@ export default function ViewEntry() {
     (state) => state.preference
   );
   const { id } = useParams();
-
   const [entry, setEntry] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
 
-  const getEntry = async () => {
-    try {
-      const e = await entryService.getById(id, token);
-
-      setEntry({
-        ...e,
-        debit: e.debit_ledger,
-        credit: e.credit_ledger,
-      });
-      setError();
-    } catch (e) {
-      setError(e.response.data.error.message);
-    }
-
-    setIsLoading(false);
-  };
+  const { isLoading, error, isError, data } = useEntryDataHook(token, id);
 
   useEffect(() => {
-    getEntry();
-  }, []);
+    setEntry(data?.data);
+  }, [data]);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">
@@ -50,8 +32,11 @@ export default function ViewEntry() {
             <div className="mb-4">
               <Loading />
             </div>
-          ) : error ? (
-            <Alert type="error" message={error} />
+          ) : isError ? (
+            <Alert
+              type="error"
+              message={error?.response?.data?.error?.message}
+            />
           ) : (
             <>
               {/* Loading is done and there isn't any errors */}
@@ -66,16 +51,16 @@ export default function ViewEntry() {
 
                   <div className="grid grid-rows-2 grid-flow-col">
                     <div className="col-span-1 row-span-1">
-                      <Link to={`/ledger/${entry?.debit?.id}`}>
+                      <Link to={`/ledger/${entry?.debit_ledger?.id}`}>
                         <h1 className="text-xl font-bold capitalize line-clamp-1">
-                          {entry?.debit?.name || "-"} A/c
+                          {entry?.debit_ledger?.name || "-"} A/c
                         </h1>
                       </Link>
                     </div>
                     <div className="col-span-1 mt-1">
-                      <Link to={`/ledger/${entry?.credit?.id || ""}`}>
+                      <Link to={`/ledger/${entry?.credit_ledger?.id || ""}`}>
                         <h1 className="text-2lg font-thin capitalize line-clamp-1">
-                          {entry?.credit?.name || "-"} A/c
+                          {entry?.credit_ledger?.name || "-"} A/c
                         </h1>
                       </Link>
                     </div>
