@@ -17,7 +17,12 @@ export function useAddEntryHook(token) {
   const queryClient = useQueryClient();
   return useMutation(
     (entry) => axios.post(CREATE_ENTRY_URL, entry, authConfig(token)),
-    { onSuccess: () => queryClient.invalidateQueries("journal") }
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries("journal");
+        queryClient.setQueryData(["entry", data?.data?.id], data);
+      },
+    }
   );
 }
 

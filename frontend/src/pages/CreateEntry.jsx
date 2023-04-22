@@ -2,32 +2,20 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { useAddEntryHook } from "../hooks/useEntryDataHook";
+import Loading from "../components/Loading";
+import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
+import Alert from "../components/Alert";
 
 export default function CreateEntry() {
-  const { ledgers, gotAll } = useSelector((state) => state.ledger);
-  const { user, token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth2);
 
   const [formData, setFormData] = useState({
-    debit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
-    credit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
+    debit_ledger_id: "",
+    credit_ledger_id: "",
     amount: 0,
     narration: "",
   });
   const { debit_ledger_id, credit_ledger_id, amount, narration } = formData;
-
-  useEffect(() => {
-    if (gotAll) {
-      /**
-       * In case the user directly opens up this page and the ledgers are not
-       * saved in the redux store yet
-       */
-      setFormData((prevState) => ({
-        ...prevState,
-        debit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
-        credit_ledger_id: ledgers.length > 0 ? ledgers[0].id : "",
-      }));
-    }
-  }, [user, gotAll, ledgers]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -54,6 +42,24 @@ export default function CreateEntry() {
     isSuccess,
   } = useAddEntryHook(token);
 
+  const {
+    isLoading: isFetching,
+    error: fetchingError,
+    isError: isFetchingError,
+    isSuccess: isFetchingSuccessful,
+    data: fetchedData,
+  } = useAllLedgerDataHook(token);
+
+  useEffect(() => {
+    if (isFetchingSuccessful) {
+      setFormData({
+        ...formData,
+        debit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
+        credit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
+      });
+    }
+  }, [fetchedData, isFetchingSuccessful]);
+
   return (
     <div className="p-4 bg-base-200">
       <center>
@@ -62,9 +68,18 @@ export default function CreateEntry() {
             <div className="card-title">
               <h1 className="text-4xl font-bold">Create Entry</h1>
             </div>
+
+            {isFetchingError && (
+              <Alert
+                type="error"
+                message={fetchingError?.response?.data?.error?.message}
+              />
+            )}
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Debit</span>
+                {isFetching ? <Loading /> : null}
               </label>
               <select
                 className="select select-bordered capitalize"
@@ -73,7 +88,7 @@ export default function CreateEntry() {
                 value={debit_ledger_id}
                 autoFocus
               >
-                {ledgers.map((item) => {
+                {fetchedData?.data?.ledgers?.map((item) => {
                   return (
                     <option value={item.id} key={item.id}>
                       {item.name} A/c
@@ -93,7 +108,7 @@ export default function CreateEntry() {
                 onChange={onChange}
                 value={credit_ledger_id}
               >
-                {ledgers.map((item) => {
+                {fetchedData?.data?.ledgers?.map((item) => {
                   return (
                     <option value={item.id} key={item.id}>
                       {item.name} A/c
