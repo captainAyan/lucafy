@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { login } from "../features/auth/authSlice2";
+import { login } from "../features/auth/authSlice";
 import axios from "axios";
 import { LOGIN_URL } from "../constants/api";
 
@@ -22,7 +22,7 @@ export default function Login() {
 
   const [helperText, setHelperText] = useState("");
 
-  const { token, user } = useSelector((state) => state.auth2);
+  const { token, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (errorData && !user) {

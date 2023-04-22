@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { register } from "../features/auth/authSlice2";
+import { register } from "../features/auth/authSlice";
 import axios from "axios";
 import { REGISTER_URL } from "../constants/api";
 
@@ -25,7 +25,7 @@ export default function Register() {
 
   const [helperText, setHelperText] = useState("");
 
-  const { token, user } = useSelector((state) => state.auth2);
+  const { token, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (errorData && !user) {

@@ -6,7 +6,7 @@ import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Loading from "../components/Loading";
 
 export default function SelectLedger() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const [selectedLedgerId, setSelectedLedgerId] = useState("");
   const [ledgers, setLedgers] = useState([]);
 

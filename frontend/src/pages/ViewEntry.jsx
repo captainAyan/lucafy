@@ -9,7 +9,7 @@ import Alert from "../components/Alert";
 import { useEntryDataHook } from "../hooks/useEntryDataHook";
 
 export default function ViewEntry() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );

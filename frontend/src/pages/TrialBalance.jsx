@@ -5,7 +5,7 @@ import TrialBalanceItem from "../components/TrialBalanceItem";
 import useTrialBalanceData from "../hooks/useTrialBalanceData";
 
 export default function TrialBalance() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );

@@ -11,7 +11,7 @@ import {
 
 export default function EditLedger() {
   const { id } = useParams();
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: "",

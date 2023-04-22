@@ -6,7 +6,7 @@ import MicroStatement from "../components/MicroStatement";
 import ActivityHeatMap from "../components/ActivityHeatMap";
 
 export default function Home() {
-  const { user } = useSelector((state) => state.auth2);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">

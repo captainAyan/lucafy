@@ -9,7 +9,7 @@ export default function NormalizationSettings() {
   const [buttonLabel, setButtonLabel] = useState("Normalize");
   const [helperText, setHelperText] = useState("");
 
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const handleNormalize = async () => {
     setIsLoading(true);

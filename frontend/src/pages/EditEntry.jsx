@@ -7,7 +7,7 @@ import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Alert from "../components/Alert";
 
 export default function EditEntry() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
 
   const [formData, setFormData] = useState({

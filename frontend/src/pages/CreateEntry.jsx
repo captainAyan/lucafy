@@ -7,7 +7,7 @@ import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Alert from "../components/Alert";
 
 export default function CreateEntry() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     debit_ledger_id: "",

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Avatar from "../components/Avatar";
 
 export default function Profile() {
-  const { user } = useSelector((state) => state.auth2);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div className="p-4 bg-base-200">

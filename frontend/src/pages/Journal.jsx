@@ -9,7 +9,7 @@ import useJournalDataHook from "../hooks/useJournalDataHook";
 export default function Journal() {
   const navigate = useNavigate();
 
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { amountFormat, currency } = useSelector((state) => state.preference);
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);

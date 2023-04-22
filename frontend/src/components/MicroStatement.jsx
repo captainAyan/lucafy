@@ -4,7 +4,7 @@ import amountFormat from "../util/amountFormat";
 import useMicroStatementData from "../hooks/useMicroStatementData";
 
 export default function MicroStatement() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );

@@ -15,7 +15,7 @@ export default function ChangePasswordSettings() {
   const [isLoading, setIsLoading] = useState(false);
   const [buttonLabel, setButtonLabel] = useState("Save");
 
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const onFormChange = (e) => {
     setFormData((prevState) => ({

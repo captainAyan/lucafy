@@ -6,7 +6,7 @@ import { GET_EXPORT_JOURNAL_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
 
 export default function Export() {
-  const { user, token } = useSelector((state) => state.auth2);
+  const { user, token } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleExport = async () => {

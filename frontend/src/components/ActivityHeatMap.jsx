@@ -22,7 +22,7 @@ function shiftDate(date, numDays) {
 }
 
 export default function ActivityHeatMap() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const [heatmap, setHeatmap] = useState([]);
   const { data } = useActivityHeatMapData(token);

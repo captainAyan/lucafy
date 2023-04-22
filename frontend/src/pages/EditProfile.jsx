@@ -5,10 +5,10 @@ import axios from "axios";
 import { EDIT_PROFILE_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
 
-import { updateUser } from "../features/auth/authSlice2";
+import { updateUser } from "../features/auth/authSlice";
 
 export default function EditProfile() {
-  const { user, token } = useSelector((state) => state.auth2);
+  const { user, token } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     firstName: user?.firstName,

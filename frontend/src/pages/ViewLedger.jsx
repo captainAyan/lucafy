@@ -15,7 +15,7 @@ import balanceIsNegative from "../util/balanceIsNegative";
 import { useLedgerStatementDataHook } from "../hooks/useLedgerDataHook";
 
 export default function ViewLedger() {
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
   const { amountFormat: currencyFormat, currency } = useSelector(
     (state) => state.preference
   );

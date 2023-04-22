@@ -26,7 +26,7 @@ import ViewEntry from "./pages/ViewEntry";
 import SelectLedger from "./pages/SelectLedger";
 import Export from "./pages/Export";
 
-import { updateUser } from "./features/auth/authSlice2";
+import { updateUser } from "./features/auth/authSlice";
 import AuthProtectedRoute from "./components/AuthProtectedRoute";
 import axios from "axios";
 import { GET_PROFILE_URL } from "./constants/api";
@@ -36,7 +36,7 @@ function App() {
   const dispatch = useDispatch();
 
   const { theme } = useSelector((state) => state.preference);
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // syncing user

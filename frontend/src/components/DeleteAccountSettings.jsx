@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DELETE_PROFILE_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
-import { logout } from "../features/auth/authSlice2";
+import { logout } from "../features/auth/authSlice";
 
 export default function DeleteAccountSettings() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +11,7 @@ export default function DeleteAccountSettings() {
 
   const dispatch = useDispatch();
 
-  const { token } = useSelector((state) => state.auth2);
+  const { token } = useSelector((state) => state.auth);
 
   const handleDelete = async () => {
     setIsLoading(true);
