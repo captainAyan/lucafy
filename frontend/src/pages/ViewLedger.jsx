@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import ledgerService from "../features/ledger/ledgerService";
 import Loading from "../components/Loading";
 import Posting from "../components/Posting";
 import amountFormat from "../util/amountFormat";
 import Alert from "../components/Alert";
 import balanceIsNegative from "../util/balanceIsNegative";
+import { useLedgerStatementDataHook } from "../hooks/useLedgerDataHook";
 
 export default function ViewLedger() {
   const { token } = useSelector((state) => state.auth2);
@@ -22,44 +22,24 @@ export default function ViewLedger() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
-
   const [searchParams] = useSearchParams();
-
-  const [statement, setStatement] = useState({ entries: [] });
-  const [entries, setEntries] = useState([]);
-
-  const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);
-  const [isNegative, setIsNegative] = useState(false); // ledger balance
 
-  const getStatement = async () => {
-    setIsLoading(true);
-    try {
-      const statement = await ledgerService.getStatement(id, page - 1, token);
-
-      const { total, limit } = statement;
-      setTotalPages(Math.ceil(total / limit));
-      setStatement(statement);
-      setEntries(statement.entries);
-      setError();
-
-      setIsNegative(
-        balanceIsNegative(statement.ledger.type, statement.balance)
-      );
-    } catch (e) {
-      setEntries([]);
-      setError(e.response.data.error.message);
-    }
-
-    setIsLoading(false);
-  };
+  const [statement, setStatement] = useState();
 
   useEffect(() => {
-    getStatement(page);
     navigate(`?page=${page}`);
   }, [navigate, page]);
+
+  const { data, isLoading, isError, error } = useLedgerStatementDataHook(
+    token,
+    id,
+    page - 1
+  );
+
+  useEffect(() => {
+    setStatement(data?.data);
+  }, [data]);
 
   return (
     <div className="p-4 bg-base-200 mb-auto">
@@ -67,8 +47,11 @@ export default function ViewLedger() {
         <div className="w-full max-w-sm sm:mt-4">
           <h1 className="text-4xl font-bold text-left mb-8">Ledger</h1>
 
-          {error ? (
-            <Alert type="error" message={error} />
+          {isError ? (
+            <Alert
+              type="error"
+              message={error?.response?.data?.error?.message}
+            />
           ) : (
             <div className="card bg-base-100">
               <div className="card-body sm:w-96 w-full text-left py-4 px-6">
@@ -90,7 +73,12 @@ export default function ViewLedger() {
                   <div className="col-span-2 row-span-2">
                     <h1
                       className={`text-3xl font-thin break-all text-right mt-2 ${
-                        isNegative ? "text-red-500" : null
+                        balanceIsNegative(
+                          statement?.ledger?.type,
+                          statement?.balance
+                        )
+                          ? "text-red-500"
+                          : null
                       }`}
                     >
                       {amountFormat(
@@ -122,7 +110,8 @@ export default function ViewLedger() {
 
           <h1 className="text-xl font-bold text-left mb-2 mt-4">Entries</h1>
           <p className="text-sm text-left mb-4">
-            Page <span>{page}</span> of <span>{totalPages}</span>
+            Page <span>{page}</span> of{" "}
+            <span>{Math.ceil(statement?.total / statement?.limit) || 0}</span>
           </p>
 
           <div className="btn-group w-full max-w-sm mb-4">
@@ -135,22 +124,19 @@ export default function ViewLedger() {
             </button>
           </div>
 
-          {/* <div className="w-full max-w-sm sm:mt-4"> */}
           <div className="mb-4">{isLoading ? <Loading /> : null}</div>
 
-          {entries.map((entry) => {
-            return (
-              <Posting
-                key={entry.id}
-                entry={entry}
-                ledger={statement.ledger}
-                currencyFormat={currencyFormat}
-                currencySymbol={currency}
-              />
-            );
-          })}
+          {statement?.entries?.map((entry) => (
+            <Posting
+              key={entry.id}
+              entry={entry}
+              ledger={statement.ledger}
+              currencyFormat={currencyFormat}
+              currencySymbol={currency}
+            />
+          ))}
 
-          {!isLoading && entries.length === 0 ? (
+          {!isLoading && statement?.entries?.length === 0 ? (
             <h1 className="text-2xl font-thin text-left mb-4">No Data</h1>
           ) : null}
 

@@ -26,7 +26,6 @@ import ViewEntry from "./pages/ViewEntry";
 import SelectLedger from "./pages/SelectLedger";
 import Export from "./pages/Export";
 
-import { getAll, ledgersReset } from "./features/ledger/ledgerSlice";
 import { updateUser } from "./features/auth/authSlice2";
 import AuthProtectedRoute from "./components/AuthProtectedRoute";
 import axios from "axios";
@@ -37,22 +36,15 @@ function App() {
   const dispatch = useDispatch();
 
   const { theme } = useSelector((state) => state.preference);
-  const { user, token } = useSelector((state) => state.auth2);
-  const { gotAll } = useSelector((state) => state.ledger);
+  const { token } = useSelector((state) => state.auth2);
 
   useEffect(() => {
-    if (token && !gotAll) {
-      dispatch(getAll());
-
-      // syncing user
-      axios.get(GET_PROFILE_URL, authConfig(token)).then((response) => {
-        dispatch(updateUser(response.data));
-      });
-    }
-    if (!user) {
-      dispatch(ledgersReset());
-    }
-  }, [user, token, dispatch, gotAll]);
+    // syncing user
+    if (token)
+      axios
+        .get(GET_PROFILE_URL, authConfig(token))
+        .then((response) => dispatch(updateUser(response.data)));
+  }, [token, dispatch]);
 
   const queryClient = new QueryClient();
 

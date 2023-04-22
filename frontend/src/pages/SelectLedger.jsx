@@ -2,21 +2,24 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
+import Loading from "../components/Loading";
 
 export default function SelectLedger() {
-  const { ledgers, gotAll } = useSelector((state) => state.ledger);
-
+  const { token } = useSelector((state) => state.auth2);
   const [selectedLedgerId, setSelectedLedgerId] = useState("");
+  const [ledgers, setLedgers] = useState([]);
+
+  const { data, isLoading, isSuccess } = useAllLedgerDataHook(token);
 
   useEffect(() => {
-    if (gotAll) {
-      setSelectedLedgerId(ledgers.length > 0 ? ledgers[0].id : "");
+    if (isSuccess) {
+      setLedgers([...data?.data?.ledgers]);
+      setSelectedLedgerId(data?.data?.ledgers[0]?.id); // default
     }
-  }, [gotAll]);
+  }, [data, isSuccess]);
 
-  const onChange = (e) => {
-    setSelectedLedgerId(e.target.value);
-  };
+  const onChange = (e) => setSelectedLedgerId(e.target.value);
 
   return (
     <div className="p-4 bg-base-200">
@@ -29,6 +32,7 @@ export default function SelectLedger() {
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Ledger</span>
+                {isLoading ? <Loading /> : null}
               </label>
               <select
                 className="select select-bordered capitalize"
@@ -49,7 +53,7 @@ export default function SelectLedger() {
 
             <div className="form-control mt-2">
               <Link
-                to={`/ledger/${selectedLedgerId}`}
+                to={isSuccess && `/ledger/${selectedLedgerId}`}
                 className="btn btn-primary"
               >
                 View

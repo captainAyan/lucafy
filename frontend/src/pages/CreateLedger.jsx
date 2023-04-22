@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
 
-import { create, reset } from "../features/ledger/ledgerSlice";
 import {
   INCOME,
   EXPENDITURE,
@@ -9,40 +7,18 @@ import {
   LIABILITY,
   EQUITY,
 } from "../constants/ledgerTypes";
+import { useAddLedgerHook } from "../hooks/useLedgerDataHook";
+import { useSelector } from "react-redux";
 
 export default function CreateLedger() {
+  const { token } = useSelector((state) => state.auth2);
+
   const [formData, setFormData] = useState({
     name: "",
     type: ASSET,
     description: "",
   });
   const { name, type, description } = formData;
-
-  const dispatch = useDispatch();
-
-  const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.ledger
-  );
-  const { user } = useSelector((state) => state.auth2);
-
-  const [helperText, setHelperText] = useState("");
-  const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
-
-  useEffect(() => {
-    if (isError) {
-      setSaveButtonLabel("Save");
-      setHelperText(message);
-    }
-
-    if (isSuccess) {
-      setSaveButtonLabel("Saved 🎉");
-      setHelperText("");
-    }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, isError, isSuccess, message, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -58,8 +34,16 @@ export default function CreateLedger() {
       description,
     };
 
-    dispatch(create(data));
+    addLedger(data);
   };
+
+  const {
+    mutate: addLedger,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useAddLedgerHook(token);
 
   return (
     <div className="p-4 bg-base-200">
@@ -120,14 +104,16 @@ export default function CreateLedger() {
               </label>
             </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+            <p className="text-red-500 text-sm text-left">
+              {isError && error?.response?.data?.error?.message}
+            </p>
 
             <div className="form-control mt-2">
               <button
                 className={`btn btn-primary ${isLoading ? "loading" : ""}`}
                 onClick={handleSubmit}
               >
-                {saveButtonLabel}
+                {isSuccess ? "Saved 🎉" : "Save"}
               </button>
             </div>
           </div>

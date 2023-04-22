@@ -1,25 +1,17 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import ledgerService from "../features/ledger/ledgerService";
-import { edit, reset } from "../features/ledger/ledgerSlice";
 import Loading from "../components/Loading";
+import Alert from "../components/Alert";
+import {
+  useEditLedgerHook,
+  useLedgerDataHook,
+} from "../hooks/useLedgerDataHook";
 
 export default function EditLedger() {
-  const dispatch = useDispatch();
-
   const { id } = useParams();
-
   const { token } = useSelector((state) => state.auth2);
-  const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.ledger
-  );
-
-  // const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingData, setIsLoadingData] = useState(true);
-  const [helperText, setHelperText] = useState();
-  const [saveButtonLabel, setSaveButtonLabel] = useState("Save");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -42,44 +34,31 @@ export default function EditLedger() {
       description,
     };
 
-    dispatch(edit({ id, body: data }));
+    editLedger(data);
   };
 
-  const getLedger = async () => {
-    try {
-      const l = await ledgerService.getById(id, token);
+  const {
+    mutate: editLedger,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useEditLedgerHook(token, id);
 
-      setHelperText("");
-      setFormData({
-        name: l.name,
-        type: l.type,
-        description: l.description,
-      });
-    } catch (e) {
-      setHelperText(e.response.data.error.message);
-    }
-    setIsLoadingData(false);
-  };
-
-  useEffect(() => {
-    if (isError) {
-      setSaveButtonLabel("Save");
-      setHelperText(message);
-    }
-
-    if (isSuccess) {
-      setSaveButtonLabel("Saved 🎉");
-      setHelperText("");
-    }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [isError, isSuccess, message, dispatch]);
+  const {
+    isLoading: isFetching,
+    error: fetchingError,
+    isError: isFetchingError,
+    data: fetchedData,
+  } = useLedgerDataHook(token, id);
 
   useEffect(() => {
-    getLedger();
-  }, []);
+    setFormData({
+      name: fetchedData?.data?.name,
+      type: fetchedData?.data?.type,
+      description: fetchedData?.data?.description,
+    });
+  }, [fetchedData]);
 
   return (
     <div className="p-4 bg-base-200">
@@ -89,6 +68,14 @@ export default function EditLedger() {
             <div className="card-title">
               <h1 className="text-4xl font-bold">Edit Ledger</h1>
             </div>
+
+            {isFetchingError && (
+              <Alert
+                type="error"
+                message={fetchingError?.response?.data?.error?.message}
+              />
+            )}
+
             <h1 className="text-2xs font-thin break-all uppercase text-justify">
               #{id}
             </h1>
@@ -96,13 +83,13 @@ export default function EditLedger() {
               <label className="label">
                 <span className="label-text">Name</span>
 
-                {isLoadingData ? <Loading /> : null}
+                {isFetching ? <Loading /> : null}
               </label>
               <input
                 type="text"
                 placeholder="Name"
                 className="input input-bordered"
-                value={name}
+                value={name || ""} // uncontrolled input issue fixed
                 onChange={onChange}
                 name="name"
                 autoFocus
@@ -140,19 +127,21 @@ export default function EditLedger() {
               ></textarea>
               <label className="label">
                 <span className="label-text-alt">
-                  ({description.length}/200)
+                  ({description?.length || 0}/200)
                 </span>
               </label>
             </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+            <p className="text-red-500 text-sm text-left">
+              {isError && error?.response?.data?.error?.message}
+            </p>
 
             <div className="form-control mt-2">
               <button
                 className={`btn btn-primary ${isLoading ? "loading" : ""}`}
                 onClick={handleSubmit}
               >
-                {saveButtonLabel}
+                {isSuccess ? "Saved 🎉" : "Save"}
               </button>
             </div>
           </div>
