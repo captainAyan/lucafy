@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Formik, Form, ErrorMessage, Field } from "formik";
 
 import { login } from "../features/auth/authSlice";
 import axios from "axios";
 import { LOGIN_URL } from "../constants/api";
+import LoginSchema from "../util/loginValidationSchema";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const { email, password } = formData;
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,19 +35,7 @@ export default function Login() {
     }
   }, [user, token, errorData, responseData, navigate, dispatch]);
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    const userData = {
-      email,
-      password,
-    };
-
+  const handleSubmit = (userData) => {
     setIsLoading(true);
     axios
       .post(LOGIN_URL, userData)
@@ -68,44 +52,62 @@ export default function Login() {
             <div className="card-title">
               <h1 className="text-4xl font-bold">Login</h1>
             </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={onChange}
-                placeholder="Email"
-                className="input input-bordered"
-                autoFocus
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={onChange}
-                placeholder="Password"
-                className="input input-bordered"
-              />
-            </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              validationSchema={LoginSchema}
+              onSubmit={async (values) => handleSubmit(values)}
+            >
+              {() => (
+                <Form>
+                  <div className="form-control">
+                    <label className="label" htmlFor="email">
+                      <span className="label-text">Email</span>
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className="input input-bordered"
+                      autoFocus
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="email" />
+                    </span>
+                  </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="password">
+                      <span className="label-text">Password</span>
+                    </label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      className="input input-bordered"
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="password" />
+                    </span>
+                  </div>
 
-            <div className="form-control mt-2">
-              <button
-                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                onClick={handleSubmit}
-              >
-                Login
-              </button>
-            </div>
+                  <p className="text-red-500 text-sm text-left">{helperText}</p>
+
+                  <div className="form-control mt-4">
+                    <button
+                      className={`btn btn-primary ${
+                        isLoading ? "loading" : ""
+                      }`}
+                      type="submit"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
 
             <div className="form-control mt-2">
               <Link to="/register" className="btn btn-outline btn-primary">
