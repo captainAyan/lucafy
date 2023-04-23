@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { useAddEntryHook } from "../hooks/useEntryDataHook";
-import Loading from "../components/Loading";
+import MiniLoading from "../components/MiniLoading";
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Alert from "../components/Alert";
 
@@ -79,7 +79,7 @@ export default function CreateEntry() {
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Debit</span>
-                {isFetching ? <Loading /> : null}
+                {isFetching ? <MiniLoading /> : null}
               </label>
               <select
                 className="select select-bordered capitalize"

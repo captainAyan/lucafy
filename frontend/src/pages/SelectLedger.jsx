@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
-import Loading from "../components/Loading";
+import MiniLoading from "../components/MiniLoading";
 
 export default function SelectLedger() {
   const { token } = useSelector((state) => state.auth);
@@ -32,7 +32,7 @@ export default function SelectLedger() {
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Ledger</span>
-                {isLoading ? <Loading /> : null}
+                {isLoading ? <MiniLoading /> : null}
               </label>
               <select
                 className="select select-bordered capitalize"

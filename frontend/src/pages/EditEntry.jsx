@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import Loading from "../components/Loading";
+import MiniLoading from "../components/MiniLoading";
 import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Alert from "../components/Alert";
 
@@ -70,7 +70,7 @@ export default function EditEntry() {
               <label className="label">
                 <span className="label-text">Narration</span>
 
-                {isFetching ? <Loading /> : null}
+                {isFetching ? <MiniLoading /> : null}
               </label>
               <textarea
                 className="textarea textarea-bordered"

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import Loading from "../components/Loading";
+import MiniLoading from "../components/MiniLoading";
 import Alert from "../components/Alert";
 import {
   useEditLedgerHook,
@@ -83,7 +83,7 @@ export default function EditLedger() {
               <label className="label">
                 <span className="label-text">Name</span>
 
-                {isFetching ? <Loading /> : null}
+                {isFetching ? <MiniLoading /> : null}
               </label>
               <input
                 type="text"
