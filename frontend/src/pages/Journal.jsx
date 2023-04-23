@@ -26,7 +26,8 @@ export default function Journal() {
         <div className="w-full max-w-sm sm:mt-4">
           <h1 className="text-4xl font-bold text-left mb-2">Journal</h1>
           <p className="text-sm text-left mb-4">
-            Page <span>{page}</span> of <span>{data?.data?.total}</span>
+            Page <span>{page}</span> of{" "}
+            <span>{Math.ceil(data?.data?.total / data?.data?.limit) || 0}</span>
           </p>
 
           <div className="btn-group w-full max-w-sm mb-4">
