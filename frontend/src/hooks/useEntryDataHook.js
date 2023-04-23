@@ -39,3 +39,10 @@ export function useEditEntryHook(token, id) {
     }
   );
 }
+
+export function useJournalDataHook(token, page) {
+  const query = new URLSearchParams({ page });
+  return useQuery(["journal", page], () =>
+    axios.get(`${GET_ENTRY_URL}?${query}`, authConfig(token))
+  );
+}

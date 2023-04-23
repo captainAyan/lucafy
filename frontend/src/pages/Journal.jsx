@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Entry from "../components/Entry";
 import Loading from "../components/Loading";
-import useJournalDataHook from "../hooks/useJournalDataHook";
+import { useJournalDataHook } from "../hooks/useEntryDataHook";
 
 export default function Journal() {
   const navigate = useNavigate();
