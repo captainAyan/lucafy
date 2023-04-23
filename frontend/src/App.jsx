@@ -26,7 +26,7 @@ import ViewEntry from "./pages/ViewEntry";
 import SelectLedger from "./pages/SelectLedger";
 import Export from "./pages/Export";
 
-import { updateUser } from "./features/auth/authSlice";
+import { logout, updateUser } from "./features/auth/authSlice";
 import AuthProtectedRoute from "./components/AuthProtectedRoute";
 import axios from "axios";
 import { GET_PROFILE_URL } from "./constants/api";
@@ -43,7 +43,11 @@ function App() {
     if (token)
       axios
         .get(GET_PROFILE_URL, authConfig(token))
-        .then((response) => dispatch(updateUser(response.data)));
+        .then((response) => dispatch(updateUser(response.data)))
+        .catch(() => {
+          localStorage.setItem("token", "");
+          dispatch(logout());
+        });
   }, [token, dispatch]);
 
   const queryClient = new QueryClient();
