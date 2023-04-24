@@ -47,9 +47,7 @@ export default function PreferenceSettings() {
         <Formik
           initialValues={initialFormData}
           validationSchema={PreferenceSchema}
-          onSubmit={async (values) => {
-            handleSubmit(values);
-          }}
+          onSubmit={async (values) => handleSubmit(values)}
         >
           <Form>
             <div className="form-control w-full max-w-xs">

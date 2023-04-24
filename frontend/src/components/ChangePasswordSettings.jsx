@@ -43,9 +43,9 @@ export default function ChangePasswordSettings() {
         <Formik
           initialValues={initialFormData}
           validationSchema={ChangePasswordSchema}
-          onSubmit={async (values, { resetForm }) => {
-            handleSubmit(values, resetForm);
-          }}
+          onSubmit={async (values, { resetForm }) =>
+            handleSubmit(values, resetForm)
+          }
         >
           <Form>
             <div className="form-control">

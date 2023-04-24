@@ -61,52 +61,48 @@ export default function Login() {
               validationSchema={LoginSchema}
               onSubmit={async (values) => handleSubmit(values)}
             >
-              {() => (
-                <Form>
-                  <div className="form-control">
-                    <label className="label" htmlFor="email">
-                      <span className="label-text">Email</span>
-                    </label>
-                    <Field
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      className="input input-bordered"
-                      autoFocus
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="email" />
-                    </span>
-                  </div>
-                  <div className="form-control">
-                    <label className="label" htmlFor="password">
-                      <span className="label-text">Password</span>
-                    </label>
-                    <Field
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className="input input-bordered"
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="password" />
-                    </span>
-                  </div>
+              <Form>
+                <div className="form-control">
+                  <label className="label" htmlFor="email">
+                    <span className="label-text">Email</span>
+                  </label>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    className="input input-bordered"
+                    autoFocus
+                  />
+                  <span className="text-red-500 text-sm text-left">
+                    <ErrorMessage name="email" />
+                  </span>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="password">
+                    <span className="label-text">Password</span>
+                  </label>
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    className="input input-bordered"
+                  />
+                  <span className="text-red-500 text-sm text-left">
+                    <ErrorMessage name="password" />
+                  </span>
+                </div>
 
-                  <p className="text-red-500 text-sm text-left">{helperText}</p>
+                <p className="text-red-500 text-sm text-left">{helperText}</p>
 
-                  <div className="form-control mt-4">
-                    <button
-                      className={`btn btn-primary ${
-                        isLoading ? "loading" : ""
-                      }`}
-                      type="submit"
-                    >
-                      Login
-                    </button>
-                  </div>
-                </Form>
-              )}
+                <div className="form-control mt-4">
+                  <button
+                    className={`btn btn-primary ${isLoading ? "loading" : ""}`}
+                    type="submit"
+                  >
+                    Login
+                  </button>
+                </div>
+              </Form>
             </Formik>
 
             <div className="form-control mt-2">

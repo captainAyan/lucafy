@@ -12,11 +12,11 @@ import ProfileSchema from "../util/profileValidationSchema";
 export default function EditProfile() {
   const { user, token } = useSelector((state) => state.auth);
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     firstName: user?.firstName,
     lastName: user?.lastName,
     email: user?.email,
-  });
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ export default function EditProfile() {
             </div>
 
             <Formik
-              initialValues={formData}
+              initialValues={initialFormData}
               validationSchema={ProfileSchema}
               onSubmit={async (values) => handleSubmit(values)}
             >
