@@ -6,6 +6,8 @@ import { EDIT_PROFILE_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
 
 import { updateUser } from "../features/auth/authSlice";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import ProfileSchema from "../util/profileValidationSchema";
 
 export default function EditProfile() {
   const { user, token } = useSelector((state) => state.auth);
@@ -15,7 +17,6 @@ export default function EditProfile() {
     lastName: user?.lastName,
     email: user?.email,
   });
-  const { firstName, lastName, email } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,20 +38,7 @@ export default function EditProfile() {
     }
   }, [errorData, responseData, navigate, dispatch]);
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    const userData = {
-      firstName,
-      lastName,
-      email,
-    };
-
+  const handleSubmit = (userData) => {
     setIsLoading(true);
     axios
       .put(EDIT_PROFILE_URL, userData, authConfig(token))
@@ -68,58 +56,73 @@ export default function EditProfile() {
               <h1 className="text-4xl font-bold">Edit Profile</h1>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">First Name</span>
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={firstName}
-                onChange={onChange}
-                placeholder="First Name"
-                className="input input-bordered"
-                autoFocus
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Last Name</span>
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={lastName}
-                onChange={onChange}
-                placeholder="Last Name"
-                className="input input-bordered"
-              />
-            </div>
+            <Formik
+              initialValues={formData}
+              validationSchema={ProfileSchema}
+              onSubmit={async (values) => handleSubmit(values)}
+            >
+              {() => (
+                <Form>
+                  <div className="form-control">
+                    <label className="label" htmlFor="firstName">
+                      <span className="label-text">First Name</span>
+                    </label>
+                    <Field
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      className="input input-bordered"
+                      autoFocus
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="firstName" />
+                    </span>
+                  </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="lastName">
+                      <span className="label-text">Last Name</span>
+                    </label>
+                    <Field
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      className="input input-bordered"
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="lastName" />
+                    </span>
+                  </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={onChange}
-                placeholder="Email"
-                className="input input-bordered"
-              />
-            </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="email">
+                      <span className="label-text">Email</span>
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className="input input-bordered"
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="email" />
+                    </span>
+                  </div>
 
-            <p className="text-red-500 text-sm text-left">{helperText}</p>
+                  <p className="text-red-500 text-sm text-left">{helperText}</p>
 
-            <div className="form-control mt-2">
-              <button
-                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                onClick={handleSubmit}
-              >
-                Save
-              </button>
-            </div>
+                  <div className="form-control mt-4">
+                    <button
+                      className={`btn btn-primary ${
+                        isLoading ? "loading" : ""
+                      }`}
+                      type="submit"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </center>
