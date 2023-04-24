@@ -18,6 +18,18 @@ export default function EditProfile() {
     email: user?.email,
   };
 
+  /**
+   * Following is the code for fixing an uncontrolled input error, that appeared
+   * after using enableReinitialize prop on Formik component.
+   *
+   * Solution Link:
+   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
+   */
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    setIndex(index + 1);
+  }, [user]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -57,7 +69,9 @@ export default function EditProfile() {
             </div>
 
             <Formik
+              key={index}
               initialValues={initialFormData}
+              enableReinitialize
               validationSchema={ProfileSchema}
               onSubmit={async (values) => handleSubmit(values)}
             >
