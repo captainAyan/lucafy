@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import MiniLoading from "../components/MiniLoading";
 import Alert from "../components/Alert";
@@ -8,34 +9,19 @@ import {
   useEditLedgerHook,
   useLedgerDataHook,
 } from "../hooks/useLedgerDataHook";
+import LedgerSchema from "../util/ledgerValidationSchema";
+import {
+  ASSET,
+  EQUITY,
+  EXPENDITURE,
+  INCOME,
+  LIABILITY,
+} from "../constants/ledgerTypes";
+import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policy";
 
 export default function EditLedger() {
   const { id } = useParams();
   const { token } = useSelector((state) => state.auth);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    description: "",
-  });
-  const { name, type, description } = formData;
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    const data = {
-      name,
-      type,
-      description,
-    };
-
-    editLedger(data);
-  };
 
   const {
     mutate: editLedger,
@@ -52,12 +38,26 @@ export default function EditLedger() {
     data: fetchedData,
   } = useLedgerDataHook(token, id);
 
+  const initialFormData = {
+    name: fetchedData?.data?.name,
+    type: fetchedData?.data?.type,
+    description: fetchedData?.data?.description,
+  };
+
+  const handleSubmit = async (data) => {
+    editLedger(data);
+  };
+
+  /**
+   * Following is the code for fixing an uncontrolled input error, that appeared
+   * after using enableReinitialize prop on Formik component.
+   *
+   * Solution Link:
+   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
+   */
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    setFormData({
-      name: fetchedData?.data?.name,
-      type: fetchedData?.data?.type,
-      description: fetchedData?.data?.description,
-    });
+    setIndex(index + 1);
   }, [fetchedData]);
 
   return (
@@ -79,71 +79,91 @@ export default function EditLedger() {
             <h1 className="text-2xs font-thin break-all uppercase text-justify">
               #{id}
             </h1>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Name</span>
 
-                {isFetching ? <MiniLoading /> : null}
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                className="input input-bordered"
-                value={name || ""} // uncontrolled input issue fixed
-                onChange={onChange}
-                name="name"
-                autoFocus
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Type</span>
-              </label>
-              <select
-                className="select select-bordered"
-                value={type}
-                onChange={onChange}
-                name="type"
-              >
-                <option value="asset">Asset</option>
-                <option value="liability">Liability</option>
-                <option value="income">Income</option>
-                <option value="expenditure">Expenditure</option>
-                <option value="equity">Equity</option>
-              </select>
-            </div>
+            <Formik
+              key={index}
+              initialValues={initialFormData}
+              enableReinitialize
+              validationSchema={LedgerSchema}
+              onSubmit={async (values) => handleSubmit(values)}
+            >
+              {({ values }) => (
+                <Form>
+                  <div className="form-control">
+                    <label className="label" htmlFor="name">
+                      <span className="label-text">Name</span>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Description</span>
-              </label>
-              <textarea
-                className="textarea textarea-bordered"
-                placeholder="Description"
-                maxLength={200}
-                value={description}
-                onChange={onChange}
-                name="description"
-              ></textarea>
-              <label className="label">
-                <span className="label-text-alt">
-                  ({description?.length || 0}/200)
-                </span>
-              </label>
-            </div>
+                      {isFetching ? <MiniLoading /> : null}
+                    </label>
+                    <Field
+                      type="text"
+                      placeholder="Name"
+                      className="input input-bordered"
+                      name="name"
+                      autoFocus
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="name" />
+                    </span>
+                  </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="type">
+                      <span className="label-text">Type</span>
+                    </label>
+                    <Field
+                      as="select"
+                      className="select select-bordered"
+                      name="type"
+                    >
+                      <option value={ASSET}>Asset</option>
+                      <option value={LIABILITY}>Liability</option>
+                      <option value={INCOME}>Income</option>
+                      <option value={EXPENDITURE}>Expenditure</option>
+                      <option value={EQUITY}>Equity</option>
+                    </Field>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="type" />
+                    </span>
+                  </div>
 
-            <p className="text-red-500 text-sm text-left">
-              {isError && error?.response?.data?.error?.message}
-            </p>
+                  <div className="form-control">
+                    <label className="label" htmlFor="description">
+                      <span className="label-text">Description</span>
+                    </label>
+                    <Field
+                      as="textarea"
+                      className="textarea textarea-bordered"
+                      placeholder="Description"
+                      maxLength={LEDGER_DESCRIPTION_MAX_LENGTH}
+                      name="description"
+                    ></Field>
+                    <label className="label">
+                      <span className="label-text-alt">
+                        ({values?.description?.length || 0}/200)
+                      </span>
+                    </label>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="description" />
+                    </span>
+                  </div>
 
-            <div className="form-control mt-2">
-              <button
-                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                onClick={handleSubmit}
-              >
-                {isSuccess ? "Saved 🎉" : "Save"}
-              </button>
-            </div>
+                  <p className="text-red-500 text-sm text-left">
+                    {isError && error?.response?.data?.error?.message}
+                  </p>
+
+                  <div className="form-control mt-2">
+                    <button
+                      className={`btn btn-primary ${
+                        isLoading ? "loading" : ""
+                      }`}
+                      type="submit"
+                    >
+                      {isSuccess ? "Saved 🎉" : "Save"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </center>
