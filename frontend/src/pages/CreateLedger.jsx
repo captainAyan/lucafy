@@ -11,6 +11,7 @@ import {
 } from "../constants/ledgerTypes";
 import { useAddLedgerHook } from "../hooks/useLedgerDataHook";
 import LedgerSchema from "../util/ledgerValidationSchema";
+import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policy";
 
 export default function CreateLedger() {
   const { token } = useSelector((state) => state.auth);
@@ -92,12 +93,19 @@ export default function CreateLedger() {
                       as="textarea"
                       className="textarea textarea-bordered"
                       placeholder="Description"
-                      maxLength={200}
                       name="description"
                     ></Field>
                     <label className="label">
-                      <span className="label-text-alt">
-                        ({values.description.length}/200)
+                      <span
+                        className={`label-text-alt ${
+                          values.description.length >
+                          LEDGER_DESCRIPTION_MAX_LENGTH
+                            ? "text-red-500"
+                            : null
+                        }`}
+                      >
+                        ({values.description.length}/
+                        {LEDGER_DESCRIPTION_MAX_LENGTH})
                       </span>
                     </label>
                     <span className="text-red-500 text-sm text-left">

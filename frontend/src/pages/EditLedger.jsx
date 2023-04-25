@@ -134,12 +134,19 @@ export default function EditLedger() {
                       as="textarea"
                       className="textarea textarea-bordered"
                       placeholder="Description"
-                      maxLength={LEDGER_DESCRIPTION_MAX_LENGTH}
                       name="description"
                     ></Field>
                     <label className="label">
-                      <span className="label-text-alt">
-                        ({values?.description?.length || 0}/200)
+                      <span
+                        className={`label-text-alt ${
+                          values?.description?.length >
+                          LEDGER_DESCRIPTION_MAX_LENGTH
+                            ? "text-red-500"
+                            : null
+                        }`}
+                      >
+                        ({values?.description?.length}/
+                        {LEDGER_DESCRIPTION_MAX_LENGTH})
                       </span>
                     </label>
                     <span className="text-red-500 text-sm text-left">
