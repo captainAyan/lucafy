@@ -1,36 +1,18 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Formik, Form, ErrorMessage, Field } from "formik";
 
 import { useAddEntryHook } from "../hooks/useEntryDataHook";
 import MiniLoading from "../components/MiniLoading";
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Alert from "../components/Alert";
+import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policy";
+import { EntryCreateSchema } from "../util/entryValidationSchema";
 
 export default function CreateEntry() {
   const { token } = useSelector((state) => state.auth);
 
-  const [formData, setFormData] = useState({
-    debit_ledger_id: "",
-    credit_ledger_id: "",
-    amount: 0,
-    narration: "",
-  });
-  const { debit_ledger_id, credit_ledger_id, amount, narration } = formData;
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    const data = {
-      debit_ledger_id,
-      credit_ledger_id,
-      amount,
-      narration,
-    };
+  const handleSubmit = async (data) => {
     addEntry(data);
   };
 
@@ -46,19 +28,27 @@ export default function CreateEntry() {
     isLoading: isFetching,
     error: fetchingError,
     isError: isFetchingError,
-    isSuccess: isFetchingSuccessful,
     data: fetchedData,
   } = useAllLedgerDataHook(token);
 
+  const initialFormData = {
+    debit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
+    credit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
+    amount: 0,
+    narration: "",
+  };
+
+  /**
+   * Following is the code for fixing an uncontrolled input error, that appeared
+   * after using enableReinitialize prop on Formik component.
+   *
+   * Solution Link:
+   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
+   */
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    if (isFetchingSuccessful) {
-      setFormData({
-        ...formData,
-        debit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
-        credit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
-      });
-    }
-  }, [fetchedData, isFetchingSuccessful]);
+    setIndex(index + 1);
+  }, [fetchedData]);
 
   return (
     <div className="p-4 bg-base-200">
@@ -76,91 +66,120 @@ export default function CreateEntry() {
               />
             )}
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Debit</span>
-                {isFetching ? <MiniLoading /> : null}
-              </label>
-              <select
-                className="select select-bordered capitalize"
-                name="debit_ledger_id"
-                onChange={onChange}
-                value={debit_ledger_id}
-                autoFocus
-              >
-                {fetchedData?.data?.ledgers?.map((item) => {
-                  return (
-                    <option value={item.id} key={item.id}>
-                      {item.name} A/c
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+            <Formik
+              key={index}
+              initialValues={initialFormData}
+              enableReinitialize
+              validationSchema={EntryCreateSchema}
+              onSubmit={async (values) => handleSubmit(values)}
+            >
+              {({ values }) => (
+                <Form>
+                  <div className="form-control">
+                    <label className="label" htmlFor="debit_ledger_id">
+                      <span className="label-text">Debit</span>
+                      {isFetching ? <MiniLoading /> : null}
+                    </label>
+                    <Field
+                      as="select"
+                      className="select select-bordered capitalize"
+                      name="debit_ledger_id"
+                      autoFocus
+                    >
+                      {fetchedData?.data?.ledgers?.map((item) => {
+                        return (
+                          <option value={item.id} key={item.id}>
+                            {item.name} A/c
+                          </option>
+                        );
+                      })}
+                    </Field>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="debit_ledger_id" />
+                    </span>
+                  </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Credit</span>
-              </label>
-              <select
-                className="select select-bordered capitalize"
-                name="credit_ledger_id"
-                onChange={onChange}
-                value={credit_ledger_id}
-              >
-                {fetchedData?.data?.ledgers?.map((item) => {
-                  return (
-                    <option value={item.id} key={item.id}>
-                      {item.name} A/c
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="credit_ledger_id">
+                      <span className="label-text">Credit</span>
+                    </label>
+                    <Field
+                      as="select"
+                      className="select select-bordered capitalize"
+                      name="credit_ledger_id"
+                    >
+                      {fetchedData?.data?.ledgers?.map((item) => {
+                        return (
+                          <option value={item.id} key={item.id}>
+                            {item.name} A/c
+                          </option>
+                        );
+                      })}
+                    </Field>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="credit_ledger_id" />
+                    </span>
+                  </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Amount</span>
-              </label>
-              <input
-                type="number"
-                placeholder="Amount"
-                className="input input-bordered"
-                value={amount}
-                name="amount"
-                onChange={onChange}
-              />
-            </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="amount">
+                      <span className="label-text">Amount</span>
+                    </label>
+                    <Field
+                      type="number"
+                      placeholder="Amount"
+                      className="input input-bordered"
+                      name="amount"
+                    />
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="amount" />
+                    </span>
+                  </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Narration</span>
-              </label>
-              <textarea
-                className="textarea textarea-bordered"
-                placeholder="Narration"
-                value={narration}
-                maxLength={200}
-                name="narration"
-                onChange={onChange}
-              ></textarea>
-              <label className="label">
-                <span className="label-text-alt">({narration.length}/200)</span>
-              </label>
-            </div>
+                  <div className="form-control">
+                    <label className="label" htmlFor="narration">
+                      <span className="label-text">Narration</span>
+                    </label>
+                    <Field
+                      as="textarea"
+                      className="textarea textarea-bordered"
+                      placeholder="Narration"
+                      name="narration"
+                    ></Field>
+                    <label className="label">
+                      <span
+                        className={`label-text-alt ${
+                          values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
+                            ? "text-red-500"
+                            : null
+                        }`}
+                      >
+                        ({values?.narration?.length}/
+                        {ENTRY_NARRATION_MAX_LENGTH})
+                      </span>
+                    </label>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="narration" />
+                    </span>
+                  </div>
 
-            <p className="text-red-500 text-sm text-left">
-              {isError && error?.response?.data?.error?.message}
-            </p>
+                  <p className="text-red-500 text-sm text-left">
+                    {isError && error?.response?.data?.error?.message}
+                  </p>
 
-            <div className="form-control mt-2">
-              <button
-                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                onClick={handleSubmit}
-              >
-                {isSuccess ? "Saved 🎉" : "Save"}
-              </button>
-            </div>
+                  <div className="form-control mt-2">
+                    <button
+                      className={`btn btn-primary ${
+                        isLoading ? "loading" : ""
+                      }`}
+                      type="submit"
+                    >
+                      {isSuccess ? "Saved 🎉" : "Save"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </center>
