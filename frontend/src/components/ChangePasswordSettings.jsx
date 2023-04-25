@@ -5,7 +5,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 
 import { CHANGE_PASSWORD_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
-import ChangePasswordSchema from "../util/changePasswordValidationSchema";
+import { ChangePasswordSchema } from "../util/userValidationSchema";
 
 export default function ChangePasswordSettings() {
   const initialFormData = {

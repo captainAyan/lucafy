@@ -6,7 +6,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { register } from "../features/auth/authSlice";
 import axios from "axios";
 import { REGISTER_URL } from "../constants/api";
-import RegisterSchema from "../util/registerValidationSchema";
+import { RegisterSchema } from "../util/userValidationSchema";
 
 export default function Register() {
   const navigate = useNavigate();

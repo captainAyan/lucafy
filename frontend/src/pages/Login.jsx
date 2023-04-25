@@ -6,7 +6,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import { login } from "../features/auth/authSlice";
 import axios from "axios";
 import { LOGIN_URL } from "../constants/api";
-import LoginSchema from "../util/loginValidationSchema";
+import { LoginSchema } from "../util/userValidationSchema";
 
 export default function Login() {
   const navigate = useNavigate();

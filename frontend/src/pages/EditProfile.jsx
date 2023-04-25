@@ -7,7 +7,7 @@ import authConfig from "../util/authConfig";
 
 import { updateUser } from "../features/auth/authSlice";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import ProfileSchema from "../util/profileValidationSchema";
+import { ProfileSchema } from "../util/userValidationSchema";
 
 export default function EditProfile() {
   const { user, token } = useSelector((state) => state.auth);
