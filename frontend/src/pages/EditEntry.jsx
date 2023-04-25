@@ -1,29 +1,19 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Formik, Form, ErrorMessage, Field } from "formik";
 
 import MiniLoading from "../components/MiniLoading";
 import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Alert from "../components/Alert";
+import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policy";
+import { EntryEditSchema } from "../util/entryValidationSchema";
 
 export default function EditEntry() {
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
 
-  const [formData, setFormData] = useState({
-    narration: "",
-  });
-  const { narration } = formData;
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    const data = { narration };
+  const handleSubmit = async (data) => {
     editEntry(data);
   };
 
@@ -42,8 +32,20 @@ export default function EditEntry() {
     data: fetchedData,
   } = useEntryDataHook(token, id);
 
+  const initialFormData = {
+    narration: fetchedData?.data?.narration,
+  };
+
+  /**
+   * Following is the code for fixing an uncontrolled input error, that appeared
+   * after using enableReinitialize prop on Formik component.
+   *
+   * Solution Link:
+   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
+   */
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    setFormData({ narration: fetchedData?.data?.narration });
+    setIndex(index + 1);
   }, [fetchedData]);
 
   return (
@@ -66,40 +68,62 @@ export default function EditEntry() {
               #{id}
             </h1>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Narration</span>
+            <Formik
+              key={index}
+              initialValues={initialFormData}
+              enableReinitialize
+              validationSchema={EntryEditSchema}
+              onSubmit={async (values) => handleSubmit(values)}
+            >
+              {({ values }) => (
+                <Form>
+                  <div className="form-control">
+                    <label className="label" htmlFor="narration">
+                      <span className="label-text">Narration</span>
 
-                {isFetching ? <MiniLoading /> : null}
-              </label>
-              <textarea
-                className="textarea textarea-bordered"
-                placeholder="Narration"
-                maxLength={200}
-                onChange={onChange}
-                value={narration}
-                name="narration"
-                autoFocus
-              ></textarea>
-              <label className="label">
-                <span className="label-text-alt">
-                  ({narration?.length || 0}/200)
-                </span>
-              </label>
-            </div>
+                      {isFetching ? <MiniLoading /> : null}
+                    </label>
+                    <Field
+                      as="textarea"
+                      className="textarea textarea-bordered"
+                      placeholder="Narration"
+                      name="narration"
+                      autoFocus
+                    ></Field>
+                    <label className="label">
+                      <span
+                        className={`label-text-alt ${
+                          values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
+                            ? "text-red-500"
+                            : null
+                        }`}
+                      >
+                        ({values?.narration?.length}/
+                        {ENTRY_NARRATION_MAX_LENGTH})
+                      </span>
+                    </label>
+                    <span className="text-red-500 text-sm text-left">
+                      <ErrorMessage name="narration" />
+                    </span>
+                  </div>
 
-            <p className="text-red-500 text-sm text-left">
-              {isError && error?.response?.data?.error?.message}
-            </p>
+                  <p className="text-red-500 text-sm text-left">
+                    {isError && error?.response?.data?.error?.message}
+                  </p>
 
-            <div className="form-control mt-2">
-              <button
-                className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                onClick={handleSubmit}
-              >
-                {isSuccess ? "Saved 🎉" : "Save"}
-              </button>
-            </div>
+                  <div className="form-control mt-2">
+                    <button
+                      className={`btn btn-primary ${
+                        isLoading ? "loading" : ""
+                      }`}
+                      type="submit"
+                    >
+                      {isSuccess ? "Saved 🎉" : "Save"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </center>

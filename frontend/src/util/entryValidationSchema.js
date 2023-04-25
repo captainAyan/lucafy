@@ -11,3 +11,11 @@ export const EntryCreateSchema = Yup.object().shape({
     .max(ENTRY_NARRATION_MAX_LENGTH)
     .required(),
 });
+
+export const EntryEditSchema = Yup.object().shape({
+  narration: Yup.string()
+    .label("Narration")
+    .min(1)
+    .max(ENTRY_NARRATION_MAX_LENGTH)
+    .required(),
+});
