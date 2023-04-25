@@ -11,7 +11,7 @@ import {
 } from "../constants/ledgerTypes";
 import { useAddLedgerHook } from "../hooks/useLedgerDataHook";
 import LedgerSchema from "../util/ledgerValidationSchema";
-import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policy";
+import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policies";
 
 export default function CreateLedger() {
   const { token } = useSelector((state) => state.auth);

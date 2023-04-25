@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import {
   LEDGER_NAME_MAX_LENGTH,
   LEDGER_DESCRIPTION_MAX_LENGTH,
-} from "../constants/policy";
+} from "../constants/policies";
 import {
   INCOME,
   EXPENDITURE,

@@ -3,7 +3,7 @@ import {
   USER_EMAIL_MAX_LENGTH,
   USER_FIRST_NAME_MAX_LENGTH,
   USER_LAST_NAME_MAX_LENGTH,
-} from "../constants/policy";
+} from "../constants/policies";
 
 export default Yup.object().shape({
   firstName: Yup.string()

@@ -6,7 +6,7 @@ import { useAddEntryHook } from "../hooks/useEntryDataHook";
 import MiniLoading from "../components/MiniLoading";
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Alert from "../components/Alert";
-import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policy";
+import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policies";
 import { EntryCreateSchema } from "../util/entryValidationSchema";
 
 export default function CreateEntry() {

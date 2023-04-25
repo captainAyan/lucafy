@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policy";
+import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policies";
 
 export const EntryCreateSchema = Yup.object().shape({
   debit_ledger_id: Yup.string().label("Debit Ledger Id").required(),

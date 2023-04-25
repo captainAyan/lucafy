@@ -6,7 +6,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import MiniLoading from "../components/MiniLoading";
 import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Alert from "../components/Alert";
-import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policy";
+import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policies";
 import { EntryEditSchema } from "../util/entryValidationSchema";
 
 export default function EditEntry() {

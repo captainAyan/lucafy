@@ -17,7 +17,7 @@ import {
   INCOME,
   LIABILITY,
 } from "../constants/ledgerTypes";
-import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policy";
+import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policies";
 
 export default function EditLedger() {
   const { id } = useParams();

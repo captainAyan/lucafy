@@ -3,7 +3,7 @@ import {
   USER_EMAIL_MAX_LENGTH,
   USER_PASSWORD_MAX_LENGTH,
   USER_PASSWORD_MIN_LENGTH,
-} from "../constants/policy";
+} from "../constants/policies";
 
 export default Yup.object().shape({
   email: Yup.string()
