@@ -5,6 +5,7 @@ import {
   CREATE_ENTRY_URL,
   EDIT_ENTRY_URL,
   GET_ENTRY_URL,
+  NORMALIZE_ENTRY_URL,
 } from "../constants/api";
 
 export function useEntryDataHook(token, id) {
@@ -35,6 +36,20 @@ export function useEditEntryHook(token, id) {
         queryClient.setQueryData(["entry", id], (oldQueryData) => {
           return { ...oldQueryData, data: { ...data?.data } };
         });
+      },
+    }
+  );
+}
+
+export function useEntryNormalizationHook(token, id) {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    () => axios.put(`${NORMALIZE_ENTRY_URL}${id}`, null, authConfig(token)),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["entry", id]);
+        queryClient.invalidateQueries("journal");
       },
     }
   );

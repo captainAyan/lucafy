@@ -6,7 +6,10 @@ import Loading from "../components/Loading";
 import timeFormat from "../util/timeFormat";
 import amountFormat from "../util/amountFormat";
 import Alert from "../components/Alert";
-import { useEntryDataHook } from "../hooks/useEntryDataHook";
+import {
+  useEntryDataHook,
+  useEntryNormalizationHook,
+} from "../hooks/useEntryDataHook";
 
 export default function ViewEntry() {
   const { token } = useSelector((state) => state.auth);
@@ -17,6 +20,14 @@ export default function ViewEntry() {
   const [entry, setEntry] = useState({});
 
   const { isLoading, error, isError, data } = useEntryDataHook(token, id);
+
+  const {
+    mutate: normalizeEntry,
+    isLoading: normalizationIsLoading,
+    isError: normalizationIsError,
+    error: normalizationError,
+    isSuccess: normalizationIsSuccess,
+  } = useEntryNormalizationHook(token, id);
 
   useEffect(() => {
     setEntry(data?.data);
@@ -84,6 +95,20 @@ export default function ViewEntry() {
                       Edit
                     </Link>
                   </div>
+
+                  <button
+                    className={`btn btn-warning ${
+                      normalizationIsLoading ? "loading" : ""
+                    }`}
+                    onClick={() => normalizeEntry()}
+                  >
+                    {normalizationIsSuccess ? "Normalized 🎉" : "Normalize"}
+                  </button>
+
+                  <p className="text-red-500 text-sm text-left">
+                    {normalizationIsError &&
+                      normalizationError?.response?.data?.error?.message}
+                  </p>
                 </div>
               </div>
             </>
