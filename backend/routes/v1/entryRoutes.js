@@ -7,6 +7,7 @@ const {
   getEntries,
   editEntry,
   normalizeEntries,
+  normalizeEntry,
 } = require("../../controllers/entryController");
 const { protect } = require("../../middleware/authMiddleware");
 
@@ -15,5 +16,6 @@ router.get("/", protect, getEntries);
 router.get("/:id", protect, getEntry);
 router.put("/normalize", protect, normalizeEntries);
 router.put("/:id", protect, editEntry);
+router.put("/normalize/:id", protect, normalizeEntry);
 
 module.exports = router;

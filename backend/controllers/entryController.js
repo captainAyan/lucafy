@@ -270,10 +270,48 @@ const normalizeEntries = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json({ success: true });
 });
 
+const normalizeEntry = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  let entry;
+  let debitLedger;
+  let creditLedger;
+
+  try {
+    entry = await Entry.findOne({ _id: id, user_id: req.user.id });
+    debitLedger = await Ledger.findOne({ _id: entry.debit_ledger });
+    creditLedger = await Ledger.findOne({ _id: entry.credit_ledger });
+  } catch (error) {
+    // for invalid mongodb objectId
+    throw new ErrorResponse("Entry not found", StatusCodes.NOT_FOUND);
+  }
+
+  if (!entry) {
+    throw new ErrorResponse("Entry not found", StatusCodes.NOT_FOUND);
+  }
+
+  debitLedger.balance += entry.amount;
+  creditLedger.balance -= entry.amount;
+
+  try {
+    entry.delete();
+    debitLedger.save();
+    creditLedger.save();
+
+    res.status(StatusCodes.OK).json({ success: true });
+  } catch (error) {
+    throw new ErrorResponse(
+      "Something went wrong",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+});
+
 module.exports = {
   createEntry,
   getEntry,
   getEntries,
   editEntry,
   normalizeEntries,
+  normalizeEntry,
 };
