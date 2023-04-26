@@ -60,10 +60,7 @@ export default function CreateEntry() {
             </div>
 
             {isFetchingError && (
-              <Alert
-                type="error"
-                message={fetchingError?.response?.data?.error?.message}
-              />
+              <Alert message={fetchingError?.response?.data?.error?.message} />
             )}
 
             <Formik

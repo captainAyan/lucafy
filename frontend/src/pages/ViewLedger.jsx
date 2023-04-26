@@ -48,10 +48,7 @@ export default function ViewLedger() {
           <h1 className="text-4xl font-bold text-left mb-8">Ledger</h1>
 
           {isError ? (
-            <Alert
-              type="error"
-              message={error?.response?.data?.error?.message}
-            />
+            <Alert message={error?.response?.data?.error?.message} />
           ) : (
             <div className="card bg-base-100">
               <div className="card-body sm:w-96 w-full text-left py-4 px-6">

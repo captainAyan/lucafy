@@ -44,10 +44,7 @@ export default function ViewEntry() {
               <Loading />
             </div>
           ) : isError ? (
-            <Alert
-              type="error"
-              message={error?.response?.data?.error?.message}
-            />
+            <Alert message={error?.response?.data?.error?.message} />
           ) : (
             <>
               {/* Loading is done and there isn't any errors */}

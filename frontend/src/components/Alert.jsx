@@ -1,7 +1,7 @@
 export default function Alert(props) {
-  const { type, message } = props;
+  const { message } = props;
   return (
-    <div className={`alert alert-${type} shadow-lg`}>
+    <div className={`alert alert-error`}>
       <div>
         <span>{message}</span>
       </div>

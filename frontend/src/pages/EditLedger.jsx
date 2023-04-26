@@ -70,10 +70,7 @@ export default function EditLedger() {
             </div>
 
             {isFetchingError && (
-              <Alert
-                type="error"
-                message={fetchingError?.response?.data?.error?.message}
-              />
+              <Alert message={fetchingError?.response?.data?.error?.message} />
             )}
 
             <h1 className="text-2xs font-thin break-all uppercase text-justify">

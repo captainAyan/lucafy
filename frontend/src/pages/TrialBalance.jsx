@@ -22,7 +22,7 @@ export default function TrialBalance() {
         <div className="w-full max-w-sm sm:mt-4">
           <h1 className="text-4xl font-bold text-left mb-8">Trial Balance</h1>
 
-          {error ? <Alert type="error" message={error} /> : null}
+          {error ? <Alert message={error} /> : null}
 
           <div className="mb-4">{isLoading ? <Loading /> : null}</div>
 
