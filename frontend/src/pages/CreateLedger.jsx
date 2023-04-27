@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 
@@ -34,6 +34,15 @@ export default function CreateLedger() {
     isSuccess,
   } = useAddLedgerHook(token);
 
+  /**
+   * Changing the key will reset the form, therefore we're increasing the key on
+   * every successful submit.
+   */
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (isSuccess) setIndex(index + 1);
+  }, [isSuccess]);
+
   return (
     <div className="p-4 bg-base-200">
       <center>
@@ -44,6 +53,7 @@ export default function CreateLedger() {
             </div>
 
             <Formik
+              key={index}
               initialValues={initialFormData}
               validationSchema={LedgerSchema}
               onSubmit={async (values) => handleSubmit(values)}

@@ -58,6 +58,14 @@ export default function CreateEntry() {
     if (index === 0) setIndex(index + 1);
   }, [fetchedData]);
 
+  /**
+   * Changing the key will reset the form, therefore we're increasing the key on
+   * every successful submit.
+   */
+  useEffect(() => {
+    if (isSuccess) setIndex(index + 1);
+  }, [isSuccess]);
+
   return (
     <div className="p-4 bg-base-200">
       <center>
@@ -74,7 +82,6 @@ export default function CreateEntry() {
             <Formik
               key={index}
               initialValues={initialFormData}
-              enableReinitialize
               validationSchema={EntryCreateSchema}
               onSubmit={async (values) => handleSubmit(values)}
             >
