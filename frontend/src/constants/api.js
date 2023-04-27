@@ -28,6 +28,7 @@ export const GET_ENTRY_URL = `${BASE_ENTRY_URL}/`;
 export const NORMALIZE_ENTRIES_URL = `${BASE_ENTRY_URL}/normalize`;
 export const EDIT_ENTRY_URL = `${BASE_ENTRY_URL}/`;
 export const NORMALIZE_ENTRY_URL = `${BASE_ENTRY_URL}/normalize/`;
+export const SEARCH_ENTRY_URL = `${BASE_ENTRY_URL}/search/`;
 
 export const BASE_STATEMENT_URL = `${BASE_URL}/statement`;
 export const GET_LEDGER_STATEMENT_URL = `${BASE_STATEMENT_URL}/ledger/`;

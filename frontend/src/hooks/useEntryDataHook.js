@@ -6,6 +6,7 @@ import {
   EDIT_ENTRY_URL,
   GET_ENTRY_URL,
   NORMALIZE_ENTRY_URL,
+  SEARCH_ENTRY_URL,
 } from "../constants/api";
 
 export function useEntryDataHook(token, id) {
@@ -59,5 +60,12 @@ export function useJournalDataHook(token, page) {
   const query = new URLSearchParams({ page });
   return useQuery(["journal", page], () =>
     axios.get(`${GET_ENTRY_URL}?${query}`, authConfig(token))
+  );
+}
+
+export function useSearchDataHook(token, keyword, page) {
+  const query = new URLSearchParams({ page, search: keyword });
+  return useQuery(["entry-search", keyword, page], () =>
+    axios.get(`${SEARCH_ENTRY_URL}?${query}`, authConfig(token))
   );
 }

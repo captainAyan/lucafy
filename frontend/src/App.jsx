@@ -31,6 +31,7 @@ import AuthProtectedRoute from "./components/AuthProtectedRoute";
 import axios from "axios";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
+import SearchEntry from "./pages/SearchEntry";
 
 function App() {
   const dispatch = useDispatch();
@@ -111,6 +112,14 @@ function App() {
                   element={
                     <AuthProtectedRoute>
                       <Journal />
+                    </AuthProtectedRoute>
+                  }
+                />
+                <Route
+                  path="search-entry"
+                  element={
+                    <AuthProtectedRoute>
+                      <SearchEntry />
                     </AuthProtectedRoute>
                   }
                 />

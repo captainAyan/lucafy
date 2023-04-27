@@ -86,6 +86,9 @@ export default function Header() {
                 <li>
                   <Link to="trial-balance">Trial Balance</Link>
                 </li>
+                <li>
+                  <Link to="search-entry">Search Entry</Link>
+                </li>
               </ul>
             </div>
 
