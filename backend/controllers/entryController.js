@@ -307,6 +307,31 @@ const normalizeEntry = asyncHandler(async (req, res, next) => {
   }
 });
 
+const searchEntryByNarration = asyncHandler(async (req, res, next) => {
+  const PAGE =
+    parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
+  const KEYWORD = req.query.search;
+
+  const entries = await Entry.find({
+    $and: [{ user_id: req.user.id }, { narration: new RegExp(KEYWORD) }],
+  })
+    .sort("-created_at")
+    .populate("debit_ledger", "-user_id -balance")
+    .populate("credit_ledger", "-user_id -balance")
+    .select(["-user_id"])
+    .skip(PAGE * PAGINATION_LIMIT)
+    .limit(PAGINATION_LIMIT);
+
+  const response = {
+    skip: PAGE * PAGINATION_LIMIT,
+    limit: PAGINATION_LIMIT,
+    total: await Entry.find({ user_id: req.user.id }).count(),
+    entries,
+  };
+
+  res.status(StatusCodes.OK).json(response);
+});
+
 module.exports = {
   createEntry,
   getEntry,
@@ -314,4 +339,5 @@ module.exports = {
   editEntry,
   normalizeEntries,
   normalizeEntry,
+  searchEntryByNarration,
 };

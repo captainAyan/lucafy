@@ -8,11 +8,13 @@ const {
   editEntry,
   normalizeEntries,
   normalizeEntry,
+  searchEntryByNarration,
 } = require("../../controllers/entryController");
 const { protect } = require("../../middleware/authMiddleware");
 
 router.post("/", protect, createEntry);
 router.get("/", protect, getEntries);
+router.get("/search", protect, searchEntryByNarration);
 router.get("/:id", protect, getEntry);
 router.put("/normalize", protect, normalizeEntries);
 router.put("/:id", protect, editEntry);
