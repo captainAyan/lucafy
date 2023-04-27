@@ -47,7 +47,15 @@ export default function CreateEntry() {
    */
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    setIndex(index + 1);
+    /**
+     * This should run on the first fetch only.
+     *
+     * On the event of the user leaving window and then coming back, the
+     * reactQuery refetches the data, which triggers this useEffect.
+     *
+     * We Don't want this to happen, as it resets the form.
+     */
+    if (index === 0) setIndex(index + 1);
   }, [fetchedData]);
 
   return (
