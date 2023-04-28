@@ -15,6 +15,7 @@ export default function Header() {
   );
 
   const { user } = useSelector((state) => state.auth);
+  const { theme } = useSelector((state) => state.preference);
 
   const handleChange = (event) => {
     dispatch(setTheme(event.target.checked ? DARK : LIGHT));
@@ -25,7 +26,11 @@ export default function Header() {
     <div className="navbar bg-base-100">
       <div className="flex-1 navbar-start">
         <Link to="/" className="btn btn-ghost normal-case text-xl">
-          Accounting Web
+          <img
+            alt="logo"
+            src={theme === DARK ? "logo-dark.png" : "logo-light.png"}
+            className="h-10"
+          />
         </Link>
       </div>
 
