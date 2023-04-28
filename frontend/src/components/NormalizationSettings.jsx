@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 import { NORMALIZE_ENTRIES_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
 
@@ -24,6 +28,20 @@ export default function NormalizationSettings() {
       })
       .finally(() => setIsLoading(false));
   };
+
+  const confirm = async () =>
+    confirmAlert({
+      title: "Normalize Entries",
+      message:
+        "Are you sure about normalizing all the entries? Once normalized, your entries cannot be recovered.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => handleNormalize(),
+        },
+        { label: "No" },
+      ],
+    });
 
   return (
     <div className="card w-full max-w-sm bg-base-100 mb-8">
@@ -78,7 +96,7 @@ export default function NormalizationSettings() {
           className={`btn bg-yellow-500 text-white w-full mt-4 ${
             isLoading ? "loading" : ""
           }`}
-          onClick={handleNormalize}
+          onClick={confirm}
         >
           {buttonLabel}
         </button>

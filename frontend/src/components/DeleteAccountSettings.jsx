@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 import { DELETE_PROFILE_URL } from "../constants/api";
 import authConfig from "../util/authConfig";
 import { logout } from "../features/auth/authSlice";
@@ -28,6 +32,20 @@ export default function DeleteAccountSettings() {
       .finally(() => setIsLoading(false));
   };
 
+  const confirm = async () =>
+    confirmAlert({
+      title: "Delete Account",
+      message:
+        "Are you sure about deleting your account? Once deleted, your account cannot be recovered.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => handleDelete(),
+        },
+        { label: "No" },
+      ],
+    });
+
   return (
     <div className="card w-full max-w-sm bg-base-100 mb-8">
       <div className="card-body sm:w-96 w-full">
@@ -45,7 +63,7 @@ export default function DeleteAccountSettings() {
           className={`btn bg-red-500 text-white w-full mt-4 ${
             isLoading ? "loading" : ""
           }`}
-          onClick={handleDelete}
+          onClick={confirm}
         >
           Delete
         </button>
