@@ -28,7 +28,7 @@ export default function Header() {
         <Link to="/" className="btn btn-ghost normal-case text-xl">
           <img
             alt="logo"
-            src={theme === DARK ? "logo-dark.png" : "logo-light.png"}
+            src={theme === DARK ? "/logo-dark.png" : "/logo-light.png"}
             className="h-10"
           />
         </Link>
