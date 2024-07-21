@@ -10,7 +10,7 @@ const {
   normalizeEntry,
   searchEntryByNarration,
 } = require("../../controllers/entryController");
-const { protect } = require("../../middleware/authMiddleware");
+const { protect } = require("../../middlewares/authMiddleware");
 
 router.post("/", protect, createEntry);
 router.get("/", protect, getEntries);

@@ -4,7 +4,7 @@ const json2csv = require("json2csv");
 
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
-const { ErrorResponse } = require("../middleware/errorMiddleware");
+const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const { PAGINATION_LIMIT } = require("../constants/policies");
 const { INCOME, EXPENDITURE, ASSET } = require("../constants/ledgerTypes");
 const mongoose = require("mongoose");

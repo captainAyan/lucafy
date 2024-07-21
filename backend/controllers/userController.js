@@ -5,7 +5,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
-const { ErrorResponse } = require("../middleware/errorMiddleware");
+const { ErrorResponse } = require("../middlewares/errorMiddleware");
 
 const {
   createSchema,

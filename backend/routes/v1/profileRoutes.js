@@ -6,7 +6,7 @@ const {
   editProfile,
   deleteProfile,
 } = require("../../controllers/userController");
-const { protect } = require("../../middleware/authMiddleware");
+const { protect } = require("../../middlewares/authMiddleware");
 
 router.get("/", protect, getProfile);
 router.put("/", protect, editProfile);

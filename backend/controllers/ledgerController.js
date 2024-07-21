@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
 
 const Ledger = require("../models/ledgerModel");
-const { ErrorResponse } = require("../middleware/errorMiddleware");
+const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const { createSchema, editSchema } = require("../util/ledgerValidationSchema");
 const { LEDGER_LIMIT, PAGINATION_LIMIT } = require("../constants/policies");
 

@@ -7,7 +7,10 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cors = require("cors");
 
-const { errorHandler, ErrorResponse } = require("./middleware/errorMiddleware");
+const {
+  errorHandler,
+  ErrorResponse,
+} = require("./middlewares/errorMiddleware");
 const { PER_MINUTE_REQUEST_LIMIT } = require("./constants/policies");
 
 require("dotenv").config();

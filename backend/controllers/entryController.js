@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
-const { ErrorResponse } = require("../middleware/errorMiddleware");
+const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const { createSchema, editSchema } = require("../util/entryValidationSchema");
 const { PAGINATION_LIMIT, ENTRY_LIMIT } = require("../constants/policies");
 

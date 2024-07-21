@@ -8,7 +8,7 @@ const {
   viewCalendarHeatmap,
   exportJournalStatement,
 } = require("../../controllers/statementController");
-const { protect } = require("../../middleware/authMiddleware");
+const { protect } = require("../../middlewares/authMiddleware");
 
 router.get("/ledger/:id", protect, viewLedgerStatement);
 router.get("/trial-balance", protect, viewTrialBalance);

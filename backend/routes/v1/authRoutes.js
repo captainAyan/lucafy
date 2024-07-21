@@ -6,7 +6,7 @@ const {
   register,
   changePassword,
 } = require("../../controllers/userController");
-const { protect } = require("../../middleware/authMiddleware");
+const { protect } = require("../../middlewares/authMiddleware");
 
 router.post("/login", login);
 router.post("/register", register);
