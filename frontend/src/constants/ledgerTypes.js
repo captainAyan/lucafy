@@ -1,5 +1,5 @@
-exports.INCOME = "income";
-exports.EXPENDITURE = "expenditure";
-exports.ASSET = "asset";
-exports.LIABILITY = "liability";
-exports.EQUITY = "equity";
+export const INCOME = "income";
+export const EXPENDITURE = "expenditure";
+export const ASSET = "asset";
+export const LIABILITY = "liability";
+export const EQUITY = "equity";
