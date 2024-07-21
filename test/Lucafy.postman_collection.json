@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3ccc94c0-d7cb-45f0-97a5-58cc4483e3b0",
-		"name": "Accounting",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "d86c706c-96f4-4c37-b36f-fcfe57fcdf59",
+		"name": "Lucafy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37053008"
 	},
 	"item": [
 		{
@@ -34,7 +35,8 @@
 									"    pm.response.to.have.jsonSchema(schema);\r",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -46,7 +48,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@asdf##@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"dwyen\",\r\n    \"lastName\": \"johnson\",\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -476,7 +478,8 @@
 									"    pm.response.to.have.jsonSchema(schema);\r",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -488,7 +491,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"pas123123sword\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rock@mail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -781,7 +784,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"oldPassword\": \"testpassword\",\r\n    \"newPassword\": \"testpassword2\"\r\n}",
+							"raw": "{\r\n    \"oldPassword\": \"password\",\r\n    \"newPassword\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1186,9 +1189,6 @@
 					]
 				}
 			],
-			"auth": {
-				"type": "noauth"
-			},
 			"event": [
 				{
 					"listen": "prerequest",
