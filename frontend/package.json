@@ -26,17 +26,19 @@
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
+    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.2",
     "daisyui": "^2.6.0",
     "postcss": "^8.4.7",
     "react-scripts": "^5.0.0",
-    "tailwindcss": "^3.0.23"
+    "tailwindcss": "^3.0.23",
+    "vite": "^5.3.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
