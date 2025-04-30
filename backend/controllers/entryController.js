@@ -5,23 +5,46 @@ const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
 const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const { createSchema, editSchema } = require("../util/entryValidationSchema");
-const { PAGINATION_LIMIT, ENTRY_LIMIT } = require("../constants/policies");
+const {
+  DEFAULT_PAGINATION_LIMIT,
+  ENTRY_LIMIT,
+} = require("../constants/policies");
 
 const getEntries = asyncHandler(async (req, res, next) => {
   const PAGE =
     parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
 
+  const LIMIT = [DEFAULT_PAGINATION_LIMIT, 20, 50].includes(
+    parseInt(req.query.limit, 10)
+  )
+    ? parseInt(req.query.limit, 10)
+    : DEFAULT_PAGINATION_LIMIT;
+
+  const ORDER = req.query.order === "oldest" ? "created_at" : "-created_at";
+
+  const keyword =
+    req.query.keyword &&
+    typeof req.query.keyword === "string" &&
+    req.query.keyword.trim() !== ""
+      ? new RegExp(
+          req.query.keyword.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, "\\$&"),
+          "i"
+        ) // Sanitize and create the regex
+      : "";
+
   const entries = await Entry.find({ user_id: req.user.id })
-    .sort("-created_at")
+    .sort(ORDER)
+    .skip(PAGE * LIMIT)
+    .limit(LIMIT)
     .populate("debit_ledger", "-user_id -balance")
     .populate("credit_ledger", "-user_id -balance")
-    .select(["-user_id"])
-    .skip(PAGE * PAGINATION_LIMIT)
-    .limit(PAGINATION_LIMIT);
+    .select(["-user_id"]);
+  // .where("narration")
+  // .regex(keyword);
 
   const response = {
-    skip: PAGE * PAGINATION_LIMIT,
-    limit: PAGINATION_LIMIT,
+    skip: PAGE * LIMIT,
+    limit: LIMIT,
     total: await Entry.find({ user_id: req.user.id }).count(),
     entries,
   };

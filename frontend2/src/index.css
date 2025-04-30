@@ -1,1 +1,44 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+
+.react-calendar-heatmap text {
+  font-size: 8px;
+  fill: #aaa;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-small-text {
+  font-size: 4px;
+}
+
+
+/*
+ * Default color scale
+ */
+
+.react-calendar-heatmap {
+  fill: rgba(0, 0, 0, 0.15);
+}
+
+.react-calendar-heatmap .color-empty {
+  fill: rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * Color palette
+ */
+
+.react-calendar-heatmap .color-palette-1 {
+  fill: #8b5cf6;
+}
+.react-calendar-heatmap .color-palette-2 {
+  fill: #a855f7;
+}
+.react-calendar-heatmap .color-palette-3 {
+  fill: #d946ef;
+}
+.react-calendar-heatmap .color-palette-4 {
+  fill: #ec4899;
+}
+.react-calendar-heatmap .color-palette-5 {
+  fill: #f43f5e;
+}

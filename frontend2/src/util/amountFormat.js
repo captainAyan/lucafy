@@ -1,6 +1,6 @@
 import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
-export default function amountFormat(amount, format, symbol) {
+export function amountFormatLong(amount, format, symbol) {
   const a = Math.abs(amount).toString();
 
   let result = "";
@@ -17,6 +17,36 @@ export default function amountFormat(amount, format, symbol) {
 
   // currency symbol
   result = `${symbol} ${result}`;
+
+  return result;
+}
+
+export function amountFormatShort(amount, format, symbol) {
+  const a = Math.abs(amount).toString();
+
+  let result = "";
+
+  if (format === INDIAN) {
+    if (a >= 1_00_00_000) {
+      return (a / 1_00_00_000).toFixed(1) + "Cr";
+    } else if (a >= 1_00_000) {
+      return (a / 1_00_000).toFixed(1) + "L";
+    } else if (a >= 1_000) {
+      return (a / 1_000).toFixed(1) + "K";
+    } else {
+      result = `${symbol} ${a}`;
+    }
+  } else if (format === INTERNATIONAL) {
+    if (a >= 1_000_000_000) {
+      return (a / 1_000_000_000).toFixed(1) + "B";
+    } else if (a >= 1_000_000) {
+      return (a / 1_000_000).toFixed(1) + "M";
+    } else if (a >= 1_000) {
+      return (a / 1_000).toFixed(1) + "K";
+    } else {
+      result = `${symbol} ${a}`;
+    }
+  }
 
   return result;
 }

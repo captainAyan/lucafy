@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import axios from "axios";
 
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -15,6 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
+import Journal from "./pages/Journal";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function App() {
           localStorage.setItem("token", "");
           dispatch(logout());
         });
-  });
+  }, [token, dispatch]);
 
   return (
     <div className="bg-indigo-50 min-h-screen overflow-x-hidden">
@@ -42,18 +44,16 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<AuthLayout />}>
+              <Route index element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>
 
             <Route path="/" element={<MainLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/journal" element={<Journal />} />
             </Route>
           </Routes>
-        </BrowserRouter>
-
-        <BrowserRouter>
-          <Routes></Routes>
         </BrowserRouter>
 
         <ReactQueryDevtools initialIsOpen={false} />

@@ -46,52 +46,56 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white rounded-xl p-8 w-full">
-      <h1 className="text-4xl font-bold">Login</h1>
-      <div className="mt-4">
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          validationSchema={LoginSchema}
-          onSubmit={async (values) => handleSubmit(values)}
-        >
-          <Form>
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              placeholder="Email"
-              autofocus
-            />
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              placeholder="Password"
-            />
-
-            <span className="inline-block text-sm py-2 mt-1 text-red-500">
-              {helperText}
-            </span>
-
-            <Button
-              type="submit"
-              variant="primary"
-              className="mt-4"
-              isLoading={isLoading}
+    <main className="h-full flex">
+      <div className="m-auto w-96">
+        <div className="bg-white rounded-xl p-8 w-full">
+          <h1 className="text-4xl font-bold">Login</h1>
+          <div className="mt-4">
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              validationSchema={LoginSchema}
+              onSubmit={async (values) => handleSubmit(values)}
             >
-              Login
-            </Button>
-          </Form>
-        </Formik>
-        <Link to="/register">
-          <Button className="mt-2" variant="secondary">
-            Register
-          </Button>
-        </Link>
+              <Form>
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  autofocus
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+
+                <span className="inline-block text-sm py-2 mt-1 text-red-500">
+                  {helperText}
+                </span>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="mt-4"
+                  isLoading={isLoading}
+                >
+                  Login
+                </Button>
+              </Form>
+            </Formik>
+            <Link to="/register">
+              <Button className="mt-2" variant="secondary">
+                Register
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

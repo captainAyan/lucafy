@@ -37,87 +37,93 @@ export default function Register() {
   }, [user, token, errorData, responseData, navigate, dispatch]);
 
   const handleSubmit = (userData) => {
+    const { confirmPassword, ...actualUserData } = userData;
+
     setIsLoading(true);
     axios
-      .post(REGISTER_URL, userData)
+      .post(REGISTER_URL, actualUserData)
       .then(({ data }) => setResponseData(data))
       .catch((error) => setErrorData(error.response.data.error))
       .finally(() => setIsLoading(false));
   };
 
   return (
-    <div className="bg-white rounded-xl p-8 w-full">
-      <h1 className="text-4xl font-bold">Register</h1>
-      <div className="mt-4">
-        <Formik
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          validationSchema={RegisterSchema}
-          onSubmit={async (values) => handleSubmit(values)}
-        >
-          <Form>
-            <Input
-              label="First Name"
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              autofocus
-            />
-
-            <Input
-              label="Last Name"
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-            />
-
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              placeholder="Email"
-            />
-
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              placeholder="Password"
-            />
-
-            <Input
-              label="Confirm Password"
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-            />
-
-            <span className="inline-block text-sm py-2 mt-1 text-red-500">
-              {helperText}
-            </span>
-
-            <Button
-              type="submit"
-              variant="primary"
-              className="mt-4"
-              isLoading={isLoading}
+    <main className="h-full flex">
+      <div className="m-auto w-96">
+        <div className="bg-white rounded-xl p-8 w-full">
+          <h1 className="text-4xl font-bold">Register</h1>
+          <div className="mt-4">
+            <Formik
+              initialValues={{
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+              }}
+              validationSchema={RegisterSchema}
+              onSubmit={async (values) => handleSubmit(values)}
             >
-              Register
-            </Button>
-          </Form>
-        </Formik>
+              <Form>
+                <Input
+                  label="First Name"
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  autofocus
+                />
 
-        <Link to="/login">
-          <Button className="mt-2" variant="secondary">
-            Login
-          </Button>
-        </Link>
+                <Input
+                  label="Last Name"
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                />
+
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
+
+                <Input
+                  label="Password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+
+                <Input
+                  label="Confirm Password"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                />
+
+                <span className="inline-block text-sm py-2 mt-1 text-red-500">
+                  {helperText}
+                </span>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="mt-4"
+                  isLoading={isLoading}
+                >
+                  Register
+                </Button>
+              </Form>
+            </Formik>
+
+            <Link to="/login">
+              <Button className="mt-2" variant="secondary">
+                Login
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+
+import Avatar from "./Avatar";
 
 function Link({ children }) {
   return (
@@ -14,6 +17,8 @@ function Link({ children }) {
  * This header is for the authenticated layout
  */
 export function MainHeader({ toggleMenu, className }) {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <header
       className={`${className} fixed w-full bg-white text-indigo-800 z-50`}
@@ -27,10 +32,7 @@ export function MainHeader({ toggleMenu, className }) {
           <MenuIcon fontSize="medium" />
         </span>
 
-        {/* Header text */}
-        <div className="text-xl font-bold text-blue-900">
-          Admin<span className="text-indigo-800">Panel</span>
-        </div>
+        <img src="/logo-light.png" alt="Logo" className="h-8" />
 
         {/* Header menu */}
         <div className="flex items-center space-x-2">
@@ -41,11 +43,17 @@ export function MainHeader({ toggleMenu, className }) {
             <NotificationsNoneIcon fontSize="medium" />
           </Link>
 
-          <img
-            className="w-10 h-10 rounded-full"
-            src="https://i.pinimg.com/564x/de/0f/3d/de0f3d06d2c6dbf29a888cf78e4c0323.jpg"
-            alt="Profile"
-          />
+          <div className="w-10 rounded-full border-2 border-gray-300 hover:cursor-pointer hover:border-gray-600 duration-300">
+            {user ? (
+              <Avatar
+                width={20}
+                cell={5}
+                color={"#4da3ff"}
+                seed={user?.id}
+                className="rounded-full"
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </header>
@@ -56,10 +64,7 @@ export function AuthHeader({ className }) {
   return (
     <header className={`${className} w-full bg-white text-indigo-800 z-50`}>
       <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between h-16">
-        {/* Header text */}
-        <div className="text-xl font-bold text-blue-900">
-          Admin<span className="text-indigo-800">Panel</span>
-        </div>
+        <img src="/logo-light.png" alt="Logo" className="h-8" />
       </div>
     </header>
   );

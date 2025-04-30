@@ -356,36 +356,15 @@ const viewMicroStatement = asyncHandler(async (req, res, next) => {
 const viewCalendarHeatmap = asyncHandler(async (req, res, next) => {
   const user_id = mongoose.Types.ObjectId(req.user.id);
 
-  const calendarHeatMap = await Entry.aggregate([
-    {
-      $match: { user_id },
-    },
-
-    {
-      $project: {
-        yearMonthDay: {
-          $dateToString: { format: "%Y-%m-%d", date: "$created_at" },
-        },
-      },
-    },
-
-    {
-      $group: {
-        _id: "$yearMonthDay",
-        frequency: { $sum: 1 },
-      },
-    },
-
-    {
-      $project: {
-        _id: 0,
-        date: "$_id",
-        frequency: 1,
-      },
-    },
+  const timestampsDatabaseResponse = await Entry.aggregate([
+    { $match: { user_id } },
+    { $group: { _id: null, timestamps: { $push: "$created_at" } } },
+    { $project: { _id: 0, timestamps: 1 } },
   ]).exec();
 
-  res.status(StatusCodes.OK).json(calendarHeatMap);
+  res.status(StatusCodes.OK).json({
+    timestamps: timestampsDatabaseResponse[0]?.timestamps ?? [],
+  });
 });
 
 const exportJournalStatement = asyncHandler(async (req, res, next) => {
