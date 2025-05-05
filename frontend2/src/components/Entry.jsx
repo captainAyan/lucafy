@@ -13,7 +13,9 @@ export default function Entry({
 }) {
   return (
     <div
-      className={`w-full bg-white rounded-xl px-6 py-4 flex flex-col ${className}`}
+      className={`bg-white rounded-xl px-6 py-4 flex flex-col ${
+        className || ""
+      }`}
     >
       <p className="text-xs font-thin break-all uppercase">
         <Link to={`/entry/${id}`} className="link text-blue-500">
@@ -28,22 +30,22 @@ export default function Entry({
         <div className="flex flex-col">
           <div>
             <Link to={`/ledger/${debit?._id}`} title={debit?.description}>
-              <h1 className="text-xl font-bold capitalize truncate">
-                {debit?.name} A/c
+              <h1 className="text-xl font-bold truncate">
+                <span className="capitalize">{debit?.name}</span> A/c
               </h1>
             </Link>
           </div>
 
           <div className="mt-1 w-full">
             <Link to={`/ledger/${credit?._id}`} title={credit?.description}>
-              <h1 className="text-2lg font-thin capitalize truncate">
-                {credit?.name} A/c
+              <h1 className="text-2lg font-thin truncate">
+                To <span className="capitalize">{credit?.name}</span> A/c
               </h1>
             </Link>
           </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-thin break-all py-3">
+        <div className="flex flex-col justify-center">
+          <h1 className="text-3xl font-thin break-all ">
             <Amount amount={amount} />
           </h1>
         </div>

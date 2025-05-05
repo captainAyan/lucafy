@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+
 import Entry from "../components/Entry";
 import useMicroStatementDate from "../hooks/useMicroStatementData";
 import { useJournalDataHook } from "../hooks/useEntryDataHook";
@@ -14,190 +17,80 @@ export default function Dashboard() {
   const { data: microstatementData } = useMicroStatementDate(token);
 
   const [entries, setEntries] = useState({});
-  const { data: entriesData } = useJournalDataHook(token, 0, "newest", 10, "");
+  const { data: entriesData } = useJournalDataHook(token, 0, "newest", 4, "");
 
   useEffect(() => {
     setStatement(microstatementData?.data);
+  }, [microstatementData]);
 
-    if (entriesData) {
-      const firstThreeEntries = entriesData?.entries?.splice(0, 3);
-
-      entriesData.entries = firstThreeEntries;
-      setEntries(entriesData?.data);
-    }
-  }, [microstatementData, entriesData]);
+  useEffect(() => {
+    setEntries(entriesData?.data);
+  }, [entriesData]);
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="flex-1 bg-blue-100 border border-blue-200 rounded-xl p-6 animate-fade-in">
+      <div className="grid gap-4 md:grid-cols-2 mb-6">
+        <div className="bg-blue-100 border border-blue-200 rounded-xl p-6 animate-fade-in">
           <h2 className="text-4xl md:text-5xl text-blue-900 max-w-xs truncate">
             Welcome
             <br />
             <strong>{user?.firstName}</strong>
           </h2>
-          <span className="inline-block mt-8 px-8 py-2 rounded-full text-xl font-bold text-white bg-blue-700">
+          <span className="inline-block mt-8 px-6 py-2 rounded-full text-md text-white bg-blue-700">
             👑 Premium
           </span>
         </div>
 
-        <div className="flex-1 bg-indigo-100 border border-indigo-200 rounded-xl p-6 animate-fade-in">
+        <div className="bg-indigo-100 border border-indigo-200 rounded-xl p-6 animate-fade-in">
           <h2 className="text-4xl md:text-5xl text-indigo-900">
             {entries?.total == 1 ? "Entry" : "Entries"}
             <br />
-            <strong>{entries?.total}</strong>
+            <strong>{entries?.total || "-"}</strong>
           </h2>
-          <a
-            href="#"
-            className="inline-block mt-8 px-8 py-2 rounded-full text-xl font-bold text-white bg-indigo-600 hover:bg-indigo-800"
+          <button
+            type="submit"
+            className="py-2 px-6 mt-8 bg-indigo-600 text-white text-md rounded-full focus:outline-none focus:ring-4 ring-indigo-200 hover:bg-indigo-800 hover:cursor-pointer"
           >
             Create Entry
-          </a>
+          </button>
         </div>
       </div>
 
-      <section className="grid gap-4 md:grid-cols-3 max-w-5xl mx-auto w-full mb-6">
-        <div className="p-6 bg-white rounded-2xl">
-          <div className="space-y-2">
-            <div className="text-sm font-medium text-gray-500">
-              Total Income
-            </div>
+      <h3 className="text-2xl font-bold mb-4">Stats</h3>
 
-            <div
-              className="text-5xl font-light md:text-6xl"
-              title={amountFormatLong(
-                statement?.income || 0,
-                amountFormat,
-                currency
-              )}
-            >
-              {amountFormatShort(
-                statement?.income || 0,
-                amountFormat,
-                currency
-              )}
-            </div>
+      <section className="grid gap-4 md:grid-cols-3 mb-6">
+        <StatCard
+          title="Total Income"
+          subtitle="Extra Info TBA"
+          amount={statement?.income}
+          amountFormat={amountFormat}
+          currency={currency}
+          trend={1}
+          icon={<TrendingUpIcon />}
+        />
 
-            <div className="flex items-center space-x-1 text-sm font-medium text-green-500">
-              <span>32k increase</span>
+        <StatCard
+          title="Net Income"
+          subtitle="Extra Info TBA"
+          amount={statement?.income - statement?.expenditure}
+          amountFormat={amountFormat}
+          currency={currency}
+          trend={-1}
+          icon={<TrendingDownIcon />}
+        />
 
-              <svg
-                className="w-7 h-7"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17.25 15.25V6.75H8.75"
-                ></path>
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17 7L6.75 17.25"
-                ></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6 bg-white rounded-2xl">
-          <div className="space-y-2">
-            <div className="text-sm font-medium text-gray-500">Net Income</div>
-
-            <div
-              className="text-5xl font-light md:text-6xl"
-              title={amountFormatLong(
-                statement?.income - statement?.expenditure || 0,
-                amountFormat,
-                currency
-              )}
-            >
-              {amountFormatShort(
-                statement?.income - statement?.expenditure || 0,
-                amountFormat,
-                currency
-              )}
-            </div>
-
-            <div className="flex items-center space-x-1 text-sm font-medium text-red-500">
-              <span>7% increase</span>
-
-              <svg
-                className="w-7 h-7"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17.25 8.75V17.25H8.75"
-                ></path>
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17 17L6.75 6.75"
-                ></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6 bg-white rounded-2xl">
-          <div className="space-y-2">
-            <div className="text-sm font-medium text-gray-500">Total Asset</div>
-
-            <div
-              className="text-5xl font-light md:text-6xl"
-              title={amountFormatLong(
-                statement?.asset || 0,
-                amountFormat,
-                currency
-              )}
-            >
-              {amountFormatShort(statement?.asset || 0, amountFormat, currency)}
-            </div>
-
-            <div className="flex items-center space-x-1 text-sm font-medium text-green-500">
-              <span>3% increase</span>
-
-              <svg
-                className="w-7 h-7"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17.25 15.25V6.75H8.75"
-                ></path>
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M17 7L6.75 17.25"
-                ></path>
-              </svg>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Total Assets"
+          subtitle="Extra Info TBA"
+          amount={statement?.asset}
+          amountFormat={amountFormat}
+          currency={currency}
+          trend={-1}
+          icon={<TrendingDownIcon />}
+        />
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3 max-w-5xl mx-auto w-full mb-6">
+      <section className="grid gap-4 md:grid-cols-3 mb-6">
         <div className="bg-white rounded-2xl col-span-2">
           <div className="px-6 pt-6 pb-4 space-y-2">
             <div className="text-sm font-medium text-gray-500">Activity</div>
@@ -208,20 +101,52 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <div className="mb-6">
-        <h3 className="text-2xl font-bold mb-4">Latest Entries</h3>
+      <h3 className="text-2xl font-bold mb-4">Latest Entries</h3>
+      {/* Empty view */}
+      {entries?.entries?.length === 0 && (
+        <div className="w-full bg-white rounded-xl pb-4">
+          <h1 className="text-xl text-center py-8">No entries</h1>
+        </div>
+      )}
+      <div className="grid gap-4 md:grid-cols-2 mb-6">
         {entries?.entries?.map((entry) => {
-          return (
-            <Entry
-              className="mb-4"
-              key={entry.id}
-              {...entry}
-              currencyFormat={amountFormat}
-              currencySymbol={currency}
-            />
-          );
+          return <Entry className="w-full" key={entry.id} {...entry} />;
         })}
       </div>
     </>
+  );
+}
+
+function StatCard({
+  title,
+  subtitle,
+  icon,
+  amount,
+  amountFormat,
+  currency,
+  trend,
+}) {
+  return (
+    <div className="p-6 bg-white rounded-2xl">
+      <div className="space-y-2">
+        <div className="text-sm font-medium text-gray-500">{title}</div>
+
+        <div
+          className="text-5xl font-light md:text-6xl"
+          title={amountFormatLong(amount || 0, amountFormat, currency)}
+        >
+          {amountFormatShort(amount || 0, amountFormat, currency)}
+        </div>
+
+        <div
+          className={`flex items-center space-x-1 text-sm font-medium ${
+            trend > 0 ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          <span>{subtitle}</span>
+          <div className="h-6">{icon}</div>
+        </div>
+      </div>
+    </div>
   );
 }

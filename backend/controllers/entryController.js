@@ -11,41 +11,42 @@ const {
 } = require("../constants/policies");
 
 const getEntries = asyncHandler(async (req, res, next) => {
-  const PAGE =
+  const page =
     parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
 
-  const LIMIT = [DEFAULT_PAGINATION_LIMIT, 20, 50].includes(
-    parseInt(req.query.limit, 10)
-  )
-    ? parseInt(req.query.limit, 10)
-    : DEFAULT_PAGINATION_LIMIT;
+  const limit =
+    [DEFAULT_PAGINATION_LIMIT, 20, 50].includes(
+      parseInt(req.query.limit, 10)
+    ) || parseInt(req.query.limit, 10) < DEFAULT_PAGINATION_LIMIT
+      ? parseInt(req.query.limit, 10)
+      : DEFAULT_PAGINATION_LIMIT;
 
-  const ORDER = req.query.order === "oldest" ? "created_at" : "-created_at";
+  const order = req.query.order === "oldest" ? "created_at" : "-created_at";
 
-  const keyword =
-    req.query.keyword &&
-    typeof req.query.keyword === "string" &&
-    req.query.keyword.trim() !== ""
-      ? new RegExp(
-          req.query.keyword.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, "\\$&"),
-          "i"
-        ) // Sanitize and create the regex
-      : "";
+  const query = { user_id: req.user.id };
 
-  const entries = await Entry.find({ user_id: req.user.id })
-    .sort(ORDER)
-    .skip(PAGE * LIMIT)
-    .limit(LIMIT)
+  const { keyword } = req.query;
+  if (keyword && typeof keyword === "string") {
+    const trimmedKeyword = keyword.trim();
+    const escapedKeyword = trimmedKeyword.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+    query.narration = { $regex: escapedKeyword, $options: "i" };
+  }
+
+  const entries = await Entry.find(query)
+    .sort(order)
+    .skip(page * limit)
+    .limit(limit)
     .populate("debit_ledger", "-user_id -balance")
     .populate("credit_ledger", "-user_id -balance")
     .select(["-user_id"]);
-  // .where("narration")
-  // .regex(keyword);
 
   const response = {
-    skip: PAGE * LIMIT,
-    limit: LIMIT,
-    total: await Entry.find({ user_id: req.user.id }).count(),
+    skip: page * limit,
+    limit,
+    total: await Entry.find(query).count(),
     entries,
   };
 

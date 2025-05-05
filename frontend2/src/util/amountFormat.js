@@ -1,6 +1,6 @@
 import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
-export function amountFormatLong(amount, format, symbol) {
+export function amountFormatLong(amount, format, currencySymbol) {
   const a = Math.abs(amount).toString();
 
   let result = "";
@@ -16,37 +16,39 @@ export function amountFormatLong(amount, format, symbol) {
   }
 
   // currency symbol
-  result = `${symbol} ${result}`;
+  result = `${currencySymbol}${result}`;
 
   return result;
 }
 
-export function amountFormatShort(amount, format, symbol) {
+export function amountFormatShort(amount, format, currencySymbol) {
   const a = Math.abs(amount).toString();
 
   let result = "";
 
   if (format === INDIAN) {
     if (a >= 1_00_00_000) {
-      return (a / 1_00_00_000).toFixed(1) + "Cr";
+      result = (a / 1_00_00_000).toFixed(1) + "Cr";
     } else if (a >= 1_00_000) {
-      return (a / 1_00_000).toFixed(1) + "L";
+      result = (a / 1_00_000).toFixed(1) + "L";
     } else if (a >= 1_000) {
-      return (a / 1_000).toFixed(1) + "K";
+      result = (a / 1_000).toFixed(1) + "K";
     } else {
-      result = `${symbol} ${a}`;
+      result = a;
     }
   } else if (format === INTERNATIONAL) {
     if (a >= 1_000_000_000) {
-      return (a / 1_000_000_000).toFixed(1) + "B";
+      result = (a / 1_000_000_000).toFixed(1) + "B";
     } else if (a >= 1_000_000) {
-      return (a / 1_000_000).toFixed(1) + "M";
+      result = (a / 1_000_000).toFixed(1) + "M";
     } else if (a >= 1_000) {
-      return (a / 1_000).toFixed(1) + "K";
+      result = (a / 1_000).toFixed(1) + "K";
     } else {
-      result = `${symbol} ${a}`;
+      result = a;
     }
   }
+
+  result = `${currencySymbol}${result}`;
 
   return result;
 }

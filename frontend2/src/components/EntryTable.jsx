@@ -43,7 +43,7 @@ export function EntryTable({ children }) {
             scope="col"
             className="ps-2 pe-4 py-3 text-start text-xs font-bold text-gray-500 uppercase"
           >
-            Description
+            Narration
           </th>
         </tr>
       </thead>
@@ -76,7 +76,7 @@ export function EntryTableRow({
           title={debit?.description}
           className="hover:underline"
         >
-          {debit?.name} A/c
+          <span className="capitalize">{debit?.name}</span> A/c
         </Link>
       </td>
       <td className="px-2 py-4 whitespace-nowrap text-sm font-normal text-indigo-600">
@@ -85,7 +85,7 @@ export function EntryTableRow({
           title={credit?.description}
           className="hover:underline"
         >
-          {credit?.name} A/c
+          <span className="capitalize">{credit?.name}</span> A/c
         </Link>
       </td>
       <td className="px-2 py-4 whitespace-nowrap text-end text-sm font-normal">

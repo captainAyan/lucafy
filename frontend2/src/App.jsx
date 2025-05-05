@@ -12,11 +12,13 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Journal from "./pages/Journal";
+import ViewEntry from "./pages/ViewEntry";
+import ViewLedger from "./pages/ViewLedger";
 
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
-import Journal from "./pages/Journal";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +54,9 @@ function App() {
             <Route path="/" element={<MainLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/journal" element={<Journal />} />
+
+              <Route path="/entry/:id" element={<ViewEntry />} />
+              <Route path="/ledger/:id" element={<ViewLedger />} />
             </Route>
           </Routes>
         </BrowserRouter>

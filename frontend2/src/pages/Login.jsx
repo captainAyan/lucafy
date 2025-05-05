@@ -7,7 +7,8 @@ import axios from "axios";
 import { login } from "../features/authSlice";
 import { LOGIN_URL } from "../constants/api";
 import { LoginSchema } from "../util/userValidationSchema";
-import { Button, Input } from "../components/Form";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ export default function Login() {
                 <Button
                   type="submit"
                   variant="primary"
-                  className="mt-4"
+                  className="mt-4 h-12 w-full"
                   isLoading={isLoading}
                 >
                   Login
@@ -89,7 +90,7 @@ export default function Login() {
               </Form>
             </Formik>
             <Link to="/register">
-              <Button className="mt-2" variant="secondary">
+              <Button className="mt-2 h-12 w-full" variant="secondary">
                 Register
               </Button>
             </Link>

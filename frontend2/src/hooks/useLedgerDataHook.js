@@ -31,9 +31,11 @@ export function useAddLedgerHook(token) {
 
 export function useLedgerStatementDataHook(token, id, page) {
   const query = new URLSearchParams({ page });
-  return useQuery(["ledger-statement", id, page], () =>
-    axios.get(`${GET_LEDGER_STATEMENT_URL}${id}?${query}`, authConfig(token))
-  );
+  return useQuery({
+    queryKey: ["ledger-statement", id, page],
+    queryFn: () =>
+      axios.get(`${GET_LEDGER_STATEMENT_URL}${id}?${query}`, authConfig(token)),
+  });
 }
 
 export function useLedgerDataHook(token, id) {
