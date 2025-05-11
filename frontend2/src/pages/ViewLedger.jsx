@@ -95,7 +95,16 @@ export default function ViewLedger() {
                 </div>
               </div>
               <div className="flex flex-col justify-center">
-                <h1 className="text-3xl font-thin break-all ">
+                <h1
+                  className={`text-3xl font-thin break-all ${
+                    balanceIsNegative(
+                      statement?.ledger?.type,
+                      statement?.balance
+                    )
+                      ? "text-red-500"
+                      : null
+                  }`}
+                >
                   <Amount amount={statement?.balance} />
                 </h1>
               </div>
@@ -156,7 +165,7 @@ export default function ViewLedger() {
                   type="submit"
                   className="h-full"
                   variant="secondary"
-                  // isLoading={isLoading}
+                  isLoading={isLoading}
                 >
                   Search
                 </Button>
