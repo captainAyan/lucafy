@@ -64,7 +64,7 @@ export default function ViewEntry() {
         {/* Entry view */}
         {fetchedData && !isFetching && <Entry classname="w-full" {...entry} />}
 
-        <div className="px-6 pt-2">
+        <div className="px-4 pt-2">
           {/* Edit form opening button */}
           {!isEditMode && isFetchingSuccess && (
             <Button

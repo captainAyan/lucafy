@@ -1,24 +1,33 @@
 const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("express-async-handler");
 const json2csv = require("json2csv");
+const mongoose = require("mongoose");
 
 const Entry = require("../models/entryModel");
 const Ledger = require("../models/ledgerModel");
 const { ErrorResponse } = require("../middlewares/errorMiddleware");
-const { PAGINATION_LIMIT } = require("../constants/policies");
+const { DEFAULT_PAGINATION_LIMIT } = require("../constants/policies");
 const { INCOME, EXPENDITURE, ASSET } = require("../constants/ledgerTypes");
-const mongoose = require("mongoose");
 
 const viewLedgerStatement = asyncHandler(async (req, res, next) => {
-  const { id: ledger_id } = req.params;
-  const PAGE =
+  const { id: ledgerId } = req.params;
+  const page =
     parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 0;
+
+  const limit =
+    [DEFAULT_PAGINATION_LIMIT, 20, 50].includes(
+      parseInt(req.query.limit, 10)
+    ) || parseInt(req.query.limit, 10) < DEFAULT_PAGINATION_LIMIT
+      ? parseInt(req.query.limit, 10)
+      : DEFAULT_PAGINATION_LIMIT;
+
+  const order = req.query.order === "oldest" ? "created_at" : "-created_at";
 
   let ledger;
 
   try {
     ledger = await Ledger.findOne({
-      _id: ledger_id,
+      _id: ledgerId,
       user_id: req.user.id,
     }).select(["-user_id"]);
   } catch (error) {
@@ -33,18 +42,18 @@ const viewLedgerStatement = asyncHandler(async (req, res, next) => {
   // TODO issue when there is no entry pertaining to the ledger
 
   const entriesCount = await Entry.find({
-    $or: [{ debit_ledger: ledger._id }, { credit_ledger: ledger._id }],
+    $or: [{ debit_ledger: ledger.id }, { credit_ledger: ledger.id }],
   }).count();
 
   const entries = await Entry.find({
-    $or: [{ debit_ledger: ledger._id }, { credit_ledger: ledger._id }],
+    $or: [{ debit_ledger: ledger.id }, { credit_ledger: ledger.id }],
   })
-    .sort("-created_at")
+    .sort(order)
     .populate("debit_ledger", "-user_id -balance")
     .populate("credit_ledger", "-user_id -balance")
     .select(["-user_id"])
-    .skip(PAGE * PAGINATION_LIMIT)
-    .limit(PAGINATION_LIMIT);
+    .skip(page * limit)
+    .limit(limit);
 
   let balance = 0;
 
@@ -90,14 +99,14 @@ const viewLedgerStatement = asyncHandler(async (req, res, next) => {
     ]).exec();
   }
 
-  const normalized_balance = ledger.balance;
+  const normalizedBalance = ledger.balance;
   delete ledger._doc.balance; // removing the normalized balance from response
 
   res.status(StatusCodes.OK).json({
-    skip: PAGE * PAGINATION_LIMIT,
-    limit: PAGINATION_LIMIT,
+    skip: page * limit,
+    limit,
     total: entriesCount,
-    balance: balance + normalized_balance,
+    balance: balance + normalizedBalance,
     ledger,
     entries,
   });

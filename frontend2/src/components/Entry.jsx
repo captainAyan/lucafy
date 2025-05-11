@@ -12,11 +12,7 @@ export default function Entry({
   className,
 }) {
   return (
-    <div
-      className={`bg-white rounded-xl px-6 py-4 flex flex-col ${
-        className || ""
-      }`}
-    >
+    <div className={`bg-white rounded-xl p-4 flex flex-col ${className || ""}`}>
       <p className="text-xs font-thin break-all uppercase">
         <Link to={`/entry/${id}`} className="link text-blue-500">
           <span>#{id}</span>

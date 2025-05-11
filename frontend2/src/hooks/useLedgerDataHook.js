@@ -29,10 +29,16 @@ export function useAddLedgerHook(token) {
   );
 }
 
-export function useLedgerStatementDataHook(token, id, page) {
-  const query = new URLSearchParams({ page });
+export function useLedgerStatementDataHook(
+  token,
+  id,
+  page = 1,
+  order = "newest",
+  limit = 10
+) {
+  const query = new URLSearchParams({ page, order, limit });
   return useQuery({
-    queryKey: ["ledger-statement", id, page],
+    queryKey: ["ledger-statement", id, page, order, limit],
     queryFn: () =>
       axios.get(`${GET_LEDGER_STATEMENT_URL}${id}?${query}`, authConfig(token)),
   });
