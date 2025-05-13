@@ -11,9 +11,10 @@ import {
 import authConfig from "../util/authConfig";
 
 export function useAllLedgerDataHook(token) {
-  return useQuery(["ledgers"], () =>
-    axios.get(`${GET_ALL_LEDGER_URL}`, authConfig(token))
-  );
+  return useQuery({
+    queryKey: ["ledgers"],
+    queryFn: () => axios.get(`${GET_ALL_LEDGER_URL}`, authConfig(token)),
+  });
 }
 
 export function useAddLedgerHook(token) {
@@ -45,9 +46,10 @@ export function useLedgerStatementDataHook(
 }
 
 export function useLedgerDataHook(token, id) {
-  return useQuery(["ledger", id], () =>
-    axios.get(`${GET_LEDGER_URL}${id}`, authConfig(token))
-  );
+  return useQuery({
+    queryKey: ["ledger", id],
+    queryFn: () => axios.get(`${GET_LEDGER_URL}${id}`, authConfig(token)),
+  });
 }
 
 export function useEditLedgerHook(token, id) {

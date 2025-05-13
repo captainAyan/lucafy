@@ -62,7 +62,7 @@ export function EntryTableRow({
 }) {
   return (
     <tr>
-      <td className="py-4 ps-4 pe-2 text-sm">
+      <td className="py-4 ps-4 pe-2 text-sm font-mono uppercase">
         <Link to={`/entry/${id}`} className="hover:underline text-indigo-600">
           {"#" + String(id).slice(-6)}
         </Link>

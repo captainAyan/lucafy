@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import ViewEntry from "./pages/ViewEntry";
 import ViewLedger from "./pages/ViewLedger";
+import SelectLedger from "./pages/SelectLedger";
 
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
@@ -54,6 +55,7 @@ function App() {
             <Route path="/" element={<MainLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/journal" element={<Journal />} />
+              <Route path="/ledgers" element={<SelectLedger />} />
 
               <Route path="/entry/:id" element={<ViewEntry />} />
               <Route path="/ledger/:id" element={<ViewLedger />} />

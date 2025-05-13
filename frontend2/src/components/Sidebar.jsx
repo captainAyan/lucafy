@@ -38,7 +38,11 @@ export default function Sidebar({ className }) {
           icon={<PostAddOutlinedIcon />}
           title="Journal"
         />
-        <SidebarButton href="#" icon={<FolderOutlinedIcon />} title="Ledger" />
+        <SidebarButton
+          to={"/ledgers"}
+          icon={<FolderOutlinedIcon />}
+          title="Ledgers"
+        />
       </div>
 
       <div className="bg-white rounded-xl p-4 transition-all duration-300">

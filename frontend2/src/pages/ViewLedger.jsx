@@ -27,10 +27,6 @@ export default function ViewLedger() {
   });
 
   useEffect(() => {
-    navigate(`?page=${page}`);
-  }, [navigate, page]);
-
-  useEffect(() => {
     const query = new URLSearchParams({ page, ...filter });
     navigate(`/ledger/${id}?${query}`, { replace: true });
   }, [page, filter, navigate, id]);
@@ -70,8 +66,8 @@ export default function ViewLedger() {
         {/* Ledger account overview */}
         {data && !isLoading && (
           <div className="bg-white rounded-xl p-4 flex flex-col">
-            <p className="text-xs font-thin break-all uppercase">
-              <span>#{id}</span>
+            <p className="text-sm font-thin break-all uppercase">
+              <span className="font-mono">#{id}</span>
               <span className="ml-2">
                 <Time time={statement?.ledger?.created_at} />
               </span>
