@@ -68,7 +68,7 @@ export default function ViewEntry() {
           {/* Edit form opening button */}
           {!isEditMode && isFetchingSuccess && (
             <Button
-              className="h-12 w-auto"
+              className="h-12 w-auto px-4"
               onClick={() => {
                 setIsEditMode(true);
               }}
@@ -111,7 +111,7 @@ export default function ViewEntry() {
                     <div className="mt-2">
                       <Button
                         type="submit"
-                        className="h-12 w-auto"
+                        className="h-12 w-auto px-4"
                         isLoading={isSavingEdit}
                       >
                         {isEditSuccess
@@ -123,7 +123,7 @@ export default function ViewEntry() {
 
                       <Button
                         variant="secondary"
-                        className="h-12 w-auto ms-4"
+                        className="h-12 w-auto ms-4 px-4"
                         onClick={() => setIsEditMode(false)}
                       >
                         Cancel

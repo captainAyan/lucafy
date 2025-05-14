@@ -6,13 +6,13 @@ export default function Button({
   ...attr
 }) {
   const baseStyles =
-    "inline-flex items-center justify-center rounded-lg px-4 font-medium text-sm uppercase cursor-pointer disabled:cursor-not-allowed duration-300 focus:ring-4 ring-indigo-200 focus:outline-none";
+    "inline-flex items-center justify-center rounded-lg font-medium text-sm uppercase cursor-pointer disabled:cursor-not-allowed duration-300 focus:ring-4 focus:outline-none";
 
   const variants = {
     primary:
-      "bg-indigo-500 text-white hover:bg-indigo-600  disabled:bg-indigo-300",
+      "bg-indigo-500 text-white ring-indigo-200 hover:bg-indigo-600  disabled:bg-indigo-300",
     secondary:
-      "bg-white text-indigo-500 border-1 border-indigo-500 hover:bg-indigo-600 hover:text-white disabled:bg-indigo-300",
+      "bg-white text-indigo-500 ring-indigo-200 border-1 border-indigo-500 ring-indigo-200 hover:bg-indigo-600 hover:text-white disabled:bg-indigo-300",
   };
 
   return (

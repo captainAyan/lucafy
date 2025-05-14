@@ -77,10 +77,10 @@ export default function SelectLedger() {
                   </Field>
                 </div>
 
-                <div className="flex items-center h-12 ms-6">
+                <div className="flex items-center h-12 ms-4">
                   <Button
                     type="submit"
-                    className="h-full"
+                    className="h-full px-4"
                     variant="secondary"
                     isLoading={isLoading}
                   >

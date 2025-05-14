@@ -107,7 +107,7 @@ export default function Journal() {
               <div className="flex items-center h-12 ms-6">
                 <Button
                   type="submit"
-                  className="h-full"
+                  className="h-full px-4"
                   variant="secondary"
                   isLoading={isLoading}
                 >

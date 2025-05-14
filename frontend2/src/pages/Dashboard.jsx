@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import AddIcon from "@mui/icons-material/Add";
 
 import Entry from "../components/Entry";
 import useMicroStatementDate from "../hooks/useMicroStatementData";
 import { useJournalDataHook } from "../hooks/useEntryDataHook";
 import { amountFormatLong, amountFormatShort } from "../util/amountFormat";
 import ActivityHeatMap from "../components/ActivityHeatMap";
+import Button from "../components/Button";
 
 export default function Dashboard() {
   const { user, token } = useSelector((state) => state.auth);
@@ -34,7 +36,7 @@ export default function Dashboard() {
           <h2 className="text-4xl md:text-5xl text-blue-900 max-w-xs truncate">
             Welcome
             <br />
-            <strong>{user?.firstName}</strong>
+            <strong>{user?.firstName || "-"}</strong>
           </h2>
           <span className="inline-block mt-8 px-6 py-2 rounded-full text-md text-white bg-blue-700">
             👑 Premium
@@ -47,12 +49,10 @@ export default function Dashboard() {
             <br />
             <strong>{entries?.total || "-"}</strong>
           </h2>
-          <button
-            type="submit"
-            className="py-2 px-6 mt-8 bg-indigo-600 text-white text-md rounded-full focus:outline-none focus:ring-4 ring-indigo-200 hover:bg-indigo-800 hover:cursor-pointer"
-          >
+          <Button className="!rounded-full h-10 ps-4 pe-6 mt-8">
+            <AddIcon className="me-1" />
             Create Entry
-          </button>
+          </Button>
         </div>
       </div>
 
