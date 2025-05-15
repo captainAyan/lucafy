@@ -6,7 +6,7 @@ import { Formik, Form } from "formik";
 import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Entry from "../components/Entry";
 import Button from "../components/Button";
-import Textarea from "../components/Textarea";
+import Textarea from "../components/form/Textarea";
 import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policies";
 import { EntryEditSchema } from "../util/entryValidationSchema";
 

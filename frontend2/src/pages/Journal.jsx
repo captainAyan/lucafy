@@ -8,6 +8,8 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useJournalDataHook } from "../hooks/useEntryDataHook";
 import { EntryTable, EntryTableRow } from "../components/EntryTable";
 import Button from "../components/Button";
+import FilterSelectInput from "../components/form/FilterSelectInput";
+import FilterTextInput from "../components/form/FilterTextInput";
 
 export default function Journal() {
   const navigate = useNavigate();
@@ -49,60 +51,38 @@ export default function Journal() {
         >
           <Form>
             <div className="p-4 flex">
-              <div className="flex items-center h-12">
-                <div className="h-full relative w-56 border-1 border-gray-300 rounded-lg">
-                  <label htmlFor="keyword" className="sr-only">
-                    Search
-                  </label>
-                  <Field
-                    type="text"
-                    name="keyword"
-                    className="h-full py-1.5 sm:py-2 px-3 ps-10 block w-full border-gray-300 shadow-xs rounded-lg sm:text-sm focus:outline-none focus:ring-4 ring-indigo-200 duration-300"
-                    placeholder="Search for entries"
+              <FilterTextInput
+                placeholder="Search by keyword"
+                name="keyword"
+                className="h-12"
+                inputClassName="ps-10"
+              >
+                <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                  <SearchOutlinedIcon
+                    fontSize="small"
+                    className="text-gray-400"
                   />
-                  <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-                    <SearchOutlinedIcon
-                      fontSize="small"
-                      className="text-gray-400"
-                    />
-                  </div>
                 </div>
-              </div>
+              </FilterTextInput>
 
-              <div className="flex items-center h-12 ms-6">
-                <label
-                  htmlFor="order"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Order
-                </label>
-                <Field
-                  as="select"
-                  name="order"
-                  className="h-full ms-2 px-2 border border-gray-300 rounded-lg shadow-xs focus:outline-none focus:ring-4 ring-indigo-200 text-sm hover:cursor-pointer duration-300"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                </Field>
-              </div>
+              <FilterSelectInput
+                label="Order"
+                name="order"
+                className="h-12 ms-6"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+              </FilterSelectInput>
 
-              <div className="flex items-center h-12 ms-6">
-                <label
-                  htmlFor="limit"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Limit
-                </label>
-                <Field
-                  as="select"
-                  name="limit"
-                  className="h-full ms-2 px-2 border border-gray-300 rounded-lg shadow-xs focus:outline-none focus:ring-4 ring-indigo-200 text-sm hover:cursor-pointer duration-300"
-                >
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </Field>
-              </div>
+              <FilterSelectInput
+                label="Limit"
+                name="limit"
+                className="h-12 ms-6"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </FilterSelectInput>
 
               <div className="flex items-center h-12 ms-6">
                 <Button

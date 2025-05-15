@@ -8,7 +8,7 @@ import { register } from "../features/authSlice";
 import { REGISTER_URL } from "../constants/api";
 import { RegisterSchema } from "../util/userValidationSchema";
 import Button from "../components/Button";
-import Input from "../components/Input";
+import Input from "../components/form/Input";
 
 export default function Register() {
   const navigate = useNavigate();

@@ -16,10 +16,13 @@ import Journal from "./pages/Journal";
 import ViewEntry from "./pages/ViewEntry";
 import ViewLedger from "./pages/ViewLedger";
 import SelectLedger from "./pages/SelectLedger";
+import CreateEntry from "./pages/CreateEntry";
+import CreateLedger from "./pages/CreateLedger";
 
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
+import CreateMenu from "./pages/CreateMenu";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,7 +60,12 @@ function App() {
               <Route path="/journal" element={<Journal />} />
               <Route path="/ledgers" element={<SelectLedger />} />
 
+              <Route path="/create" element={<CreateMenu />} />
+
+              <Route path="/entry" element={<CreateEntry />} />
               <Route path="/entry/:id" element={<ViewEntry />} />
+
+              <Route path="/ledger" element={<CreateLedger />} />
               <Route path="/ledger/:id" element={<ViewLedger />} />
             </Route>
           </Routes>

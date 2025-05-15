@@ -1,15 +1,19 @@
 import { useSelector } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
+import AddIcon from "@mui/icons-material/Add";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { NavLink } from "react-router-dom";
 
 import Avatar from "./Avatar";
 
-function Link({ children }) {
+function NavLinkButton({ children, className = "", ...attr }) {
   return (
-    <span className="text-2xl cursor-pointer w-10 h-10 px-2 hover:bg-indigo-100 rounded-md text-indigo-800 transition-all duration-300">
+    <button
+      className={`inline-flex items-center cursor-pointer w-10 h-10 px-2 hover:bg-indigo-100 rounded-md text-gray-800 border-0 focus:outline-none focus:ring-4 ring-indigo-200 duration-300 ${className}`}
+      {...attr}
+    >
       {children}
-    </span>
+    </button>
   );
 }
 
@@ -25,23 +29,22 @@ export function MainHeader({ toggleMenu, className }) {
     >
       <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between h-16">
         {/* Menu icon */}
-        <span
-          onClick={toggleMenu}
-          className="text-2xl cursor-pointer w-10 h-10 px-2 lg:hidden hover:bg-indigo-100 rounded-md text-indigo-800 transition-all duration-300"
-        >
+        <NavLinkButton onClick={toggleMenu} className="lg:hidden">
           <MenuIcon fontSize="medium" />
-        </span>
+        </NavLinkButton>
 
         <img src="/logo-light.png" alt="Logo" className="h-8" />
 
         {/* Header menu */}
-        <div className="flex items-center space-x-2">
-          <Link>
-            <SearchIcon fontSize="medium" />
-          </Link>
-          <Link>
+        <div className="flex items-center space-x-4">
+          <NavLink to="/create">
+            <NavLinkButton>
+              <AddIcon fontSize="medium" />
+            </NavLinkButton>
+          </NavLink>
+          <NavLinkButton>
             <NotificationsNoneIcon fontSize="medium" />
-          </Link>
+          </NavLinkButton>
 
           <div className="w-10 rounded-full border-2 border-gray-300 hover:cursor-pointer hover:border-gray-600 duration-300">
             {user ? (

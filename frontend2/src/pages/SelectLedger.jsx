@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import FilterSelectInput from "../components/form/FilterSelectInput";
 
 export default function SelectLedger() {
   const { token } = useSelector((state) => state.auth);
@@ -53,29 +54,18 @@ export default function SelectLedger() {
           >
             <Form>
               <div className="p-4 flex">
-                <div className="flex items-center h-12">
-                  <label
-                    htmlFor="ledger"
-                    className="text-sm font-medium text-gray-700"
-                  >
-                    Ledger
-                  </label>
-                  <Field
-                    as="select"
-                    name="ledger"
-                    className="h-full ms-2 px-2 capitalize border border-gray-300 rounded-lg shadow-xs focus:outline-none focus:ring-4 ring-indigo-200 text-sm hover:cursor-pointer duration-300"
-                  >
-                    {ledgers?.map((ledger) => (
-                      <option
-                        value={ledger.id}
-                        key={ledger.id}
-                        className="capitalize"
-                      >
-                        {ledger.name} A/c
-                      </option>
-                    ))}
-                  </Field>
-                </div>
+                <FilterSelectInput
+                  name="ledger"
+                  label="Ledger"
+                  className="h-12"
+                  inputClassName="capitalize"
+                >
+                  {ledgers?.map((ledger) => (
+                    <option value={ledger.id} key={ledger.id}>
+                      {ledger.name} A/c
+                    </option>
+                  ))}
+                </FilterSelectInput>
 
                 <div className="flex items-center h-12 ms-4">
                   <Button

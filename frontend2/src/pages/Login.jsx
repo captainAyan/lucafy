@@ -8,7 +8,7 @@ import { login } from "../features/authSlice";
 import { LOGIN_URL } from "../constants/api";
 import { LoginSchema } from "../util/userValidationSchema";
 import Button from "../components/Button";
-import Input from "../components/Input";
+import Input from "../components/form/Input";
 
 export default function Login() {
   const navigate = useNavigate();

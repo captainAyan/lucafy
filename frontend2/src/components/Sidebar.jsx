@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 function SidebarButton({ children, icon, title, to }) {
   return (
     <Link to={to}>
-      <span className="flex items-center text-gray-600 px-2 py-3 my-1 hover:bg-indigo-100 rounded-lg hover:text-indigo-800 cursor-pointer transition-all duration-300">
+      <span className="flex items-center text-gray-600 px-2 py-3 my-1 hover:bg-indigo-100 rounded-lg cursor-pointer transition-all duration-300">
         <span className="mr-2">{icon}</span>
         {title}
         <span className="ml-auto">

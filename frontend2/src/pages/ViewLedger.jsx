@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import ReactPaginate from "react-paginate";
 
 import balanceIsNegative from "../util/balanceIsNegative";
@@ -10,6 +10,7 @@ import Time from "../components/Time";
 import Amount from "../components/Amount";
 import { EntryTable, EntryTableRow } from "../components/EntryTable";
 import Button from "../components/Button";
+import FilterSelectInput from "../components/form/FilterSelectInput";
 
 export default function ViewLedger() {
   const { token } = useSelector((state) => state.auth);
@@ -121,51 +122,29 @@ export default function ViewLedger() {
         >
           <Form>
             <div className="px-4 pb-4 flex">
-              <div className="flex items-center h-12">
-                <label
-                  htmlFor="order"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Order
-                </label>
-                <Field
-                  as="select"
-                  name="order"
-                  className="h-full ms-2 px-2 border border-gray-300 rounded-lg shadow-xs focus:outline-none focus:ring-4 ring-indigo-200 text-sm hover:cursor-pointer duration-300"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                </Field>
-              </div>
+              <FilterSelectInput label="Order" name="order" className="h-12">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+              </FilterSelectInput>
 
-              <div className="flex items-center h-12 ms-6">
-                <label
-                  htmlFor="limit"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Limit
-                </label>
-                <Field
-                  as="select"
-                  name="limit"
-                  className="h-full ms-2 px-2 border border-gray-300 rounded-lg shadow-xs focus:outline-none focus:ring-4 ring-indigo-200 text-sm hover:cursor-pointer duration-300"
-                >
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </Field>
-              </div>
+              <FilterSelectInput
+                label="Limit"
+                name="limit"
+                className="h-12 ms-6"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </FilterSelectInput>
 
-              <div className="flex items-center h-12 ms-6">
-                <Button
-                  type="submit"
-                  className="h-full px-4"
-                  variant="secondary"
-                  isLoading={isLoading}
-                >
-                  Search
-                </Button>
-              </div>
+              <Button
+                type="submit"
+                className="h-12 px-4 ms-6"
+                variant="secondary"
+                isLoading={isLoading}
+              >
+                Search
+              </Button>
             </div>
           </Form>
         </Formik>
