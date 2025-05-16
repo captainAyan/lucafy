@@ -59,7 +59,7 @@ export default function ViewLedger() {
               There was an error.
             </h1>
             <p className="text-sm text-center pb-8">
-              {error?.response?.data?.error?.message}
+              {isError && error?.response?.data?.error?.message}
             </p>
           </div>
         )}

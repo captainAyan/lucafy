@@ -75,9 +75,9 @@ export default function Login() {
                   placeholder="Password"
                 />
 
-                <span className="inline-block text-sm py-2 mt-1 text-red-500">
+                <p className="inline-block text-sm py-2 mt-1 text-red-500">
                   {helperText}
-                </span>
+                </p>
 
                 <Button
                   type="submit"

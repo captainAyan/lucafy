@@ -10,6 +10,7 @@ import { useJournalDataHook } from "../hooks/useEntryDataHook";
 import { amountFormatLong, amountFormatShort } from "../util/amountFormat";
 import ActivityHeatMap from "../components/ActivityHeatMap";
 import Button from "../components/Button";
+import { NavLink } from "react-router-dom";
 
 export default function Dashboard() {
   const { user, token } = useSelector((state) => state.auth);
@@ -49,10 +50,12 @@ export default function Dashboard() {
             <br />
             <strong>{entries?.total || "-"}</strong>
           </h2>
-          <Button className="!rounded-full h-10 ps-4 pe-6 mt-8">
-            <AddIcon className="me-1" />
-            Create Entry
-          </Button>
+          <NavLink to="/entry">
+            <Button className="!rounded-full h-10 ps-4 pe-6 mt-8">
+              <AddIcon className="me-1" />
+              Create Entry
+            </Button>
+          </NavLink>
         </div>
       </div>
 

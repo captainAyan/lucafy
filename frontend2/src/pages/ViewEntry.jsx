@@ -15,31 +15,18 @@ export default function ViewEntry() {
   const { id } = useParams();
   const [entry, setEntry] = useState({});
 
-  const {
-    isLoading: isFetching,
-    error: fetchingError,
-    isSuccess: isFetchingSuccess,
-    isError: isFetchingError,
-    data: fetchedData,
-  } = useEntryDataHook(token, id);
+  const entryData = useEntryDataHook(token, id);
 
   useEffect(() => {
-    if (isFetchingSuccess) setEntry(fetchedData?.data);
-  }, [fetchedData, isFetchingSuccess]);
+    if (entryData?.isSuccess) setEntry(entryData?.data?.data);
+  }, [entryData?.data, entryData?.isSuccess]);
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const {
-    mutate: editEntry,
-    data: editedData,
-    isPending: isSavingEdit,
-    isError: isEditError,
-    error: editError,
-    isSuccess: isEditSuccess,
-  } = useEditEntryHook(token, id);
+  const editEntry = useEditEntryHook(token, id);
 
   useEffect(() => {
-    if (isEditSuccess) setEntry(editedData?.data);
-  }, [editedData, isEditSuccess]);
+    if (editEntry?.isSuccess) setEntry(editEntry?.data?.data);
+  }, [editEntry?.data, editEntry?.isSuccess]);
 
   return (
     <>
@@ -47,26 +34,31 @@ export default function ViewEntry() {
 
       <div className="bg-white rounded-xl pb-4">
         {/* Loading view */}
-        {isFetching && <h1 className="text-xl text-center py-8">Loading...</h1>}
+        {entryData?.isLoading && (
+          <h1 className="text-xl text-center py-8">Loading...</h1>
+        )}
         {/* Error view */}
-        {isFetchingError && (
+        {entryData?.isError && (
           <div className="text-red-500">
             <h1 className="text-4xl text-center pt-8">😢</h1>
             <h1 className="text-xl text-center pt-4 pb-2">
               There was an error.
             </h1>
             <p className="text-sm text-center pb-8">
-              {fetchingError?.response?.data?.error?.message}
+              {entryData.isError &&
+                entryData?.error?.response?.data?.error?.message}
             </p>
           </div>
         )}
 
         {/* Entry view */}
-        {fetchedData && !isFetching && <Entry classname="w-full" {...entry} />}
+        {entryData?.data && !entryData?.isLoading && (
+          <Entry classname="w-full" {...entry} />
+        )}
 
         <div className="px-4 pt-2">
           {/* Edit form opening button */}
-          {!isEditMode && isFetchingSuccess && (
+          {!isEditMode && entryData?.isSuccess && (
             <Button
               className="h-12 w-auto px-4"
               onClick={() => {
@@ -83,7 +75,7 @@ export default function ViewEntry() {
                 initialValues={{ narration: entry.narration }}
                 validationSchema={EntryEditSchema}
                 onSubmit={(values) => {
-                  editEntry(values);
+                  editEntry.mutate(values);
                 }}
               >
                 {({ values }) => (
@@ -95,7 +87,8 @@ export default function ViewEntry() {
                     />
 
                     <p className="text-red-500 text-sm text-left">
-                      {isEditError && editError?.response?.data?.error?.message}
+                      {editEntry?.isError &&
+                        editEntry?.error?.response?.data?.error?.message}
                     </p>
 
                     <span
@@ -112,11 +105,11 @@ export default function ViewEntry() {
                       <Button
                         type="submit"
                         className="h-12 w-auto px-4"
-                        isLoading={isSavingEdit}
+                        isLoading={editEntry?.isPending}
                       >
-                        {isEditSuccess
+                        {editEntry?.isSuccess
                           ? "Saved 🎉"
-                          : isSavingEdit
+                          : editEntry?.isPending
                           ? "Saving..."
                           : "Save"}
                       </Button>

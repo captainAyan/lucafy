@@ -16,7 +16,7 @@ export default function SelectLedger() {
   const [ledgers, setLedgers] = useState([]);
 
   useEffect(() => {
-    setLedgers(data?.data?.ledgers);
+    if (isSuccess) setLedgers(data?.data?.ledgers);
   }, [data, isSuccess]);
 
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function SelectLedger() {
               There was an error.
             </h1>
             <p className="text-sm text-center pb-8">
-              {error?.response?.data?.error?.message}
+              {isError && error?.response?.data?.error?.message}
             </p>
           </div>
         )}
