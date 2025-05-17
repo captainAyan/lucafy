@@ -19,15 +19,14 @@ export function useAllLedgerDataHook(token) {
 
 export function useAddLedgerHook(token) {
   const queryClient = useQueryClient();
-  return useMutation(
-    (ledger) => axios.post(CREATE_LEDGER_URL, ledger, authConfig(token)),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries("ledgers");
-        queryClient.setQueryData(["ledger", data?.data?.id], data);
-      },
-    }
-  );
+  return useMutation({
+    mutationFn: (ledger) =>
+      axios.post(CREATE_LEDGER_URL, ledger, authConfig(token)),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("ledgers");
+      queryClient.setQueryData(["ledger", data?.data?.id], data);
+    },
+  });
 }
 
 export function useLedgerStatementDataHook(
