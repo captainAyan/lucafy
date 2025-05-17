@@ -18,6 +18,7 @@ import ViewLedger from "./pages/ViewLedger";
 import SelectLedger from "./pages/SelectLedger";
 import CreateEntry from "./pages/CreateEntry";
 import CreateLedger from "./pages/CreateLedger";
+import { ToastContainer, Bounce } from "react-toastify";
 
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
@@ -73,6 +74,19 @@ function App() {
 
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 }

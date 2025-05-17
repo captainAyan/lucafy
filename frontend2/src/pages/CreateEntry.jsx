@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
 
 import Input from "../components/form/Input";
 import Textarea from "../components/form/Textarea";
@@ -22,6 +23,14 @@ export default function CreateEntry() {
   }, [allLedgersFetching?.data, allLedgersFetching?.isSuccess]);
 
   const addEntry = useAddEntryHook(token);
+
+  const notifyEntrySaveSuccess = () => toast.success("Entry saved");
+  const notifyEntrySaveError = () => toast.error("Cannot save entry");
+
+  useEffect(() => {
+    if (addEntry?.isSuccess) notifyEntrySaveSuccess();
+    if (addEntry?.isError) notifyEntrySaveError();
+  }, [addEntry?.isSuccess, addEntry?.isError]);
 
   return (
     <>
@@ -57,7 +66,10 @@ export default function CreateEntry() {
                 amount: 0,
                 narration: "",
               }}
-              onSubmit={async (values) => addEntry.mutate(values)}
+              onSubmit={async (values, { resetForm }) => {
+                addEntry.mutate(values);
+                resetForm();
+              }}
             >
               {({ values }) => (
                 <Form>

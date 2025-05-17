@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
+import { toast } from "react-toastify";
 
 import { useEditEntryHook, useEntryDataHook } from "../hooks/useEntryDataHook";
 import Entry from "../components/Entry";
@@ -27,6 +28,14 @@ export default function ViewEntry() {
   useEffect(() => {
     if (editEntry?.isSuccess) setEntry(editEntry?.data?.data);
   }, [editEntry?.data, editEntry?.isSuccess]);
+
+  const notifyEntrySaveSuccess = () => toast.success("Update saved");
+  const notifyEntrySaveError = () => toast.error("Cannot update entry");
+
+  useEffect(() => {
+    if (editEntry?.isSuccess) notifyEntrySaveSuccess();
+    if (editEntry?.isError) notifyEntrySaveError();
+  }, [editEntry?.isSuccess, editEntry?.isError]);
 
   return (
     <>
