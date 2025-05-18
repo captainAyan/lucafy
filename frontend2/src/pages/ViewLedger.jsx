@@ -67,7 +67,7 @@ export default function ViewLedger() {
         {/* Ledger account overview */}
         {data && !isLoading && (
           <div className="bg-white rounded-xl p-4 flex flex-col">
-            <p className="text-sm font-normal break-all uppercase">
+            <p className="text-sm break-all uppercase">
               <span className="font-mono">#{id}</span>
               <span className="ml-2">
                 <Time time={statement?.ledger?.created_at} />
@@ -86,14 +86,14 @@ export default function ViewLedger() {
                 </div>
 
                 <div className="mt-1 w-full">
-                  <h1 className="text-2lg font-normal truncate capitalize">
+                  <h1 className="text-2lg truncate capitalize">
                     {statement?.ledger?.type}
                   </h1>
                 </div>
               </div>
               <div className="flex flex-col justify-center">
                 <h1
-                  className={`text-3xl font-normal break-all ${
+                  className={`text-3xl break-all ${
                     balanceIsNegative(
                       statement?.ledger?.type,
                       statement?.balance

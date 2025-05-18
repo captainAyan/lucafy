@@ -13,7 +13,7 @@ export default function Entry({
 }) {
   return (
     <div className={`bg-white rounded-xl p-4 flex flex-col ${className || ""}`}>
-      <p className="text-sm font-normal break-all uppercase">
+      <p className="text-sm break-all uppercase">
         <Link to={`/entry/${id}`} className="link text-blue-500 font-mono">
           <span>#{id}</span>
         </Link>
@@ -34,14 +34,14 @@ export default function Entry({
 
           <div className="mt-1 w-full">
             <Link to={`/ledger/${credit?._id}`} title={credit?.description}>
-              <h1 className="text-2lg font-normal truncate">
+              <h1 className="text-2lg truncate">
                 To <span className="capitalize">{credit?.name}</span> A/c
               </h1>
             </Link>
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-normal break-all ">
+          <h1 className="text-3xl break-all ">
             <Amount amount={amount} />
           </h1>
         </div>

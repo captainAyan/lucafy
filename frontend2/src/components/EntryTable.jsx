@@ -67,10 +67,10 @@ export function EntryTableRow({
           {"#" + String(id).slice(-6)}
         </Link>
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm font-normal">
+      <td className="px-2 py-4 whitespace-nowrap text-sm">
         <Time time={created_at} />
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm font-normal text-indigo-600">
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-indigo-600">
         <Link
           to={`/ledger/${debit?._id}`}
           title={debit?.description}
@@ -79,7 +79,7 @@ export function EntryTableRow({
           <span className="capitalize">{debit?.name}</span> A/c
         </Link>
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm font-normal text-indigo-600">
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-indigo-600">
         <Link
           to={`/ledger/${credit?._id}`}
           title={credit?.description}
@@ -88,12 +88,10 @@ export function EntryTableRow({
           <span className="capitalize">{credit?.name}</span> A/c
         </Link>
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-end text-sm font-normal">
+      <td className="px-2 py-4 whitespace-nowrap text-end text-sm">
         <Amount amount={amount} />
       </td>
-      <td className="pe-4 ps-2 py-4 text-start text-sm font-normal">
-        {narration}
-      </td>
+      <td className="pe-4 ps-2 py-4 text-start text-sm">{narration}</td>
     </tr>
   );
 }

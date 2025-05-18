@@ -18,12 +18,14 @@ import ViewLedger from "./pages/ViewLedger";
 import SelectLedger from "./pages/SelectLedger";
 import CreateEntry from "./pages/CreateEntry";
 import CreateLedger from "./pages/CreateLedger";
-import { ToastContainer, Bounce } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
 import CreateMenu from "./pages/CreateMenu";
+import About from "./pages/About";
+import Page404 from "./pages/Page404";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +52,8 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
+            <Route path="/about" element={<About />} />
+
             <Route path="/" element={<AuthLayout />}>
               <Route index element={<Landing />} />
               <Route path="/login" element={<Login />} />
@@ -69,24 +73,14 @@ function App() {
               <Route path="/ledger" element={<CreateLedger />} />
               <Route path="/ledger/:id" element={<ViewLedger />} />
             </Route>
+
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </BrowserRouter>
 
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
+      <ToastContainer position="bottom-right" autoClose={5000} />
     </div>
   );
 }

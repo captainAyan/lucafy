@@ -5,7 +5,7 @@ import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function SidebarButton({ children, icon, title, to }) {
   return (
@@ -44,7 +44,6 @@ export default function Sidebar({ className }) {
           title="Ledgers"
         />
       </div>
-
       <div className="bg-white rounded-xl p-4 transition-all duration-300">
         <SidebarButton href="#" icon={<FaceOutlinedIcon />} title="Profile" />
         <SidebarButton
@@ -57,6 +56,28 @@ export default function Sidebar({ className }) {
           icon={<PowerSettingsNewOutlinedIcon />}
           title="Logout"
         />
+      </div>
+
+      <div className="px-2 py-4 text-xs">
+        <NavLink to="/about" className="text-gray-500 hover:underline">
+          About Us
+        </NavLink>
+        <span className="mx-2">&middot;</span>
+        <NavLink to="/about#privacy" className="text-gray-500 hover:underline">
+          Privacy Policy
+        </NavLink>
+        <span className="mx-2">&middot;</span>
+        <NavLink to="/about#tnc" className="text-gray-500 hover:underline">
+          Terms & Conditions
+        </NavLink>
+        <span className="mx-2">&middot;</span>
+        <a
+          href="https://github.com/captainAyan/lucafy/issues"
+          target="_blank"
+          className="text-gray-500 hover:underline"
+        >
+          Report Issue
+        </a>
       </div>
     </aside>
   );
