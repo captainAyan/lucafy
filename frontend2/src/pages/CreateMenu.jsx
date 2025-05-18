@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 
 import Button from "../components/Button";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function CreateMenu() {
   return (
@@ -15,12 +15,12 @@ export default function CreateMenu() {
             <br />
             <strong>Entry</strong>
           </h2>
-          <NavLink to="/entry">
+          <Link to="/entry">
             <Button className="!rounded-full h-10 ps-4 pe-6 mt-8">
               <AddIcon className="me-1" />
               Create
             </Button>
-          </NavLink>
+          </Link>
         </div>
 
         <div className="bg-indigo-100 border border-indigo-200 rounded-xl p-6 animate-fade-in">
@@ -30,12 +30,12 @@ export default function CreateMenu() {
             <strong>Ledgers</strong>
           </h2>
 
-          <NavLink to="/ledger">
+          <Link to="/ledger">
             <Button className="!rounded-full h-10 ps-4 pe-6 mt-8">
               <AddIcon className="me-1" />
               Create
             </Button>
-          </NavLink>
+          </Link>
         </div>
 
         <div className="bg-red-100 border border-red-200 rounded-xl p-6 animate-fade-in">

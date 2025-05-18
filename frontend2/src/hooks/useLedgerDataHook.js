@@ -38,7 +38,7 @@ export function useLedgerStatementDataHook(
 ) {
   const query = new URLSearchParams({ page, order, limit });
   return useQuery({
-    queryKey: ["ledger-statement", id, page, order, limit],
+    queryKey: ["ledger-statement", id, query.toString()],
     queryFn: () =>
       axios.get(`${GET_LEDGER_STATEMENT_URL}${id}?${query}`, authConfig(token)),
   });
@@ -53,14 +53,13 @@ export function useLedgerDataHook(token, id) {
 
 export function useEditLedgerHook(token, id) {
   const queryClient = useQueryClient();
-  return useMutation(
-    (ledger) => axios.put(`${EDIT_LEDGER_URL}${id}`, ledger, authConfig(token)),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData(["ledger", id], (oldQueryData) => {
-          return { ...oldQueryData, data: { ...data?.data } };
-        });
-      },
-    }
-  );
+  return useMutation({
+    mutationKey: ["ledger", id],
+    mutationFn: (ledger) =>
+      axios.put(`${EDIT_LEDGER_URL}${id}`, ledger, authConfig(token)),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["ledger-statement", id]);
+      queryClient.setQueryData(["ledger", id], data);
+    },
+  });
 }

@@ -14,7 +14,10 @@ export default function Entry({
   return (
     <div className={`bg-white rounded-xl p-4 flex flex-col ${className || ""}`}>
       <p className="text-sm break-all uppercase">
-        <Link to={`/entry/${id}`} className="link text-blue-500 font-mono">
+        <Link
+          to={`/entry/${id}`}
+          className="link text-blue-500 font-mono hover:underline"
+        >
           <span>#{id}</span>
         </Link>
         <span className="ml-2">

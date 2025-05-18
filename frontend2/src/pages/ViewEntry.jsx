@@ -41,10 +41,10 @@ export default function ViewEntry() {
     <>
       <h1 className="text-4xl font-bold text-left mb-4">Entry</h1>
 
-      <div className="bg-white rounded-xl pb-4">
+      <div className="bg-white rounded-xl">
         {/* Loading view */}
         {entryData?.isLoading && (
-          <h1 className="text-xl text-center py-8">Loading...</h1>
+          <h1 className="text-xl text-center py-4">Loading...</h1>
         )}
         {/* Error view */}
         {entryData?.isError && (
@@ -62,81 +62,83 @@ export default function ViewEntry() {
 
         {/* Entry view */}
         {entryData?.data && !entryData?.isLoading && (
-          <Entry classname="w-full" {...entry} />
-        )}
+          <>
+            <Entry classname="w-full" {...entry} />
 
-        <div className="px-4 pt-2">
-          {/* Edit form opening button */}
-          {!isEditMode && entryData?.isSuccess && (
-            <Button
-              className="h-12 w-auto px-4"
-              onClick={() => {
-                setIsEditMode(true);
-              }}
-            >
-              Edit
-            </Button>
-          )}
+            {/* Entry edit view */}
+            <div className="px-4 pb-4">
+              {/* Edit form opening button */}
+              {!isEditMode && entryData?.isSuccess && (
+                <Button
+                  className="h-12 w-auto px-4"
+                  onClick={() => {
+                    setIsEditMode(true);
+                  }}
+                >
+                  Edit
+                </Button>
+              )}
 
-          {isEditMode && (
-            <div>
-              <Formik
-                initialValues={{ narration: entry.narration }}
-                validationSchema={EntryEditSchema}
-                onSubmit={(values) => {
-                  editEntry.mutate(values);
-                }}
-              >
-                {({ values }) => (
-                  <Form>
-                    <Textarea
-                      label="Narration"
-                      placeholder="New narration"
-                      name="narration"
-                    />
+              {isEditMode && (
+                <Formik
+                  initialValues={{ narration: entry.narration }}
+                  validationSchema={EntryEditSchema}
+                  onSubmit={(values) => {
+                    editEntry.mutate(values);
+                  }}
+                >
+                  {({ values }) => (
+                    <Form>
+                      <Textarea
+                        label="Narration"
+                        placeholder="New narration"
+                        name="narration"
+                      />
 
-                    <p className="text-red-500 text-sm text-left">
-                      {editEntry?.isError &&
-                        editEntry?.error?.response?.data?.error?.message}
-                    </p>
+                      <p className="text-red-500 text-sm text-left">
+                        {editEntry?.isError &&
+                          editEntry?.error?.response?.data?.error?.message}
+                      </p>
 
-                    <span
-                      className={`text-sm ${
-                        values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
-                          ? "text-red-500"
-                          : null
-                      }`}
-                    >
-                      ({values?.narration?.length}/{ENTRY_NARRATION_MAX_LENGTH})
-                    </span>
-
-                    <div className="mt-2">
-                      <Button
-                        type="submit"
-                        className="h-12 w-auto px-4"
-                        isLoading={editEntry?.isPending}
+                      <span
+                        className={`text-sm ${
+                          values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
+                            ? "text-red-500"
+                            : null
+                        }`}
                       >
-                        {editEntry?.isSuccess
-                          ? "Saved 🎉"
-                          : editEntry?.isPending
-                          ? "Saving..."
-                          : "Save"}
-                      </Button>
+                        ({values?.narration?.length}/
+                        {ENTRY_NARRATION_MAX_LENGTH})
+                      </span>
 
-                      <Button
-                        variant="secondary"
-                        className="h-12 w-auto ms-4 px-4"
-                        onClick={() => setIsEditMode(false)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
+                      <div className="mt-2">
+                        <Button
+                          type="submit"
+                          className="h-12 w-auto px-4"
+                          isLoading={editEntry?.isPending}
+                        >
+                          {editEntry?.isSuccess
+                            ? "Saved 🎉"
+                            : editEntry?.isPending
+                            ? "Saving..."
+                            : "Save"}
+                        </Button>
+
+                        <Button
+                          variant="secondary"
+                          className="h-12 w-auto ms-4 px-4"
+                          onClick={() => setIsEditMode(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </>
   );

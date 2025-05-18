@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function About() {
   return (
@@ -6,11 +6,11 @@ export default function About() {
       <main className="mt-4 max-w-2xl mx-auto p-4 bg-white rounded-xl">
         <h1 className="text-4xl font-bold mb-4 text-center">About Us</h1>
         <center className="mb-4">
-          <NavLink to="/">
+          <Link to="/">
             <span className="text-md text-gray-500 hover:underline">
               Home <span aria-hidden="true">&rarr;</span>
             </span>
-          </NavLink>
+          </Link>
         </center>
         <section>
           <p className="mb-8">

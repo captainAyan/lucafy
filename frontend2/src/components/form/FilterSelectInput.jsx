@@ -10,7 +10,6 @@ export default function FilterSelectInput({
   inputClassName = "",
   ...attr
 }) {
-  console.log(children);
   return (
     <fieldset className={`${className}`} {...attr}>
       <label

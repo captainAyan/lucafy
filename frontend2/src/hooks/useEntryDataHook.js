@@ -21,17 +21,23 @@ export function useAddEntryHook(token) {
     mutationFn: (entry) =>
       axios.post(CREATE_ENTRY_URL, entry, authConfig(token)),
     onSuccess: (data) => {
-      queryClient.invalidateQueries("journal");
+      queryClient.invalidateQueries(["journal"]);
       queryClient.setQueryData(["entry", data?.data?.id], data);
     },
   });
 }
 
 export function useEditEntryHook(token, id) {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["entry", id],
     mutationFn: (entry) =>
       axios.put(`${EDIT_ENTRY_URL}${id}`, entry, authConfig(token)),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["journal"]);
+      queryClient.setQueryData(["entry", id], data);
+    },
   });
 }
 

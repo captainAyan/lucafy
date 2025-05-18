@@ -18,7 +18,7 @@ import { useAddLedgerHook } from "../hooks/useLedgerDataHook";
 import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policies";
 import LedgerSchema from "../util/ledgerValidationSchema";
 
-export default function CreateELedger() {
+export default function CreateLedger() {
   const { token } = useSelector((state) => state.auth);
 
   const addLedger = useAddLedgerHook(token);
@@ -35,87 +35,85 @@ export default function CreateELedger() {
     <>
       <h1 className="text-4xl font-bold text-left mb-4">Create Entry</h1>
 
-      <div className="bg-white rounded-xl mb-4">
-        <div className="p-4">
-          <Formik
-            enableReinitialize={true}
-            validationSchema={LedgerSchema}
-            initialValues={{
-              name: "",
-              type: ASSET,
-              description: "",
-            }}
-            onSubmit={async (values, { resetForm }) => {
-              addLedger.mutate(values);
-              resetForm();
-            }}
-          >
-            {({ values }) => (
-              <Form>
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
-                  <Input
-                    label="Name"
-                    type="text"
-                    name="name"
-                    placeholder="Name"
+      <div className="bg-white rounded-xl p-4">
+        <Formik
+          enableReinitialize={true}
+          validationSchema={LedgerSchema}
+          initialValues={{
+            name: "",
+            type: ASSET,
+            description: "",
+          }}
+          onSubmit={async (values, { resetForm }) => {
+            addLedger.mutate(values);
+            resetForm();
+          }}
+        >
+          {({ values }) => (
+            <Form>
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                <Input
+                  label="Name"
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                />
+
+                <SelectInput label="Type" name="type">
+                  <option value={ASSET}>Asset</option>
+                  <option value={LIABILITY}>Liability</option>
+                  <option value={INCOME}>Income</option>
+                  <option value={EXPENDITURE}>Expenditure</option>
+                  <option value={EQUITY}>Equity</option>
+                </SelectInput>
+
+                <div>
+                  <Textarea
+                    label="Description"
+                    placeholder="Description"
+                    name="description"
                   />
-
-                  <SelectInput label="Type" name="type">
-                    <option value={ASSET}>Asset</option>
-                    <option value={LIABILITY}>Liability</option>
-                    <option value={INCOME}>Income</option>
-                    <option value={EXPENDITURE}>Expenditure</option>
-                    <option value={EQUITY}>Equity</option>
-                  </SelectInput>
-
-                  <div>
-                    <Textarea
-                      label="Description"
-                      placeholder="Description"
-                      name="description"
-                    />
-                    <span
-                      className={`text-sm ${
-                        values?.narration?.length >
-                        LEDGER_DESCRIPTION_MAX_LENGTH
-                          ? "text-red-500"
-                          : null
-                      }`}
-                    >
-                      ({values?.description?.length}/
-                      {LEDGER_DESCRIPTION_MAX_LENGTH})
-                    </span>
-                  </div>
+                  <span
+                    className={`text-sm ${
+                      values?.description?.length >
+                      LEDGER_DESCRIPTION_MAX_LENGTH
+                        ? "text-red-500"
+                        : null
+                    }`}
+                  >
+                    ({values?.description?.length}/
+                    {LEDGER_DESCRIPTION_MAX_LENGTH})
+                  </span>
                 </div>
+              </div>
 
-                <p className="text-red-500 text-sm text-left">
-                  {addLedger?.isError &&
-                    addLedger?.error?.response?.data?.error?.message}
-                </p>
+              <p className="text-red-500 text-sm text-left">
+                {addLedger?.isError &&
+                  addLedger?.error?.response?.data?.error?.message}
+              </p>
 
-                <Button
-                  type="submit"
-                  className="h-12 w-auto px-4 mt-2"
-                  isLoading={addLedger.isPending}
-                >
-                  {addLedger?.isSuccess
-                    ? "Saved 🎉"
-                    : addLedger?.isPending
-                    ? "Saving..."
-                    : "Save"}
-                </Button>
+              <Button
+                type="submit"
+                className="h-12 w-auto px-4 mt-2"
+                isLoading={addLedger.isPending}
+              >
+                {addLedger?.isSuccess
+                  ? "Saved 🎉"
+                  : addLedger?.isPending
+                  ? "Saving..."
+                  : "Save"}
+              </Button>
 
-                <Button
-                  type="reset"
-                  className="h-12 w-auto px-4 mt-2 ms-4"
-                  variant="secondary"
-                >
-                  Reset
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </div>
+              <Button
+                type="reset"
+                className="h-12 w-auto px-4 mt-2 ms-4"
+                variant="secondary"
+              >
+                Reset
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </>
   );

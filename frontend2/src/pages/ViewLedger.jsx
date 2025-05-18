@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+  useSearchParams,
+  Link,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Form, Formik } from "formik";
 import ReactPaginate from "react-paginate";
@@ -50,7 +55,7 @@ export default function ViewLedger() {
 
       <div className="bg-white rounded-xl">
         {/* Loading view */}
-        {isLoading && <h1 className="text-xl text-center py-8">Loading...</h1>}
+        {isLoading && <h1 className="text-xl text-center p-4">Loading...</h1>}
         {/* Error view */}
         {isError && (
           <div className="text-red-500">
@@ -66,51 +71,58 @@ export default function ViewLedger() {
 
         {/* Ledger account overview */}
         {data && !isLoading && (
-          <div className="bg-white rounded-xl p-4 flex flex-col">
-            <p className="text-sm break-all uppercase">
-              <span className="font-mono">#{id}</span>
-              <span className="ml-2">
-                <Time time={statement?.ledger?.created_at} />
-              </span>
-            </p>
+          <>
+            <div className="p-4 flex flex-col">
+              <p className="text-sm break-all uppercase">
+                <span className="font-mono">#{id}</span>
+                <span className="ml-2">
+                  <Time time={statement?.ledger?.created_at} />
+                </span>
+              </p>
 
-            <div className="flex flex-row justify-between w-full mt-1">
-              <div className="flex flex-col">
-                <div>
-                  <h1 className="text-xl font-bold truncate">
-                    <span className="capitalize">
-                      {statement?.ledger?.name}
-                    </span>{" "}
-                    A/c
-                  </h1>
+              <div className="flex flex-row justify-between w-full mt-1">
+                <div className="flex flex-col">
+                  <div className="inline-flex">
+                    <h1 className="text-xl font-bold truncate">
+                      <span className="capitalize">
+                        {statement?.ledger?.name}
+                      </span>{" "}
+                      A/c
+                    </h1>
+                    <Link to={`/ledger/${id}/edit`}>
+                      <Button className="h-full px-4 ms-4" variant="secondary">
+                        Edit
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <div className="mt-1 w-full">
+                    <h1 className="text-2lg truncate capitalize">
+                      {statement?.ledger?.type}
+                    </h1>
+                  </div>
                 </div>
-
-                <div className="mt-1 w-full">
-                  <h1 className="text-2lg truncate capitalize">
-                    {statement?.ledger?.type}
+                <div className="flex flex-col justify-center">
+                  <h1
+                    className={`text-3xl break-all ${
+                      balanceIsNegative(
+                        statement?.ledger?.type,
+                        statement?.balance
+                      )
+                        ? "text-red-500"
+                        : null
+                    }`}
+                  >
+                    <Amount amount={statement?.balance} />
                   </h1>
                 </div>
               </div>
-              <div className="flex flex-col justify-center">
-                <h1
-                  className={`text-3xl break-all ${
-                    balanceIsNegative(
-                      statement?.ledger?.type,
-                      statement?.balance
-                    )
-                      ? "text-red-500"
-                      : null
-                  }`}
-                >
-                  <Amount amount={statement?.balance} />
-                </h1>
-              </div>
+
+              <p className="text-sm break-words text-justify mt-1">
+                ({statement?.ledger?.description})
+              </p>
             </div>
-
-            <p className="text-sm break-words text-justify mt-1">
-              ({statement?.ledger?.description})
-            </p>
-          </div>
+          </>
         )}
 
         <Formik
@@ -186,7 +198,7 @@ export default function ViewLedger() {
           <h1 className="text-xl text-center py-8">No entries</h1>
         )}
 
-        <div className="py-1 px-4 my-2">
+        <div className="p-4">
           <ReactPaginate
             previousLabel={"«"}
             nextLabel={"»"}

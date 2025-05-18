@@ -134,7 +134,7 @@ export default function Journal() {
         {data?.data?.entries?.length === 0 && (
           <h1 className="text-xl text-center py-8">No entries</h1>
         )}
-        <div className="py-1 px-4 my-2">
+        <div className="p-4">
           <ReactPaginate
             previousLabel={"«"}
             nextLabel={"»"}

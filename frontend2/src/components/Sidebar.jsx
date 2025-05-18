@@ -9,7 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function SidebarButton({ children, icon, title, to }) {
   return (
-    <Link to={to}>
+    <NavLink to={to}>
       <span className="flex items-center text-gray-600 px-2 py-3 my-1 hover:bg-indigo-100 rounded-lg cursor-pointer transition-all duration-300">
         <span className="mr-2">{icon}</span>
         {title}
@@ -18,7 +18,7 @@ function SidebarButton({ children, icon, title, to }) {
         </span>
         {children}
       </span>
-    </Link>
+    </NavLink>
   );
 }
 
@@ -59,17 +59,17 @@ export default function Sidebar({ className }) {
       </div>
 
       <div className="px-2 py-4 text-xs">
-        <NavLink to="/about" className="text-gray-500 hover:underline">
+        <Link to="/about" className="text-gray-500 hover:underline">
           About Us
-        </NavLink>
+        </Link>
         <span className="mx-2">&middot;</span>
-        <NavLink to="/about#privacy" className="text-gray-500 hover:underline">
+        <Link to="/about#privacy" className="text-gray-500 hover:underline">
           Privacy Policy
-        </NavLink>
+        </Link>
         <span className="mx-2">&middot;</span>
-        <NavLink to="/about#tnc" className="text-gray-500 hover:underline">
+        <Link to="/about#tnc" className="text-gray-500 hover:underline">
           Terms & Conditions
-        </NavLink>
+        </Link>
         <span className="mx-2">&middot;</span>
         <a
           href="https://github.com/captainAyan/lucafy/issues"

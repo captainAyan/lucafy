@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Button from "../components/Button";
 
@@ -16,9 +16,9 @@ export default function Page404() {
             Sorry, we couldn&apos;t find the page you&apos;re looking for.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <NavLink to="/">
+            <Link to="/">
               <Button className="h-12 px-4 !capitalize">Go back home</Button>
-            </NavLink>
+            </Link>
             <a href="#" className="text-sm font-semibold text-gray-900">
               Contact support <span aria-hidden="true">&rarr;</span>
             </a>

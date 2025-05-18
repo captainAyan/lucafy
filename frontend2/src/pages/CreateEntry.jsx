@@ -36,10 +36,10 @@ export default function CreateEntry() {
     <>
       <h1 className="text-4xl font-bold text-left mb-4">Create Entry</h1>
 
-      <div className="bg-white rounded-xl mb-4">
+      <div className="bg-white rounded-xl p-4">
         {/* Loading view */}
         {allLedgersFetching?.isLoading && (
-          <h1 className="text-xl text-center py-8">Loading...</h1>
+          <h1 className="text-xl text-center">Loading...</h1>
         )}
         {/* Error view */}
         {allLedgersFetching?.isError && (
@@ -56,103 +56,100 @@ export default function CreateEntry() {
         )}
 
         {allLedgersFetching?.data && (
-          <div className="p-4">
-            <Formik
-              enableReinitialize={true}
-              validationSchema={EntryCreateSchema}
-              initialValues={{
-                debit_ledger_id: ledgers?.at(0)?.id,
-                credit_ledger_id: ledgers?.at(0)?.id,
-                amount: 0,
-                narration: "",
-              }}
-              onSubmit={async (values, { resetForm }) => {
-                addEntry.mutate(values);
-                resetForm();
-              }}
-            >
-              {({ values }) => (
-                <Form>
-                  <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
-                    <SelectInput
-                      label="Debit Ledger"
-                      name="debit_ledger_id"
-                      autofocus={true}
-                      inputClassName="capitalize"
-                    >
-                      {ledgers?.map((ledger) => (
-                        <option value={ledger.id} key={ledger.id}>
-                          {ledger.name} A/c
-                        </option>
-                      ))}
-                    </SelectInput>
+          <Formik
+            enableReinitialize={true}
+            validationSchema={EntryCreateSchema}
+            initialValues={{
+              debit_ledger_id: ledgers?.at(0)?.id,
+              credit_ledger_id: ledgers?.at(0)?.id,
+              amount: 0,
+              narration: "",
+            }}
+            onSubmit={async (values, { resetForm }) => {
+              addEntry.mutate(values);
+              resetForm();
+            }}
+          >
+            {({ values }) => (
+              <Form>
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                  <SelectInput
+                    label="Debit Ledger"
+                    name="debit_ledger_id"
+                    autofocus={true}
+                    inputClassName="capitalize"
+                  >
+                    {ledgers?.map((ledger) => (
+                      <option value={ledger.id} key={ledger.id}>
+                        {ledger.name} A/c
+                      </option>
+                    ))}
+                  </SelectInput>
 
-                    <SelectInput
-                      label="Credit Ledger"
-                      name="credit_ledger_id"
-                      inputClassName="capitalize"
-                    >
-                      {ledgers?.map((ledger) => (
-                        <option value={ledger.id} key={ledger.id}>
-                          {ledger.name} A/c
-                        </option>
-                      ))}
-                    </SelectInput>
+                  <SelectInput
+                    label="Credit Ledger"
+                    name="credit_ledger_id"
+                    inputClassName="capitalize"
+                  >
+                    {ledgers?.map((ledger) => (
+                      <option value={ledger.id} key={ledger.id}>
+                        {ledger.name} A/c
+                      </option>
+                    ))}
+                  </SelectInput>
 
-                    <Input
-                      label="Amount"
-                      type="number"
-                      name="amount"
-                      placeholder="Amount"
+                  <Input
+                    label="Amount"
+                    type="number"
+                    name="amount"
+                    placeholder="Amount"
+                  />
+
+                  <div>
+                    <Textarea
+                      label="Narration"
+                      placeholder="Narration"
+                      name="narration"
                     />
-
-                    <div>
-                      <Textarea
-                        label="Narration"
-                        placeholder="Narration"
-                        name="narration"
-                      />
-                      <span
-                        className={`text-sm ${
-                          values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
-                            ? "text-red-500"
-                            : null
-                        }`}
-                      >
-                        ({values?.narration?.length}/
-                        {ENTRY_NARRATION_MAX_LENGTH})
-                      </span>
-                    </div>
+                    <span
+                      className={`text-sm ${
+                        values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
+                          ? "text-red-500"
+                          : null
+                      }`}
+                    >
+                      ({values?.narration?.length}/{ENTRY_NARRATION_MAX_LENGTH})
+                    </span>
                   </div>
+                </div>
 
-                  <p className="text-red-500 text-sm text-left">
-                    {addEntry?.isError &&
-                      addEntry?.error?.response?.data?.error?.message}
-                  </p>
+                <p className="text-red-500 text-sm text-left">
+                  {addEntry?.isError &&
+                    addEntry?.error?.response?.data?.error?.message}
+                </p>
 
-                  <Button
-                    type="submit"
-                    className="h-12 w-auto px-4 mt-2"
-                    isLoading={addEntry.isPending}
-                  >
-                    {addEntry?.isSuccess
-                      ? "Saved 🎉"
-                      : addEntry?.isPending
-                      ? "Saving..."
-                      : "Save"}
-                  </Button>
+                <Button
+                  type="submit"
+                  className="h-12 w-auto px-4 mt-2"
+                  isLoading={addEntry.isPending}
+                >
+                  {addEntry?.isSuccess
+                    ? "Saved 🎉"
+                    : addEntry?.isPending
+                    ? "Saving..."
+                    : "Save"}
+                </Button>
 
-                  <Button
-                    type="reset"
-                    className="h-12 w-auto px-4 mt-2 ms-4"
-                    variant="secondary"
-                  >
-                    Reset
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                <Button
+                  type="reset"
+                  className="h-12 w-auto px-4 mt-2 ms-4"
+                  variant="secondary"
+                >
+                  Reset
+                </Button>
+              </Form>
+            )}
+          </Formik>
         )}
       </div>
     </>

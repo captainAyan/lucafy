@@ -25,9 +25,9 @@ export default function SelectLedger() {
     <>
       <h1 className="text-4xl font-bold text-left mb-4">Select Ledger</h1>
 
-      <div className="bg-white rounded-xl">
+      <div className="bg-white rounded-xl p-4">
         {/* Loading view */}
-        {isLoading && <h1 className="text-xl text-center py-8">Loading...</h1>}
+        {isLoading && <h1 className="text-xl text-center">Loading...</h1>}
         {/* Error view */}
         {isError && (
           <div className="text-red-500">
@@ -53,7 +53,7 @@ export default function SelectLedger() {
             }}
           >
             <Form>
-              <div className="p-4 flex">
+              <div className="flex">
                 <FilterSelectInput
                   name="ledger"
                   label="Ledger"
