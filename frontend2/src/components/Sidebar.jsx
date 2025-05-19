@@ -1,23 +1,30 @@
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
-import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import BalanceOutlinedIcon from "@mui/icons-material/BalanceOutlined";
+import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import { Link, NavLink } from "react-router-dom";
 
 function SidebarButton({ children, icon, title, to }) {
   return (
     <NavLink to={to}>
-      <span className="flex items-center text-gray-600 px-2 py-3 my-1 hover:bg-indigo-100 rounded-lg cursor-pointer transition-all duration-300">
-        <span className="mr-2">{icon}</span>
-        {title}
-        <span className="ml-auto">
-          <KeyboardArrowRightOutlinedIcon />
+      {({ isActive }) => (
+        <span
+          className={`flex items-center ${
+            isActive ? "bg-indigo-100" : ""
+          } text-gray-600 px-2 py-3 my-1 hover:bg-indigo-100 rounded-lg cursor-pointer transition-all duration-300`}
+        >
+          <span className="mr-2">{icon}</span>
+          {title}
+          <span className="ml-auto">
+            <KeyboardArrowRightOutlinedIcon />
+          </span>
+          {children}
         </span>
-        {children}
-      </span>
+      )}
     </NavLink>
   );
 }
@@ -25,7 +32,7 @@ function SidebarButton({ children, icon, title, to }) {
 export default function Sidebar({ className }) {
   return (
     <aside
-      className={`${className} fixed lg:static w-[320px] bg-indigo-50 h-[calc(100vh-4rem)] lg:h-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-45 overflow-y-auto p-4`}
+      className={`${className} fixed lg:static w-[320px] h-[calc(100vh-4rem)] lg:h-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-45 overflow-y-auto p-4`}
     >
       <div className="bg-white rounded-xl mb-6 p-4 transition-all duration-300">
         <SidebarButton
@@ -35,24 +42,33 @@ export default function Sidebar({ className }) {
         />
         <SidebarButton
           to={"/journal"}
-          icon={<PostAddOutlinedIcon />}
+          icon={<ReceiptLongOutlinedIcon />}
           title="Journal"
         />
         <SidebarButton
           to={"/ledgers"}
-          icon={<FolderOutlinedIcon />}
+          icon={<LibraryBooksOutlinedIcon />}
           title="Ledgers"
+        />
+        <SidebarButton
+          to={"/trial-balance"}
+          icon={<BalanceOutlinedIcon />}
+          title="Trial Balance"
         />
       </div>
       <div className="bg-white rounded-xl p-4 transition-all duration-300">
-        <SidebarButton href="#" icon={<FaceOutlinedIcon />} title="Profile" />
         <SidebarButton
-          href="#"
+          to={"/profile"}
+          icon={<FaceOutlinedIcon />}
+          title="Profile"
+        />
+        <SidebarButton
+          to={"/settings"}
           icon={<SettingsOutlinedIcon />}
           title="Settings"
         />
         <SidebarButton
-          href="#"
+          to={"/logout"}
           icon={<PowerSettingsNewOutlinedIcon />}
           title="Logout"
         />
