@@ -113,7 +113,7 @@ export default function Dashboard() {
       )}
       <div className="grid gap-4 md:grid-cols-2 mb-6">
         {entries?.entries?.map((entry) => {
-          return <Entry className="w-full" key={entry.id} {...entry} />;
+          return <Entry className="w-full p-4" key={entry.id} {...entry} />;
         })}
       </div>
     </>

@@ -41,10 +41,10 @@ export default function ViewEntry() {
     <>
       <h1 className="text-4xl font-bold text-left mb-4">Entry</h1>
 
-      <div className="bg-white rounded-xl">
+      <div className="bg-white rounded-xl p-4">
         {/* Loading view */}
         {entryData?.isLoading && (
-          <h1 className="text-xl text-center py-4">Loading...</h1>
+          <h1 className="text-xl text-center">Loading...</h1>
         )}
         {/* Error view */}
         {entryData?.isError && (
@@ -66,7 +66,7 @@ export default function ViewEntry() {
             <Entry classname="w-full" {...entry} />
 
             {/* Entry edit view */}
-            <div className="px-4 pb-4">
+            <div className="mt-4">
               {/* Edit form opening button */}
               {!isEditMode && entryData?.isSuccess && (
                 <Button
