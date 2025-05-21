@@ -25,6 +25,7 @@ import Page404 from "./pages/Page404";
 import { logout, updateUser } from "./features/authSlice";
 import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
+import TrialBalance from "./pages/TrialBalance";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -81,6 +82,8 @@ function App() {
               <Route path="/ledger" element={<CreateLedger />} />
               <Route path="/ledger/:id" element={<ViewLedger />} />
               <Route path="/ledger/:id/edit" element={<EditLedger />} />
+
+              <Route path="/trial-balance" element={<TrialBalance />} />
             </Route>
 
             <Route path="*" element={<Page404 />} />

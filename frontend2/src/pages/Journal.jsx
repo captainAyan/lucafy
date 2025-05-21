@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { useJournalDataHook } from "../hooks/useEntryDataHook";
