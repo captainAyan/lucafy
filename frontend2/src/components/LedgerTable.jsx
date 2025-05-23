@@ -67,7 +67,7 @@ export function LedgerTableRow({ id, name, type, description, balance }) {
           {"#" + String(id).slice(-6)}
         </Link>
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm text-indigo-600">
+      <td className="px-2 py-4 text-sm text-indigo-600">
         <Link
           to={`/ledger/${id}`}
           title={description}

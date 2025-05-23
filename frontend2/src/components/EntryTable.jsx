@@ -70,7 +70,7 @@ export function EntryTableRow({
       <td className="px-2 py-4 whitespace-nowrap text-sm">
         <Time time={created_at} />
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm text-indigo-600">
+      <td className="px-2 py-4 text-sm text-indigo-600">
         <Link
           to={`/ledger/${debit?._id}`}
           title={debit?.description}
@@ -79,7 +79,7 @@ export function EntryTableRow({
           <span className="capitalize">{debit?.name}</span> A/c
         </Link>
       </td>
-      <td className="px-2 py-4 whitespace-nowrap text-sm text-indigo-600">
+      <td className="px-2 py-4 text-sm text-indigo-600">
         <Link
           to={`/ledger/${credit?._id}`}
           title={credit?.description}
