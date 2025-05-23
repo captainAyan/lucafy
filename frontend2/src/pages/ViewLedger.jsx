@@ -9,13 +9,13 @@ import { useSelector } from "react-redux";
 import { Form, Formik } from "formik";
 import ReactPaginate from "react-paginate";
 
-import balanceIsNegative from "../util/balanceIsNegative";
 import { useLedgerStatementDataHook } from "../hooks/useLedgerDataHook";
 import Time from "../components/Time";
 import Amount from "../components/Amount";
 import { EntryTable, EntryTableRow } from "../components/EntryTable";
 import Button from "../components/Button";
 import FilterSelectInput from "../components/form/FilterSelectInput";
+import { ASSET, EXPENDITURE } from "../constants/ledgerTypes";
 
 export default function ViewLedger() {
   const { token } = useSelector((state) => state.auth);
@@ -103,17 +103,16 @@ export default function ViewLedger() {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center">
-                  <h1
-                    className={`text-3xl break-all ${
-                      balanceIsNegative(
-                        statement?.ledger?.type,
-                        statement?.balance
-                      )
-                        ? "text-red-500"
-                        : null
-                    }`}
-                  >
-                    <Amount amount={statement?.balance} />
+                  <h1 className={`text-3xl break-all`}>
+                    <Amount
+                      amount={statement?.balance}
+                      isCreditBalance={
+                        !(
+                          statement?.ledger?.type === ASSET ||
+                          statement?.ledger?.type === EXPENDITURE
+                        )
+                      }
+                    />
                   </h1>
                 </div>
               </div>

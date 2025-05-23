@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 import Amount from "./Amount";
 import { ASSET, EXPENDITURE } from "../constants/ledgerTypes";
-import balanceIsNegative from "../util/balanceIsNegative";
 
 /**
  * Ledger table is used for creating Trial Balance, Profit and Loss statement,
@@ -49,30 +48,10 @@ export function LedgerTable({ children, debitBalance, creditBalance }) {
             TOTAL
           </td>
           <td className="px-2 py-4 whitespace-nowrap text-end text-sm font-bold">
-            {debitBalance ? (
-              debitBalance > 0 ? (
-                <Amount amount={debitBalance} />
-              ) : (
-                <>
-                  (<Amount amount={debitBalance} />)
-                </>
-              )
-            ) : (
-              "-"
-            )}
+            <Amount amount={debitBalance} />
           </td>
           <td className="pe-4 ps-2 py-4 text-end text-sm font-bold">
-            {creditBalance ? (
-              creditBalance < 0 ? (
-                <Amount amount={creditBalance} />
-              ) : (
-                <>
-                  (<Amount amount={creditBalance} />)
-                </>
-              )
-            ) : (
-              "-"
-            )}
+            <Amount amount={creditBalance} isCreditBalance />
           </td>
         </tr>
       </tbody>
@@ -99,13 +78,7 @@ export function LedgerTableRow({ id, name, type, description, balance }) {
       </td>
       <td className="px-2 py-4 whitespace-nowrap text-end text-sm">
         {type === ASSET || type === EXPENDITURE ? (
-          balanceIsNegative(type, balance) ? (
-            <>
-              (<Amount amount={balance} />)
-            </>
-          ) : (
-            <Amount amount={balance} />
-          )
+          <Amount amount={balance} />
         ) : (
           "-"
         )}
@@ -113,12 +86,8 @@ export function LedgerTableRow({ id, name, type, description, balance }) {
       <td className="pe-4 ps-2 py-4 text-end text-sm">
         {type === ASSET || type === EXPENDITURE ? (
           "-"
-        ) : balanceIsNegative(type, balance) ? (
-          <>
-            (<Amount amount={balance} />)
-          </>
         ) : (
-          <Amount amount={balance} />
+          <Amount amount={balance} isCreditBalance />
         )}
       </td>
     </tr>

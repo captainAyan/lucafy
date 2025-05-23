@@ -1,6 +1,7 @@
 import { INDIAN, INTERNATIONAL } from "../constants/amountFormat";
 
 export function amountFormatLong(amount, format, currencySymbol) {
+  const isNegative = amount < 0;
   const a = Math.abs(amount).toString();
 
   let result = "";
@@ -18,10 +19,14 @@ export function amountFormatLong(amount, format, currencySymbol) {
   // currency symbol
   result = `${currencySymbol}${result}`;
 
+  // parathesis for negative amount
+  if (isNegative) result = `(${result})`;
+
   return result;
 }
 
 export function amountFormatShort(amount, format, currencySymbol) {
+  const isNegative = amount < 0;
   const a = Math.abs(amount).toString();
 
   let result = "";
@@ -49,6 +54,9 @@ export function amountFormatShort(amount, format, currencySymbol) {
   }
 
   result = `${currencySymbol}${result}`;
+
+  // parathesis for negative amount
+  if (isNegative) result = `(${result})`;
 
   return result;
 }

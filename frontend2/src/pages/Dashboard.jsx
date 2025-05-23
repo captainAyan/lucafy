@@ -7,10 +7,11 @@ import AddIcon from "@mui/icons-material/Add";
 import Entry from "../components/Entry";
 import useMicroStatementDate from "../hooks/useMicroStatementData";
 import { useJournalDataHook } from "../hooks/useEntryDataHook";
-import { amountFormatLong, amountFormatShort } from "../util/amountFormat";
+import { amountFormatLong } from "../util/amountFormat";
 import ActivityHeatMap from "../components/ActivityHeatMap";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
+import Amount from "../components/Amount";
 
 export default function Dashboard() {
   const { user, token } = useSelector((state) => state.auth);
@@ -138,7 +139,8 @@ function StatCard({
           className="text-5xl font-light md:text-6xl"
           title={amountFormatLong(amount || 0, amountFormat, currency)}
         >
-          {amountFormatShort(amount || 0, amountFormat, currency)}
+          {/* {amountFormatShort(amount || 0, amountFormat, currency)} */}
+          <Amount amount={amount || 0} shortFormat />
         </div>
 
         <div
