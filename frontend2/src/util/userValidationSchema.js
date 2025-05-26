@@ -1,10 +1,15 @@
 import * as Yup from "yup";
 import {
-  USER_EMAIL_MAX_LENGTH,
   USER_FIRST_NAME_MAX_LENGTH,
   USER_LAST_NAME_MAX_LENGTH,
+  USER_MIDDLE_NAME_MAX_LENGTH,
+  USER_EMAIL_MAX_LENGTH,
   USER_PASSWORD_MAX_LENGTH,
   USER_PASSWORD_MIN_LENGTH,
+  USER_BIO_MAX_LENGTH,
+  USER_ORGANIZATION_MAX_LENGTH,
+  USER_JOB_TITLE_MAX_LENGTH,
+  USER_LOCATION_MAX_LENGTH,
 } from "../constants/policies";
 
 export const RegisterSchema = Yup.object().shape({
@@ -61,18 +66,50 @@ export const ProfileSchema = Yup.object().shape({
     .label("First Name")
     .min(1)
     .max(USER_FIRST_NAME_MAX_LENGTH)
-    .required(),
+    .required("First Name is required"),
+
+  middleName: Yup.string()
+    .label("Middle Name")
+    .max(USER_MIDDLE_NAME_MAX_LENGTH)
+    .optional()
+    .default(""),
+
   lastName: Yup.string()
     .label("Last Name")
     .min(1)
     .max(USER_LAST_NAME_MAX_LENGTH)
-    .required(),
+    .required("Last Name is required"),
+
   email: Yup.string()
     .label("Email")
     .min(1)
     .max(USER_EMAIL_MAX_LENGTH)
-    .email()
-    .required(),
+    .email("Enter a valid email")
+    .required("Email is required"),
+
+  bio: Yup.string()
+    .label("Bio")
+    .max(USER_BIO_MAX_LENGTH)
+    .optional()
+    .default(""),
+
+  organization: Yup.string()
+    .label("Organization")
+    .max(USER_ORGANIZATION_MAX_LENGTH)
+    .optional()
+    .default(""),
+
+  jobTitle: Yup.string()
+    .label("Job Title")
+    .max(USER_JOB_TITLE_MAX_LENGTH)
+    .optional()
+    .default(""),
+
+  location: Yup.string()
+    .label("Location")
+    .max(USER_LOCATION_MAX_LENGTH)
+    .optional()
+    .default(""),
 });
 
 export const ChangePasswordSchema = Yup.object().shape({

@@ -17,18 +17,14 @@ const generateToken = require("../util/tokenGenerator");
 const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    const response = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-    };
+    const userObj = user.toObject();
+    delete userObj.password;
 
     res.status(StatusCodes.OK).json({
-      ...response,
+      ...userObj,
       token: generateToken({ id: user.id }),
     });
   } else {
@@ -42,80 +38,88 @@ const register = asyncHandler(async (req, res, next) => {
   if (error) {
     throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
   }
-  const { email, password } = req.body;
 
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    throw new ErrorResponse("User already exists", StatusCodes.BAD_REQUEST);
-  }
+  const { password } = req.body;
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await User.create({
-    ...req.body,
-    password: hash,
-  });
+  let user;
+  try {
+    user = await User.create({
+      ...req.body,
+      password: hash,
+    });
+  } catch (err) {
+    if (err.code === 11000) {
+      // Duplicate email error
+      throw new ErrorResponse("User already exists", StatusCodes.BAD_REQUEST);
+    }
+    throw err;
+  }
 
   if (!user) {
     throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
   }
 
-  const response = {
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-  };
+  const userObj = user.toObject();
+  delete userObj.password;
 
   res.status(StatusCodes.CREATED).json({
-    ...response,
-    token: generateToken({ id: user.id }),
+    ...userObj,
+    token: generateToken({ id: user._id }),
   });
 });
 
 const getProfile = asyncHandler(async (req, res, next) => {
-  const response = {
-    id: req.user.id,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    email: req.user.email,
-  };
-
-  res.status(StatusCodes.OK).json(response);
+  res.status(StatusCodes.OK).json(req.user);
 });
 
 const editProfile = asyncHandler(async (req, res, next) => {
   const { error } = editSchema.validate(req.body);
-
   if (error) {
     throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
   }
-  const { firstName, lastName, email } = req.body;
 
   const user = await User.findById(req.user.id).select("-password");
-
-  const userWithEmailExists = await User.findOne({ email });
-
-  if (user.email !== email && userWithEmailExists) {
-    throw new ErrorResponse("Email is taken", StatusCodes.BAD_REQUEST);
+  if (!user) {
+    throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
   }
 
-  user.firstName = firstName;
-  user.lastName = lastName;
-  user.email = email;
+  // Check email uniqueness only if email changed
+  if (req.body.email && user.email !== req.body.email) {
+    const userWithEmailExists = await User.findOne({ email: req.body.email });
+    if (userWithEmailExists) {
+      throw new ErrorResponse("Email is taken", StatusCodes.BAD_REQUEST);
+    }
+  }
+
+  // List of fields allowed to be updated
+  const allowedFields = [
+    "firstName",
+    "middleName",
+    "lastName",
+    "email",
+    "bio",
+    "organization",
+    "jobTitle",
+    "location",
+    // add new fields here as you expand your schema
+  ];
+
+  // Update only allowed fields dynamically
+  allowedFields.forEach((field) => {
+    if (field in req.body) {
+      user[field] = req.body[field];
+    }
+  });
 
   await user.save();
 
-  const response = {
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-  };
+  const userObj = user.toObject();
+  delete userObj.password;
 
-  res.status(StatusCodes.OK).json(response);
+  res.status(StatusCodes.OK).json(userObj);
 });
 
 const changePassword = asyncHandler(async (req, res, next) => {
@@ -126,12 +130,11 @@ const changePassword = asyncHandler(async (req, res, next) => {
   }
 
   const { oldPassword, newPassword } = req.body;
-  let user;
 
+  let user;
   try {
-    user = await User.findOne({ _id: req.user.id });
-  } catch (error) {
-    // for invalid mongodb objectid
+    user = await User.findById(req.user.id).select("+password");
+  } catch {
     throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
   }
 
@@ -139,20 +142,17 @@ const changePassword = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
   }
 
-  if (user && (await bcrypt.compare(oldPassword, user.password))) {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(newPassword, salt);
-
-    user.password = hash;
-
-    await user.save();
-
-    const response = { message: "success" };
-
-    res.status(StatusCodes.OK).json(response);
-  } else {
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) {
     throw new ErrorResponse("Invalid password", StatusCodes.BAD_REQUEST);
   }
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(newPassword, salt);
+
+  await user.save();
+
+  res.status(StatusCodes.OK).json({ message: "success" });
 });
 
 const deleteProfile = asyncHandler(async (req, res, next) => {
