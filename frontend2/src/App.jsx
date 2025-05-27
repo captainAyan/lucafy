@@ -27,6 +27,7 @@ import { GET_PROFILE_URL } from "./constants/api";
 import authConfig from "./util/authConfig";
 import TrialBalance from "./pages/TrialBalance";
 import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -87,6 +88,7 @@ function App() {
               <Route path="/trial-balance" element={<TrialBalance />} />
 
               <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<EditProfile />} />
             </Route>
 
             <Route path="*" element={<Page404 />} />

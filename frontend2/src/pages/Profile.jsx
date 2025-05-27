@@ -20,34 +20,12 @@ export default function Profile() {
       <h1 className="text-4xl font-bold text-left mb-4">Profile</h1>
 
       <div className="bg-white rounded-xl p-4">
-        {/* <div className="p-4 pt-2">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            User Profile
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            This is some information about the user.
-          </p>
-        </div>
-        <div className="border-t border-gray-200 mx-4">
-          <dl className="sm:divide-y sm:divide-gray-200">
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-              <dt className="text-sm font-medium text-gray-500">Full name</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span>
-                  {user?.firstName} {user?.middleName || ""} {user?.lastName}
-                </span>
-              </dd>
-            </div>
-          </dl>
-        </div> */}
-
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold text-gray-900">
             User Profile
           </h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            This information will be displayed publicly so be careful what you
-            share
+            This information will be displayed publicly
           </p>
         </div>
         <div className="mt-6 border-t border-gray-100">
