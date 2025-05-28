@@ -114,9 +114,14 @@ export default function CreateLedger() {
                 </div>
               </div>
 
-              <h3 className="text-base font-semibold text-gray-900 mt-4 mb-2">
-                Professional
-              </h3>
+              <div className="my-2">
+                <h3 className="text-base font-semibold text-gray-900">
+                  Professional
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                  These details help your colleagues look you up
+                </p>
+              </div>
 
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
                 <Input
