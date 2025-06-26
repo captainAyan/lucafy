@@ -1,0 +1,75 @@
+const Joi = require("joi");
+
+const {
+  USER_FIRST_NAME_MAX_LENGTH,
+  USER_MIDDLE_NAME_MAX_LENGTH,
+  USER_LAST_NAME_MAX_LENGTH,
+  EMAIL_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  USER_BIO_MAX_LENGTH,
+  ORGANIZATION_NAME_MAX_LENGTH,
+  USER_JOB_TITLE_MAX_LENGTH,
+  ADDRESS_MAX_LENGTH,
+  USER_GENDER_ENUM,
+  DEFAULT_PAGINATION_LIMIT,
+} = require("../constants/policies");
+
+const createSchema = Joi.object({
+  firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
+  lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
+  email: Joi.string().email().min(1).max(EMAIL_MAX_LENGTH).required(),
+  password: Joi.string()
+    .min(PASSWORD_MIN_LENGTH)
+    .max(PASSWORD_MAX_LENGTH)
+    .required(),
+}).options({ stripUnknown: true });
+
+const editSchema = Joi.object({
+  firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
+  middleName: Joi.string()
+    .max(USER_MIDDLE_NAME_MAX_LENGTH)
+    .allow("")
+    .optional(),
+  lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
+  email: Joi.string().email().min(1).max(EMAIL_MAX_LENGTH).required(),
+  bio: Joi.string().max(USER_BIO_MAX_LENGTH).allow("").optional(),
+  organization: Joi.string()
+    .max(ORGANIZATION_NAME_MAX_LENGTH)
+    .allow("")
+    .optional(),
+  jobTitle: Joi.string().max(USER_JOB_TITLE_MAX_LENGTH).allow("").optional(),
+  address: Joi.string().max(ADDRESS_MAX_LENGTH).allow("").optional(),
+  dateOfBirth: Joi.date().optional().allow(null),
+  gender: Joi.string()
+    .valid(...USER_GENDER_ENUM)
+    .allow("")
+    .optional(),
+}).options({ stripUnknown: true });
+
+const passwordChangeSchema = Joi.object({
+  oldPassword: Joi.string().required(),
+  newPassword: Joi.string()
+    .min(PASSWORD_MIN_LENGTH)
+    .max(PASSWORD_MAX_LENGTH)
+    .required(),
+}).options({ stripUnknown: true });
+
+const queryParamSchema = Joi.object({
+  page: Joi.number().integer().min(0).default(0),
+  limit: Joi.number()
+    .valid(DEFAULT_PAGINATION_LIMIT, 20, 50)
+    .default(DEFAULT_PAGINATION_LIMIT),
+  order: Joi.string().valid("oldest", "newest").default("newest"),
+  keyword: Joi.string().allow("", null),
+}).options({
+  stripUnknown: true,
+  convert: true,
+});
+
+module.exports = {
+  createSchema,
+  editSchema,
+  passwordChangeSchema,
+  queryParamSchema,
+};
