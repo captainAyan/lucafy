@@ -3,25 +3,23 @@ const { StatusCodes } = require("http-status-codes");
 const { ErrorResponse } = require("../../middlewares/errorMiddleware");
 const bookMemberService = require("./bookMemberService");
 const bookService = require("./bookService");
+const { BOOK_MEMBER_ROLE } = require("../../constants/policies");
 
 async function getBooksUserCanAccess(userId) {
   return bookMemberService.getBooksByUser(userId);
 }
 
-async function getBookById(bookId, userId) {
+async function getPermissionByBookId(bookId, userId) {
   try {
-    await bookMemberService.getBookMembership(userId, bookId);
+    return await bookMemberService.getBookMembership(userId, bookId);
   } catch (err) {
-    if (err.status === 404)
+    if (err.status === StatusCodes.NOT_FOUND)
       throw new ErrorResponse("No permission", StatusCodes.FORBIDDEN);
     else throw err;
   }
-
-  const book = await bookService.getBookById(bookId);
-  return book;
 }
 
 module.exports = {
   getBooksUserCanAccess,
-  getBookById,
+  getPermissionByBookId,
 };

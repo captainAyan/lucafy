@@ -4,6 +4,16 @@ const { StatusCodes } = require("http-status-codes");
 const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const User = require("../models/userModel");
 
+/**
+ * @typedef {import('../constants/typedefs').User} User
+ */
+
+/**
+ * Creates a new user and stores it in the database.
+ *
+ * @param {Object} userData - New user data.
+ * @returns {Promise<User>} The created user.
+ */
 async function createUser(userData) {
   const { password } = userData;
 
@@ -30,12 +40,32 @@ async function createUser(userData) {
   return user;
 }
 
+/**
+ * Retrieves a user by their MongoDB ID.
+ *
+ * @param {string} id - MongoDB ObjectId of the user.
+ * @returns {Promise<User>} The user with the given ID.
+ */
 async function getUserById(id) {
   const user = await User.findById(id, "-password");
   if (!user) throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
   return user;
 }
 
+/**
+ * Retrieves paginated list of users.
+ *
+ * @param {number} page - Current page number
+ * @param {number} limit - Number of users per page
+ * @param {string} order - Sort order
+ * @param {string} keyword - Search keyword to filter users
+ * @returns {Promise<{
+ *  skip: number,
+ *  limit: number,
+ *  total: number,
+ *  users: Array<User>
+ * }>}
+ */
 async function getUsers(page, limit, order, keyword) {
   const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
 
@@ -66,6 +96,13 @@ async function getUsers(page, limit, order, keyword) {
   };
 }
 
+/**
+ * Updates user data by ID.
+ *
+ * @param {string} id - MongoDB ObjectId of the user.
+ * @param {Partial<User>} userData - fields to update
+ * @returns {Promise<User>} The updated user.
+ */
 async function editUserById(id, userData) {
   const user = await getUserById(id);
   Object.assign(user, userData);
@@ -85,6 +122,13 @@ async function editUserById(id, userData) {
   return user;
 }
 
+/**
+ * Authenticates a user by email and plaintext password.
+ *
+ * @param {string} email - User's email.
+ * @param {string} plainPassword - Plaintext password.
+ * @returns {Promise<User>} The authenticated user.
+ */
 async function authenticateUser(email, plainPassword) {
   const user = await User.findOne({ email }).select("+password");
   if (!user) throw new ErrorResponse("Invalid email or password");
@@ -100,6 +144,14 @@ async function authenticateUser(email, plainPassword) {
   return user;
 }
 
+/**
+ * Changes the password of a user after verifying the old password.
+ *
+ * @param {string} id - MongoDB ObjectId of the user.
+ * @param {string} oldPassword - Current plaintext password.
+ * @param {string} newPassword - New plaintext password.
+ * @returns {Promise<User>} The user with updated password.
+ */
 async function changeUserPassword(id, oldPassword, newPassword) {
   const user = await User.findById(id).select("+password");
   if (!user) throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);

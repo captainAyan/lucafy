@@ -9,6 +9,15 @@ async function createBookMember(bookMemberData, session = null) {
   return member;
 }
 
+async function getMembershipByBookIdAndUserId(bookId, userId) {
+  const member = await BookMember.findOne({ user: userId, book: bookId });
+  if (!member) {
+    throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
+  }
+
+  return member;
+}
+
 async function getBooksByUser(userId) {
   const members = await BookMember.find({ user: userId })
     .populate("book")
@@ -17,7 +26,9 @@ async function getBooksByUser(userId) {
 }
 
 async function getBookMembership(userId, bookId) {
-  const member = await BookMember.findOne({ user: userId, book: bookId });
+  const member = await BookMember.findOne({ user: userId, book: bookId })
+    .populate("book")
+    .select("-user");
   if (!member)
     throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
   return member;
@@ -25,6 +36,7 @@ async function getBookMembership(userId, bookId) {
 
 module.exports = {
   createBookMember,
+  getMembershipByBookIdAndUserId,
   getBooksByUser,
   getBookMembership,
 };
