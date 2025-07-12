@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 
-const User = require("../models/userModel");
+const { getUserById } = require("../services/userService");
 const { ErrorResponse } = require("./errorMiddleware");
 
 async function protect(req, res, next) {
@@ -13,12 +13,9 @@ async function protect(req, res, next) {
       const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-      const user = await User.findById(decoded.id).select("-password");
-      if (!user) {
-        throw new ErrorResponse("User does not exist", StatusCodes.BAD_REQUEST);
-      }
-
+      const user = await getUserById(decoded.id);
       req.user = user;
+
       next();
     } catch (err) {
       throw new ErrorResponse("Not authenticated", StatusCodes.UNAUTHORIZED);

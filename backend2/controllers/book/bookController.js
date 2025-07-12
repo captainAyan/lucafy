@@ -22,7 +22,7 @@ async function createBook(req, res) {
 
 async function getBookById(req, res) {
   const book = await bookService.getBookById(req.book.id);
-  res.json(book);
+  res.status(StatusCodes.OK).json(book);
 }
 
 async function editBook(req, res) {
@@ -31,7 +31,7 @@ async function editBook(req, res) {
     throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
 
   const book = await bookService.editBookById(req.book.id, bookValues);
-  res.json(book);
+  res.status(StatusCodes.OK).json(book);
 }
 
 async function deleteBook(req, res) {
@@ -40,7 +40,7 @@ async function deleteBook(req, res) {
 
 async function getBooksByUser(req, res) {
   const books = await bookAccessService.getBooksUserCanAccess(req.user.id);
-  res.json(books);
+  res.status(StatusCodes.OK).json(books);
 }
 
 module.exports = {

@@ -26,11 +26,9 @@ async function createBookWithAdmin(bookData, userId) {
     const book = await bookService.createBook(bookData, session);
 
     const bookMember = await bookMemberService.createBookMember(
-      {
-        book: book.id,
-        user: userId,
-        role: BOOK_MEMBER_ROLE.ADMIN,
-      },
+      book.id,
+      userId,
+      BOOK_MEMBER_ROLE.ADMIN,
       session
     );
 
