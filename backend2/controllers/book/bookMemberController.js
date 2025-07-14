@@ -5,7 +5,7 @@ const { ErrorResponse } = require("../../middlewares/errorMiddleware");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/bookMemberValidationSchema");
+} = require("../../utilities/validation/bookMemberValidationSchema");
 
 async function createBookMember(req, res) {
   const { value: bookMemberValues, error } = createSchema.validate(req.body);

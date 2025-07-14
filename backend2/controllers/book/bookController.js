@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/bookValidationSchema");
+} = require("../../utilities/validation/bookValidationSchema");
 const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");
@@ -25,6 +25,11 @@ async function getBookById(req, res) {
   res.status(StatusCodes.OK).json(book);
 }
 
+async function getBooksByUser(req, res) {
+  const books = await bookAccessService.getBooksUserCanAccess(req.user.id);
+  res.status(StatusCodes.OK).json(books);
+}
+
 async function editBook(req, res) {
   const { value: bookValues, error } = editSchema.validate(req.body);
   if (error)
@@ -38,15 +43,10 @@ async function deleteBook(req, res) {
   res.send("delete book");
 }
 
-async function getBooksByUser(req, res) {
-  const books = await bookAccessService.getBooksUserCanAccess(req.user.id);
-  res.status(StatusCodes.OK).json(books);
-}
-
 module.exports = {
   createBook,
   getBookById,
+  getBooksByUser,
   editBook,
   deleteBook,
-  getBooksByUser,
 };

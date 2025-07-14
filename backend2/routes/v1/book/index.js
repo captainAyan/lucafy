@@ -18,9 +18,10 @@ const {
 } = require("../../../controllers/book/bookController");
 
 router.post("/", createBook);
-router.get("/", getBooksByUser); // TODO this one's a bit tricky
+router.get("/", getBooksByUser);
 
-router.use("/:bookId", addBookAndMembershipData); // middleware for req.book
+// middleware for req.book and req.membership
+router.use("/:bookId", addBookAndMembershipData);
 
 router.get("/:bookId", authorizeRole([ADMIN, MEMBER]), getBookById);
 router.put("/:bookId", authorizeRole([ADMIN]), editBook);

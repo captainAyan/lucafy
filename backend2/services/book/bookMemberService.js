@@ -7,12 +7,42 @@ async function getBookMemberByBookIdAndUserId(bookId, userId) {
   const member = await BookMember.findOne({
     user: userId,
     book: bookId,
-  }).populate("user");
+  }).populate([{ path: "user" }, { path: "book" }]);
+
   if (!member) {
     throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
   }
 
   return member;
+}
+
+async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
+  const member = await BookMember.findOne({
+    _id: bookMemberId,
+    book: bookId,
+  }).populate([{ path: "user" }, { path: "book" }]);
+
+  if (!member) {
+    throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
+  }
+
+  return member;
+}
+
+async function getBookMembershipsByUserId(userId) {
+  const members = await BookMember.find({ user: userId }).populate([
+    { path: "user" },
+    { path: "book" },
+  ]);
+  return members;
+}
+
+async function getBookMembersByBookId(bookId) {
+  const members = await BookMember.find({ book: bookId }).populate([
+    { path: "user" },
+    { path: "book" },
+  ]);
+  return members;
 }
 
 async function createBookMember(bookId, userId, role, session = null) {
@@ -31,28 +61,11 @@ async function createBookMember(bookId, userId, role, session = null) {
         user: userId,
         role,
       }).save(options);
-      return member;
+
+      return getBookMemberByBookIdAndBookMemberId(bookId, member.id);
     }
     throw err;
   }
-}
-
-async function getBookMembersByBookId(bookId) {
-  const members = await BookMember.find({ book: bookId }).populate("user");
-  return members;
-}
-
-async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
-  const member = await BookMember.findOne({
-    _id: bookMemberId,
-    book: bookId,
-  }).populate("user");
-
-  if (!member) {
-    throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
-  }
-
-  return member;
 }
 
 async function editBookMemberByBookIdAndBookMemberId(
@@ -69,22 +82,11 @@ async function editBookMemberByBookIdAndBookMemberId(
   return bookMember;
 }
 
-// TODO 😬😬
-async function getBooksByUser(userId) {
-  const members = await BookMember.find({ user: userId })
-    .populate("book")
-    .select("-user");
-
-  // const x = members.map((m) => m.book);
-  // return x;
-  return members;
-}
-
 module.exports = {
   getBookMemberByBookIdAndUserId,
   createBookMember,
   getBookMembersByBookId,
   getBookMemberByBookIdAndBookMemberId,
   editBookMemberByBookIdAndBookMemberId,
-  getBooksByUser,
+  getBookMembershipsByUserId,
 };

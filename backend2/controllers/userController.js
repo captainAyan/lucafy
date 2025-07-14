@@ -8,7 +8,7 @@ const {
   editSchema,
   passwordChangeSchema,
   queryParamSchema,
-} = require("../utilities/userValidationSchema");
+} = require("../utilities/validation/userValidationSchema");
 
 async function login(req, res) {
   const { email, password } = req.body;

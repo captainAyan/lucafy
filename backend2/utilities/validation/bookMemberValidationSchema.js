@@ -3,7 +3,7 @@ Joi.objectId = require("joi-objectid")(Joi);
 
 const {
   BOOK_MEMBER_ROLE: { ADMIN, MEMBER },
-} = require("../constants/policies");
+} = require("../../constants/policies");
 
 const createSchema = Joi.object({
   user_id: Joi.objectId().required(),

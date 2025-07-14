@@ -13,7 +13,7 @@ const {
   ADDRESS_MAX_LENGTH,
   USER_GENDER_ENUM,
   DEFAULT_PAGINATION_LIMIT,
-} = require("../constants/policies");
+} = require("../../constants/policies");
 
 const createSchema = Joi.object({
   firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
