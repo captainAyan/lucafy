@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../../middlewares/errorMiddleware");
 const BookMember = require("../../models/bookMemberModel");
 
 async function getBookMemberByBookIdAndUserId(bookId, userId) {
@@ -10,7 +10,7 @@ async function getBookMemberByBookIdAndUserId(bookId, userId) {
   }).populate([{ path: "user" }, { path: "book" }]);
 
   if (!member) {
-    throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
+    throw createHttpError(StatusCodes.NOT_FOUND, "Book member not found");
   }
 
   return member;
@@ -23,7 +23,7 @@ async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
   }).populate([{ path: "user" }, { path: "book" }]);
 
   if (!member) {
-    throw new ErrorResponse("Book member not found", StatusCodes.NOT_FOUND);
+    throw createHttpError(StatusCodes.NOT_FOUND, "Book member not found");
   }
 
   return member;
@@ -50,10 +50,7 @@ async function createBookMember(bookId, userId, role, session = null) {
 
   try {
     await getBookMemberByBookIdAndUserId(bookId, userId);
-    throw new ErrorResponse(
-      "Book Member already exists",
-      StatusCodes.FORBIDDEN
-    );
+    throw createHttpError(StatusCodes.FORBIDDEN, "Book member already exists");
   } catch (err) {
     if (err.status === StatusCodes.NOT_FOUND) {
       const member = await new BookMember({

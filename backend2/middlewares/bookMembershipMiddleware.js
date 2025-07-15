@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
 const BookService = require("../services/book/bookService");
 const BookMemberService = require("../services/book/bookMemberService");
-const { ErrorResponse } = require("./errorMiddleware");
 
 async function addBookAndMembershipData(req, res, next) {
   const { bookId } = req.params;
 
   // Validate bookId format
   if (!mongoose.Types.ObjectId.isValid(bookId)) {
-    throw new ErrorResponse("Invalid book id", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid book id");
   }
 
   // Check if user is a member of the book
@@ -32,7 +32,7 @@ function authorizeRole(allowedRoles) {
   return async function authorizeRoleMiddleware(req, res, next) {
     console.log(allowedRoles, req.membership.role);
     if (!allowedRoles.includes(req.membership.role)) {
-      throw new ErrorResponse("Insufficient role", StatusCodes.FORBIDDEN);
+      throw createHttpError(StatusCodes.UNAUTHORIZED, "Insufficient role");
     }
     next();
   };

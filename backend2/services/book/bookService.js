@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../../middlewares/errorMiddleware");
 const Book = require("../../models/bookModel");
 
 /**
@@ -28,7 +28,7 @@ async function createBook(bookData, session = null) {
  */
 async function getBookById(bookId) {
   const book = await Book.findById(bookId);
-  if (!book) throw new ErrorResponse("Book not found", StatusCodes.NOT_FOUND);
+  if (!book) throw createHttpError(StatusCodes.NOT_FOUND, "Book not found");
   return book;
 }
 

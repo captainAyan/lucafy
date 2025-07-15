@@ -6,11 +6,9 @@ const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cors = require("cors");
+const createHttpError = require("http-errors");
 
-const {
-  errorHandler,
-  ErrorResponse,
-} = require("./middlewares/errorMiddleware");
+const errorHandler = require("./middlewares/errorMiddleware");
 const { PER_MINUTE_REQUEST_LIMIT } = require("./constants/policies");
 
 require("dotenv").config();
@@ -49,7 +47,7 @@ const limiter = rateLimit({
   standardHeaders: "draft-8",
   legacyHeaders: false,
   handler: (req, res, next) => {
-    throw new ErrorResponse("Too many requests", StatusCodes.TOO_MANY_REQUESTS);
+    throw createHttpError(StatusCodes.TOO_MANY_REQUESTS, "Too many requests");
   },
 });
 app.use(limiter); // limits all paths
@@ -70,7 +68,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/{*any}", (req, res, next) => {
-  throw new ErrorResponse("Not found", StatusCodes.NOT_FOUND);
+  throw createHttpError(StatusCodes.NOT_FOUND, "Not found");
 });
 
 app.use(errorHandler);

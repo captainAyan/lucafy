@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const User = require("../models/userModel");
 
 /**
@@ -28,13 +28,13 @@ async function createUser(userData) {
     });
   } catch (err) {
     if (err.code === 11000) {
-      throw new ErrorResponse("User already exists", StatusCodes.BAD_REQUEST);
+      throw createHttpError(StatusCodes.BAD_REQUEST, "User already exists");
     }
     throw err;
   }
 
   if (!user) {
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
   return user;
@@ -48,7 +48,7 @@ async function createUser(userData) {
  */
 async function getUserById(id) {
   const user = await User.findById(id, "-password");
-  if (!user) throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
+  if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
   return user;
 }
 
@@ -111,10 +111,7 @@ async function editUserById(id, userData) {
     await user.save();
   } catch (err) {
     if (err.code === 11000) {
-      throw new ErrorResponse(
-        "Email is already in use",
-        StatusCodes.BAD_REQUEST
-      );
+      throw createHttpError(StatusCodes.BAD_REQUEST, "Email is already in use");
     }
     throw err;
   }
@@ -131,13 +128,15 @@ async function editUserById(id, userData) {
  */
 async function authenticateUser(email, plainPassword) {
   const user = await User.findOne({ email }).select("+password");
-  if (!user) throw new ErrorResponse("Invalid email or password");
+  if (!user) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid email or password");
+  }
 
   const isMatch = await bcrypt.compare(plainPassword, user.password);
   if (!isMatch) {
-    throw new ErrorResponse(
-      "Invalid email or password",
-      StatusCodes.UNAUTHORIZED
+    throw createHttpError(
+      StatusCodes.UNAUTHORIZED,
+      "Invalid email or password"
     );
   }
 
@@ -154,11 +153,11 @@ async function authenticateUser(email, plainPassword) {
  */
 async function changeUserPassword(id, oldPassword, newPassword) {
   const user = await User.findById(id).select("+password");
-  if (!user) throw new ErrorResponse("User not found", StatusCodes.NOT_FOUND);
+  if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
 
   const isMatch = await bcrypt.compare(oldPassword, user.password);
   if (!isMatch) {
-    throw new ErrorResponse("Invalid password", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.UNAUTHORIZED, "Invalid password");
   }
 
   const salt = await bcrypt.genSalt(10);

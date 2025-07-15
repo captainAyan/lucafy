@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
 const {
   createSchema,
@@ -7,12 +8,12 @@ const {
 const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");
-const { ErrorResponse } = require("../../middlewares/errorMiddleware");
 
 async function createBook(req, res) {
   const { value: bookValues, error } = createSchema.validate(req.body);
-  if (error)
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
 
   const { book, bookMember } =
     await bookOrchestratorService.createBookWithAdmin(bookValues, req.user.id);
@@ -32,8 +33,9 @@ async function getBooksByUser(req, res) {
 
 async function editBook(req, res) {
   const { value: bookValues, error } = editSchema.validate(req.body);
-  if (error)
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
 
   const book = await bookService.editBookById(req.book.id, bookValues);
   res.status(StatusCodes.OK).json(book);

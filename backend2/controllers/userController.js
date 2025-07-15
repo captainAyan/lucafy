@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../middlewares/errorMiddleware");
 const generateToken = require("../utilities/tokenGenerator");
 const userService = require("../services/userService");
 const {
@@ -25,7 +25,7 @@ async function login(req, res) {
 async function register(req, res) {
   const { value: body, error } = createSchema.validate(req.body);
   if (error) {
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
   const user = await userService.createUser(body);
@@ -45,7 +45,7 @@ async function getProfile(req, res) {
 async function editProfile(req, res) {
   const { value: body, error } = editSchema.validate(req.body);
   if (error) {
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
   const profile = await userService.editUserById(req.user.id, body);
@@ -56,7 +56,7 @@ async function changePassword(req, res) {
   const { value: body, error } = passwordChangeSchema.validate(req.body);
 
   if (error) {
-    throw new ErrorResponse("Invalid input error", StatusCodes.BAD_REQUEST);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
   const { oldPassword, newPassword } = body;
@@ -72,8 +72,9 @@ async function deleteProfile(req, res) {
 async function getUsers(req, res) {
   const { value: queryParams, error } = queryParamSchema.validate(req.query);
 
-  if (error)
-    throw new ErrorResponse("Invalid query parameter", StatusCodes.BAD_REQUEST);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid query parameter");
+  }
 
   const { page, limit, order, keyword } = queryParams;
 

@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
+const createHttpError = require("http-errors");
 
 const { getUserById } = require("../services/userService");
-const { ErrorResponse } = require("./errorMiddleware");
 
 async function protect(req, res, next) {
   if (
@@ -18,10 +18,10 @@ async function protect(req, res, next) {
 
       next();
     } catch (err) {
-      throw new ErrorResponse("Not authenticated", StatusCodes.UNAUTHORIZED);
+      throw createHttpError(StatusCodes.UNAUTHORIZED, "Not authenticated");
     }
   } else {
-    throw new ErrorResponse("Not authenticated", StatusCodes.UNAUTHORIZED);
+    throw createHttpError(StatusCodes.UNAUTHORIZED, "Not authenticated");
   }
 }
 
