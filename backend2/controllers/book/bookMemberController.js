@@ -5,7 +5,7 @@ const bookMemberService = require("../../services/book/bookMemberService");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/validation/bookMemberValidationSchema");
+} = require("../../utilities/validation/bookMemberSchema");
 
 async function createBookMember(req, res) {
   const { value: bookMemberValues, error } = createSchema.validate(req.body);
