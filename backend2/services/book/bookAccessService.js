@@ -1,8 +1,13 @@
 const bookMemberService = require("./bookMemberService");
 
-async function getBooksUserCanAccess(userId) {
-  const memberships =
-    await bookMemberService.getBookMembershipsByUserId(userId);
+async function getBooksUserCanAccess(userId, page, limit, order) {
+  const { memberships, ...rest } =
+    await bookMemberService.getBookMembershipsByUserId(
+      userId,
+      page,
+      limit,
+      order
+    );
 
   const books = memberships.map((membership) => {
     const m = membership.toObject();
@@ -12,7 +17,7 @@ async function getBooksUserCanAccess(userId) {
     };
   });
 
-  return books;
+  return { books, ...rest };
 }
 
 module.exports = {

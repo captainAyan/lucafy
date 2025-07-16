@@ -12,7 +12,6 @@ const {
   USER_JOB_TITLE_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
   USER_GENDER_ENUM,
-  DEFAULT_PAGINATION_LIMIT,
 } = require("../../constants/policies");
 
 const createSchema = Joi.object({
@@ -55,21 +54,8 @@ const passwordChangeSchema = Joi.object({
     .required(),
 }).options({ stripUnknown: true });
 
-const queryParamSchema = Joi.object({
-  page: Joi.number().integer().min(0).default(0),
-  limit: Joi.number()
-    .valid(DEFAULT_PAGINATION_LIMIT, 20, 50)
-    .default(DEFAULT_PAGINATION_LIMIT),
-  order: Joi.string().valid("oldest", "newest").default("newest"),
-  keyword: Joi.string().allow("", null),
-}).options({
-  stripUnknown: true,
-  convert: true,
-});
-
 module.exports = {
   createSchema,
   editSchema,
   passwordChangeSchema,
-  queryParamSchema,
 };

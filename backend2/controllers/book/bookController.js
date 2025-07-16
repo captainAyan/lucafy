@@ -8,6 +8,9 @@ const {
 const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");
+const {
+  paginationQueryParamSchema,
+} = require("../../utilities/validation/paginationQueryParamValidationSchema");
 
 async function createBook(req, res) {
   const { value: bookValues, error } = createSchema.validate(req.body);
@@ -27,7 +30,21 @@ async function getBookById(req, res) {
 }
 
 async function getBooksByUser(req, res) {
-  const books = await bookAccessService.getBooksUserCanAccess(req.user.id);
+  const {
+    value: { page, limit, order },
+    error,
+  } = paginationQueryParamSchema.validate(req.query);
+
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid query parameter");
+  }
+
+  const books = await bookAccessService.getBooksUserCanAccess(
+    req.user.id,
+    page,
+    limit,
+    order
+  );
   res.status(StatusCodes.OK).json(books);
 }
 

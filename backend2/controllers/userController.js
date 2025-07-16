@@ -7,8 +7,10 @@ const {
   createSchema,
   editSchema,
   passwordChangeSchema,
-  queryParamSchema,
 } = require("../utilities/validation/userValidationSchema");
+const {
+  paginationQueryParamSchemaWithKeyword,
+} = require("../utilities/validation/paginationQueryParamValidationSchema");
 
 async function login(req, res) {
   const { email, password } = req.body;
@@ -70,7 +72,8 @@ async function deleteProfile(req, res) {
 }
 
 async function getUsers(req, res) {
-  const { value: queryParams, error } = queryParamSchema.validate(req.query);
+  const { value: queryParams, error } =
+    paginationQueryParamSchemaWithKeyword.validate(req.query);
 
   if (error) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid query parameter");

@@ -29,12 +29,23 @@ async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
   return member;
 }
 
-async function getBookMembershipsByUserId(userId) {
-  const members = await BookMember.find({ user: userId }).populate([
-    { path: "user" },
-    { path: "book" },
-  ]);
-  return members;
+async function getBookMembershipsByUserId(userId, page, limit, order) {
+  const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
+
+  const total = await BookMember.countDocuments({ user: userId });
+
+  const memberships = await BookMember.find({ user: userId })
+    .sort(sortOrder)
+    .skip(page * limit)
+    .limit(limit)
+    .populate([{ path: "user" }, { path: "book" }]);
+
+  return {
+    skip: page * limit,
+    limit,
+    total,
+    memberships,
+  };
 }
 
 async function getBookMembersByBookId(bookId) {
