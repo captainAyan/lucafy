@@ -10,7 +10,7 @@ const {
 } = require("../utilities/validation/userValidationSchema");
 const {
   paginationQueryParamSchemaWithKeyword,
-} = require("../utilities/validation/paginationQueryParamValidationSchema");
+} = require("../utilities/validation/paginationQueryParamSchema");
 
 async function login(req, res) {
   const { email, password } = req.body;

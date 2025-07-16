@@ -4,13 +4,13 @@ const createHttpError = require("http-errors");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/validation/bookValidationSchema");
+} = require("../../utilities/validation/bookSchema");
 const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");
 const {
   paginationQueryParamSchema,
-} = require("../../utilities/validation/paginationQueryParamValidationSchema");
+} = require("../../utilities/validation/paginationQueryParamSchema");
 
 async function createBook(req, res) {
   const { value: bookValues, error } = createSchema.validate(req.body);
