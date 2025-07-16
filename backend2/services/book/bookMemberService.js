@@ -48,12 +48,18 @@ async function getBookMembershipsByUserId(userId, page, limit, order) {
   };
 }
 
-async function getBookMembersByBookId(bookId) {
-  const members = await BookMember.find({ book: bookId }).populate([
-    { path: "user" },
-    { path: "book" },
-  ]);
-  return members;
+async function getBookMembersByBookId(bookId, page, limit, order) {
+  const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
+
+  const total = await BookMember.countDocuments({ book: bookId });
+
+  const members = await BookMember.find({ book: bookId })
+    .sort(sortOrder)
+    .skip(page * limit)
+    .limit(limit)
+    .populate([{ path: "user" }, { path: "book" }]);
+
+  return { skip: page * limit, limit, total, members };
 }
 
 async function createBookMember(bookId, userId, role, session = null) {

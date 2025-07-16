@@ -6,6 +6,9 @@ const {
   createSchema,
   editSchema,
 } = require("../../utilities/validation/bookMemberSchema");
+const {
+  paginationQueryParamSchema,
+} = require("../../utilities/validation/paginationQueryParamSchema");
 
 async function createBookMember(req, res) {
   const { value: bookMemberValues, error } = createSchema.validate(req.body);
@@ -23,8 +26,20 @@ async function createBookMember(req, res) {
 }
 
 async function getBookMembers(req, res) {
+  const {
+    value: { page, limit, order },
+    error,
+  } = paginationQueryParamSchema.validate(req.query);
+
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid query parameter");
+  }
+
   const bookMembers = await bookMemberService.getBookMembersByBookId(
-    req.book.id
+    req.book.id,
+    page,
+    limit,
+    order
   );
   res.status(StatusCodes.OK).json(bookMembers);
 }
