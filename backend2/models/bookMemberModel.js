@@ -31,6 +31,7 @@ BookMemberSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
+BookMemberSchema.set("toObject", { virtuals: true, versionKey: false });
 BookMemberSchema.set("toJSON", { virtuals: true, versionKey: false });
 
 module.exports = model("BookMember", BookMemberSchema);

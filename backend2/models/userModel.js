@@ -92,7 +92,7 @@ UserSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-UserSchema.set("toJSON", {
+const options = {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
@@ -100,6 +100,9 @@ UserSchema.set("toJSON", {
     delete obj.password;
     return obj;
   },
-});
+};
+
+UserSchema.set("toObject", options);
+UserSchema.set("toJSON", options);
 
 module.exports = model("User", UserSchema);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 const {
   INCOME,
   EXPENDITURE,
@@ -12,7 +12,7 @@ const {
   LEDGER_DESCRIPTION_MAX_LENGTH,
 } = require("../constants/policies");
 
-const ledgerSchema = new mongoose.Schema(
+const LedgerSchema = new Schema(
   {
     name: {
       type: String,
@@ -39,7 +39,7 @@ const ledgerSchema = new mongoose.Schema(
       default: 0,
     },
     user_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -47,12 +47,11 @@ const ledgerSchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-ledgerSchema.virtual("id").get(function () {
+LedgerSchema.virtual("id").get(function () {
   return this._id;
 });
 
-ledgerSchema.set("toJSON", {
-  virtuals: true,
-});
+LedgerSchema.set("toObject", { virtuals: true, versionKey: false });
+LedgerSchema.set("toJSON", { virtuals: true, versionKey: false });
 
-module.exports = mongoose.model("Ledger", ledgerSchema);
+module.exports = model("Ledger", LedgerSchema);

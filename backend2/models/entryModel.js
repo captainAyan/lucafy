@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 const { ENTRY_NARRATION_MAX_LENGTH } = require("../constants/policies");
 
-const entrySchema = new mongoose.Schema(
+const EntrySchema = new Schema(
   {
     debit_ledger: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "Ledger",
     },
     credit_ledger: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "Ledger",
     },
@@ -21,7 +21,7 @@ const entrySchema = new mongoose.Schema(
       maxlength: ENTRY_NARRATION_MAX_LENGTH,
     },
     user_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -33,12 +33,11 @@ const entrySchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-entrySchema.virtual("id").get(function () {
+EntrySchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-entrySchema.set("toJSON", {
-  virtuals: true,
-});
+EntrySchema.set("toObject", { virtuals: true, versionKey: false });
+EntrySchema.set("toJSON", { virtuals: true, versionKey: false });
 
-module.exports = mongoose.model("Entry", entrySchema);
+module.exports = model("Entry", EntrySchema);
