@@ -7,6 +7,7 @@
  * @property {string} currencyCode - Currency code, must be one of CURRENCY_CODE_ENUM.
  * @property {Date} createdAt - Timestamp of when the book was created.
  * @property {Date} updatedAt - Timestamp of when the book was last updated.
+ * @property {string} [role] - Role of user who's fetching the book data. Only in get-books route
  */
 
 /**
@@ -24,6 +25,17 @@
  * @property {string} [address] - Optional. Physical address.
  * @property {Date|null} [dateOfBirth] - Optional. Date of birth.
  * @property {string} [gender] - Optional. One of `USER_GENDER_ENUM`.
+ * @property {Date} createdAt - Timestamp when the user was created.
+ * @property {Date} updatedAt - Timestamp when the user was last updated.
+ */
+
+/**
+ * @typedef {Object} BookMember
+ * @property {import("mongoose").ObjectId} id - MongoDB ObjectId
+ * @property {import("mongoose").ObjectId} _id - MongoDB ObjectId
+ * @property {User} user - the member's user data
+ * @property {Book} book - the book
+ * @property {string} role - role of the member
  * @property {Date} createdAt - Timestamp when the user was created.
  * @property {Date} updatedAt - Timestamp when the user was last updated.
  */

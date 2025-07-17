@@ -3,6 +3,17 @@ const createHttpError = require("http-errors");
 
 const BookMember = require("../../models/bookMemberModel");
 
+/**
+ * @typedef {import('../constants/typedefs').BookMember} BookMember
+ */
+
+/**
+ * Retrives BookMember by bookId and userId
+ *
+ * @param {string} bookId - MongoDB ObjectId of the book
+ * @param {string} userId - MongoDB ObjectId of the user
+ * @returns {promise<BookMember>}
+ */
 async function getBookMemberByBookIdAndUserId(bookId, userId) {
   const member = await BookMember.findOne({
     user: userId,
@@ -16,6 +27,13 @@ async function getBookMemberByBookIdAndUserId(bookId, userId) {
   return member;
 }
 
+/**
+ * Retrives BookMember by bookId and bookMemberId
+ *
+ * @param {string} bookId - MongoDB ObjectId of the book
+ * @param {string} bookMemberId - MongoDB ObjectId of the bookMember
+ * @returns {Promise<BookMember>}
+ */
 async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
   const member = await BookMember.findOne({
     _id: bookMemberId,
@@ -29,6 +47,20 @@ async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
   return member;
 }
 
+/**
+ * Retrives pagianted list of book memberships of an user by their user id
+ *
+ * @param {string} userId - MongoDB ObjectId of the user
+ * @param {number} page - Current page number
+ * @param {number} limit - Number of users per page
+ * @param {string} order - Sort order
+ * @returns {Promise<{
+ *  skip: number,
+ *  limit: number,
+ *  total: number,
+ *  memberships: Array<BookMember>
+ * }>}
+ */
 async function getBookMembershipsByUserId(userId, page, limit, order) {
   const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
 
@@ -48,6 +80,20 @@ async function getBookMembershipsByUserId(userId, page, limit, order) {
   };
 }
 
+/**
+ * Retrive paginated list of BookMembers of a book by it's book id
+ *
+ * @param {string} bookId - MongoDB ObjectId of the book
+ * @param {number} page - Current page number
+ * @param {number} limit - Number of users per page
+ * @param {string} order - Sort order
+ * @returns {Promise<{
+ *  skip: number,
+ *  limit: number,
+ *  total: number,
+ *  members: Array<BookMember>
+ * }>}
+ */
 async function getBookMembersByBookId(bookId, page, limit, order) {
   const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
 
@@ -62,6 +108,15 @@ async function getBookMembersByBookId(bookId, page, limit, order) {
   return { skip: page * limit, limit, total, members };
 }
 
+/**
+ * Create BookMember
+ *
+ * @param {string} bookId - MongoDB ObjectId of book
+ * @param {string} userId - MongoDB ObjectId of user
+ * @param {string} role - Member role
+ * @param {import('mongoose').ClientSession} [session=null] - Optional MongoDB session for transaction support.
+ * @returns {Promise<BookMember>} - The created BookMember document
+ */
 async function createBookMember(bookId, userId, role, session = null) {
   const options = session ? { session } : {};
 
@@ -82,6 +137,14 @@ async function createBookMember(bookId, userId, role, session = null) {
   }
 }
 
+/**
+ * Update BookMember data
+ *
+ * @param {string} bookId - MongoDB ObjectId of the book
+ * @param {string} bookMemberId - MongoDB ObjectId of the bookMember
+ * @param {Partial<BookMember>} bookMemberData - An object containing the fields to update
+ * @returns {Promise<BookMember>} The updated BookMember document
+ */
 async function editBookMemberByBookIdAndBookMemberId(
   bookId,
   bookMemberId,
