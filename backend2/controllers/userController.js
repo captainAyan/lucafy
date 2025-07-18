@@ -7,7 +7,7 @@ const {
   createSchema,
   editSchema,
   passwordChangeSchema,
-} = require("../utilities/validation/userValidationSchema");
+} = require("../utilities/validation/userSchema");
 const {
   paginationQueryParamSchemaWithKeyword,
 } = require("../utilities/validation/paginationQueryParamSchema");
