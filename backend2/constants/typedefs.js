@@ -24,7 +24,7 @@
  * @property {string} [jobTitle] - Optional. Job title.
  * @property {string} [address] - Optional. Physical address.
  * @property {Date|null} [dateOfBirth] - Optional. Date of birth.
- * @property {string} [gender] - Optional. One of `USER_GENDER_ENUM`.
+ * @property {string} [gender] - Optional. One of `USER_GENDER`.
  * @property {Date} createdAt - Timestamp when the user was created.
  * @property {Date} updatedAt - Timestamp when the user was last updated.
  */

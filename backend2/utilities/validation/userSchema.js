@@ -11,7 +11,7 @@ const {
   ORGANIZATION_NAME_MAX_LENGTH,
   USER_JOB_TITLE_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
-  USER_GENDER_ENUM,
+  USER_GENDER,
 } = require("../../constants/policies");
 
 const createSchema = Joi.object({
@@ -41,8 +41,7 @@ const editSchema = Joi.object({
   address: Joi.string().max(ADDRESS_MAX_LENGTH).allow("").optional(),
   dateOfBirth: Joi.date().optional().allow(null),
   gender: Joi.string()
-    .valid(...USER_GENDER_ENUM)
-    .allow("")
+    .valid(...Object.values(USER_GENDER)) // .allow("") is not needed as USER_GENDER.UNSPECIFIED = ""
     .optional(),
 }).options({ stripUnknown: true });
 

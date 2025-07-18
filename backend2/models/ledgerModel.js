@@ -1,11 +1,5 @@
 const { Schema, model } = require("mongoose");
-const {
-  INCOME,
-  EXPENDITURE,
-  ASSET,
-  LIABILITY,
-  EQUITY,
-} = require("../constants/ledgerTypes");
+const LEDGER_TYPE = require("../constants/policies");
 
 const {
   LEDGER_NAME_MAX_LENGTH,
@@ -24,7 +18,7 @@ const LedgerSchema = new Schema(
     type: {
       type: String,
       required: true,
-      enum: [INCOME, EXPENDITURE, ASSET, LIABILITY, EQUITY],
+      enum: LEDGER_TYPE,
     },
     description: {
       type: String,

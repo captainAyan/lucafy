@@ -1,11 +1,5 @@
 const Joi = require("joi");
-const {
-  INCOME,
-  EXPENDITURE,
-  ASSET,
-  LIABILITY,
-  EQUITY,
-} = require("../../constants/ledgerTypes");
+const { LEDGER_TYPE } = require("../../constants/policies");
 
 const {
   LEDGER_NAME_MAX_LENGTH,
@@ -15,7 +9,7 @@ const {
 const createSchema = Joi.object({
   name: Joi.string().min(1).max(LEDGER_NAME_MAX_LENGTH).required(),
   type: Joi.string()
-    .valid(INCOME, EXPENDITURE, ASSET, LIABILITY, EQUITY)
+    .valid(...Object.values(LEDGER_TYPE))
     .required(),
   description: Joi.string()
     .min(1)
@@ -26,7 +20,7 @@ const createSchema = Joi.object({
 const editSchema = Joi.object({
   name: Joi.string().min(1).max(LEDGER_NAME_MAX_LENGTH).required(),
   type: Joi.string()
-    .valid(INCOME, EXPENDITURE, ASSET, LIABILITY, EQUITY)
+    .valid(...Object.values(LEDGER_TYPE))
     .required(),
   description: Joi.string()
     .min(1)

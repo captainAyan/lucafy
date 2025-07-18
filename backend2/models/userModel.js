@@ -10,7 +10,7 @@ const {
   USER_JOB_TITLE_MAX_LENGTH,
   ORGANIZATION_NAME_MAX_LENGTH,
   USER_BIO_MAX_LENGTH,
-  USER_GENDER_ENUM,
+  USER_GENDER,
 } = require("../constants/policies");
 
 const UserSchema = new Schema(
@@ -81,8 +81,8 @@ const UserSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: USER_GENDER_ENUM,
-      default: "",
+      enum: USER_GENDER,
+      default: USER_GENDER.UNSPECIFIED,
     },
   },
   { timestamps: true }

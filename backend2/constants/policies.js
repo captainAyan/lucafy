@@ -7,11 +7,10 @@ exports.DEFAULT_PAGINATION_LIMIT = 10;
 exports.ORGANIZATION_NAME_MAX_LENGTH = 100;
 exports.ADDRESS_MAX_LENGTH = 200;
 
-// exports.BOOK_MEMBER_ROLES_ENUM = ["admin", "member"];
-exports.BOOK_MEMBER_ROLE = {
+exports.BOOK_MEMBER_ROLE = Object.freeze({
   ADMIN: "admin",
   MEMBER: "member",
-};
+});
 
 exports.CURRENCY_CODE_ENUM = require("./currencyCodes");
 
@@ -24,9 +23,22 @@ exports.USER_MIDDLE_NAME_MAX_LENGTH = 100;
 exports.USER_LAST_NAME_MAX_LENGTH = 100;
 exports.USER_BIO_MAX_LENGTH = 200;
 exports.USER_JOB_TITLE_MAX_LENGTH = 100;
-exports.USER_GENDER_ENUM = ["male", "female", "other", ""];
+exports.USER_GENDER = Object.freeze({
+  MALE: "male",
+  FEMALE: "female",
+  OTHER: "other",
+  UNSPECIFIED: "",
+});
 
 exports.LEDGER_NAME_MAX_LENGTH = 50;
 exports.LEDGER_DESCRIPTION_MAX_LENGTH = 200;
 
 exports.ENTRY_NARRATION_MAX_LENGTH = 200;
+
+exports.LEDGER_TYPE = Object.freeze({
+  INCOME: "income",
+  EXPENDITURE: "expenditure",
+  ASSET: "asset",
+  LIABILITY: "liability",
+  EQUITY: "equity",
+});
