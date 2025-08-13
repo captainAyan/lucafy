@@ -1,7 +1,9 @@
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
-const { ENTRY_NARRATION_MAX_LENGTH } = require("../../constants/policies");
+const {
+  ENTRY_NARRATION_MAX_LENGTH,
+} = require("../../../../constants/policies");
 
 const createSchema = Joi.object({
   debit_ledger_id: Joi.objectId().required(),

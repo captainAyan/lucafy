@@ -4,7 +4,7 @@ const createHttpError = require("http-errors");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/validation/bookSchema");
+} = require("../../utilities/validation/book/bookSchema");
 const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");

@@ -28,6 +28,10 @@ router.put("/:bookId", authorizeRole([ADMIN]), editBook);
 router.delete("/:bookId", authorizeRole([ADMIN]), deleteBook);
 
 router.use("/:bookId/member", require("./bookMemberRoutes"));
-// router.use("/:bookId/core", require("./core/index"));
+router.use(
+  "/:bookId/core",
+  authorizeRole([ADMIN, MEMBER]),
+  require("./core/index")
+);
 
 module.exports = router;

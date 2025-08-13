@@ -3,17 +3,16 @@ const express = require("express");
 const router = express.Router();
 const {
   createLedger,
-  getLedger,
+  getLedgerById,
   getLedgers,
   getAllLedgers,
   editLedger,
-} = require("../../../../controllers/ledgerController");
-const { protect } = require("../../../../middlewares/authMiddleware");
+} = require("../../../../controllers/book/core/ledgerController");
 
-router.post("/", protect, createLedger);
-router.get("/", protect, getLedgers);
-router.get("/all", protect, getAllLedgers);
-router.get("/:ledgerId", protect, getLedger);
-router.put("/:ledgerId", protect, editLedger);
+router.post("/", createLedger);
+router.get("/", getLedgers);
+router.get("/all", getAllLedgers);
+router.get("/:ledgerId", getLedgerById);
+router.put("/:ledgerId", editLedger);
 
 module.exports = router;

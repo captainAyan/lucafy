@@ -30,7 +30,7 @@ const EntrySchema = new Schema(
       required: true,
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
 EntrySchema.virtual("id").get(function () {

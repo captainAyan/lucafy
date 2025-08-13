@@ -22,10 +22,10 @@ const BookMemberSchema = new Schema(
       required: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
+BookMemberSchema.index({ user: 1, book: 1 }, { unique: true });
 
 BookMemberSchema.virtual("id").get(function () {
   return this._id.toHexString();

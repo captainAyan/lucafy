@@ -5,7 +5,7 @@ const bookMemberService = require("../../services/book/bookMemberService");
 const {
   createSchema,
   editSchema,
-} = require("../../utilities/validation/bookMemberSchema");
+} = require("../../utilities/validation/book/bookMemberSchema");
 const {
   paginationQueryParamSchema,
 } = require("../../utilities/validation/paginationQueryParamSchema");
@@ -18,7 +18,7 @@ async function createBookMember(req, res) {
 
   const bookMember = await bookMemberService.createBookMember(
     req.book.id,
-    bookMemberValues.user_id,
+    bookMemberValues.userId,
     bookMemberValues.role
   );
 

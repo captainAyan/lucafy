@@ -1,31 +1,43 @@
 const { StatusCodes } = require("http-status-codes");
-const asyncHandler = require("express-async-handler");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../middlewares/errorMiddleware");
+const {
+  createSchema,
+  editSchema,
+} = require("../../../utilities/validation/ledgerSchema");
+const ledgerService = require("../../../services/book/core/ledgerService");
 
-const getLedgers = asyncHandler(async (req, res, next) => {
+async function getLedgers(req, res) {
   res.send("get ledgers");
-});
+}
 
-const getAllLedgers = asyncHandler(async (req, res, next) => {
+async function getAllLedgers(req, res) {
   res.send("get all ledgers");
-});
+}
 
-const getLedgerById = asyncHandler(async (req, res, next) => {
+async function getLedgerById(req, res) {
   res.send("get ledger by id");
-});
+}
 
-const createLedger = asyncHandler(async (req, res, next) => {
+async function createLedger(req, res) {
+  const { value: ledgerValues, error } = createSchema.validate();
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
+  // TODO check if the user is even allowed to create more ledgers.
+
+  const ledger = await ledgerService.createLedger(
+    ledgerValues,
+    req.book.id,
+    req.user.id
+  );
+
   res.send("create ledger");
-});
+}
 
-const editLedger = asyncHandler(async (req, res, next) => {
+async function editLedger(req, res) {
   res.send("edit ledger");
-});
-
-const viewLedgerStatement = asyncHandler(async (req, res, next) => {
-  res.send("view ledger statement");
-});
+}
 
 module.exports = {
   createLedger,
@@ -33,5 +45,4 @@ module.exports = {
   getAllLedgers,
   getLedgerById,
   editLedger,
-  viewLedgerStatement,
 };

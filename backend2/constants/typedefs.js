@@ -40,4 +40,17 @@
  * @property {Date} updatedAt - Timestamp when the user was last updated.
  */
 
+/**
+ * @typedef {Object} LedgerGroup
+ * @property {import("mongoose").ObjectId} id - MongoDB ObjectId
+ * @property {import("mongoose").ObjectId} _id - MongoDB ObjectId
+ * @property {string} name - ledger group name
+ * @property {string} description - ledger group description
+ * @property {string} [nature] - one of `LEDGER_TYPE`
+ * @property {LedgerGroup} [parent] - parent of this ledger group
+ * @property {Book} book - the book
+ * @property {Date} createdAt - Timestamp when the ledger group was created.
+ * @property {Date} updatedAt - Timestamp when the ledger group was last updated.
+ */
+
 export {};

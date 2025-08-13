@@ -30,7 +30,7 @@ async function addBookAndMembershipData(req, res, next) {
 
 function authorizeRole(allowedRoles) {
   return async function authorizeRoleMiddleware(req, res, next) {
-    console.log(allowedRoles, req.membership.role);
+    console.log("PERMISSION MIDDLEWARE", allowedRoles, req.membership.role);
     if (!allowedRoles.includes(req.membership.role)) {
       throw createHttpError(StatusCodes.UNAUTHORIZED, "Insufficient role");
     }

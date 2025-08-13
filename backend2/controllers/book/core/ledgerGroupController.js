@@ -1,27 +1,66 @@
 const { StatusCodes } = require("http-status-codes");
-const asyncHandler = require("express-async-handler");
+const createHttpError = require("http-errors");
 
-const { ErrorResponse } = require("../middlewares/errorMiddleware");
+const {
+  createSchema,
+  editSchema,
+} = require("../../../utilities/validation/book/core/ledgerGroupSchema");
+const ledgerGroupService = require("../../../services/book/core/ledgerGroupService");
 
-const getLedgerGroups = asyncHandler(async (req, res, next) => {
-  res.send("get ledger groups");
-});
+async function createLedgerGroup(req, res) {
+  const { value: ledgerGroupValues, error } = createSchema.validate(req.body);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
 
-const getLedgerGroupById = asyncHandler(async (req, res, next) => {
-  res.send("get ledger group by id");
-});
+  const { ledgerGroup } = await ledgerGroupService.createLedgerGroup(
+    req.book.id,
+    ledgerGroupValues
+  );
 
-const createLedgerGroup = asyncHandler(async (req, res, next) => {
-  res.send("create ledger group");
-});
+  res.status(StatusCodes.CREATED).json(ledgerGroup);
+}
 
-const editLedgerGroup = asyncHandler(async (req, res, next) => {
-  res.send("edit ledger group");
-});
+async function getLedgerGroupById(req, res) {
+  try {
+    const group = await ledgerGroupService.getLedgerGroupById(req.params.id);
+    if (!group) return res.status(404).json({ error: "LedgerGroup not found" });
+    res.json(group);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+async function getAllLedgerGroups(req, res) {
+  try {
+    const groups = await ledgerGroupService.getAllLedgerGroups();
+    res.json(groups);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+async function editLedgerGroup(req, res) {
+  try {
+    const { error, value } = ledgerGroupSchema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const updated = await ledgerGroupService.updateLedgerGroup(
+      req.params.id,
+      value
+    );
+    if (!updated)
+      return res.status(404).json({ error: "LedgerGroup not found" });
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
 
 module.exports = {
   createLedgerGroup,
-  getLedgerGroups,
   getLedgerGroupById,
+  getAllLedgerGroups,
   editLedgerGroup,
 };

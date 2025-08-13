@@ -9,15 +9,14 @@ const {
   normalizeEntries,
   normalizeEntry,
   searchEntryByNarration,
-} = require("../../../../controllers/entryController");
-const { protect } = require("../../../../middlewares/authMiddleware");
+} = require("../../../../controllers/book/core/entryController");
 
-router.post("/", protect, createEntry);
-router.get("/", protect, getEntries);
-router.get("/search", protect, searchEntryByNarration);
-router.get("/:entryId", protect, getEntry);
-router.put("/normalize", protect, normalizeEntries);
-router.put("/:entryId", protect, editEntry);
-router.put("/normalize/:entryId", protect, normalizeEntry);
+router.post("/", createEntry);
+router.get("/", getEntries);
+router.get("/search", searchEntryByNarration);
+router.get("/:entryId", getEntry);
+router.put("/normalize", normalizeEntries);
+router.put("/:entryId", editEntry);
+router.put("/normalize/:entryId", normalizeEntry);
 
 module.exports = router;

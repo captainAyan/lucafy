@@ -35,10 +35,13 @@ exports.LEDGER_DESCRIPTION_MAX_LENGTH = 200;
 
 exports.ENTRY_NARRATION_MAX_LENGTH = 200;
 
-exports.LEDGER_TYPE = Object.freeze({
+exports.LEDGER_NATURE = Object.freeze({
   INCOME: "income",
   EXPENDITURE: "expenditure",
   ASSET: "asset",
   LIABILITY: "liability",
   EQUITY: "equity",
 });
+
+exports.LEDGER_GROUP_NAME_MAX_LENGTH = 50;
+exports.LEDGER_GROUP_DESCRIPTION_MAX_LENGTH = 200;

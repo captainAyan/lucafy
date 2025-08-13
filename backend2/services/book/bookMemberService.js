@@ -34,11 +34,17 @@ async function getBookMemberByBookIdAndUserId(bookId, userId) {
  * @param {string} bookMemberId - MongoDB ObjectId of the bookMember
  * @returns {Promise<BookMember>}
  */
-async function getBookMemberByBookIdAndBookMemberId(bookId, bookMemberId) {
+async function getBookMemberByBookIdAndBookMemberId(
+  bookId,
+  bookMemberId,
+  session
+) {
   const member = await BookMember.findOne({
     _id: bookMemberId,
     book: bookId,
-  }).populate([{ path: "user" }, { path: "book" }]);
+  })
+    .session(session || undefined)
+    .populate([{ path: "user" }, { path: "book" }]);
 
   if (!member) {
     throw createHttpError(StatusCodes.NOT_FOUND, "Book member not found");
@@ -121,17 +127,22 @@ async function createBookMember(bookId, userId, role, session = null) {
   const options = session ? { session } : {};
 
   try {
-    await getBookMemberByBookIdAndUserId(bookId, userId);
-    throw createHttpError(StatusCodes.FORBIDDEN, "Book member already exists");
+    const member = await new BookMember({
+      book: bookId,
+      user: userId,
+      role,
+    }).save(options);
+    return await getBookMemberByBookIdAndBookMemberId(
+      bookId,
+      member.id,
+      session
+    );
   } catch (err) {
-    if (err.status === StatusCodes.NOT_FOUND) {
-      const member = await new BookMember({
-        book: bookId,
-        user: userId,
-        role,
-      }).save(options);
-
-      return getBookMemberByBookIdAndBookMemberId(bookId, member.id);
+    if (err.code === 11000) {
+      throw createHttpError(
+        StatusCodes.FORBIDDEN,
+        "Book member already exists"
+      );
     }
     throw err;
   }

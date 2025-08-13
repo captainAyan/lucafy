@@ -4,7 +4,7 @@ const {
   ORGANIZATION_NAME_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
   CURRENCY_CODE_ENUM,
-} = require("../../constants/policies");
+} = require("../../../constants/policies");
 
 const createSchema = Joi.object({
   organization: Joi.string()
