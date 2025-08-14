@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const createHttpError = require("http-errors");
 
 const BookMember = require("../../models/bookMemberModel");
+const { getUserById } = require("../userService");
 
 /**
  * @typedef {import('../constants/typedefs').BookMember} BookMember
@@ -127,6 +128,8 @@ async function createBookMember(bookId, userId, role, session = null) {
   const options = session ? { session } : {};
 
   try {
+    const user = await getUserById(userId);
+
     const member = await new BookMember({
       book: bookId,
       user: userId,
