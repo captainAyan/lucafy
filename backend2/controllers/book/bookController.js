@@ -5,7 +5,7 @@ const {
   createSchema,
   editSchema,
 } = require("../../utilities/validation/book/bookSchema");
-const bookOrchestratorService = require("../../services/book/bookOrchestratorService");
+const bookOrchestrator = require("../../services/book/bookOrchestrator");
 const bookAccessService = require("../../services/book/bookAccessService");
 const bookService = require("../../services/book/bookService");
 const {
@@ -18,8 +18,10 @@ async function createBook(req, res) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
-  const { book, bookMember } =
-    await bookOrchestratorService.createBookWithAdmin(bookValues, req.user.id);
+  const { book, bookMember } = await bookOrchestrator.createBookWithAdmin(
+    bookValues,
+    req.user.id
+  );
 
   res.status(StatusCodes.CREATED).json(book);
 }
