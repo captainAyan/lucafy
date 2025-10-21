@@ -10,7 +10,7 @@ const {
 const createSchema = Joi.object({
   name: Joi.string().min(1).max(LEDGER_GROUP_NAME_MAX_LENGTH).required(),
   nature: Joi.string()
-    .valid(...Object.values(LEDGER_NATURE))
+    .valid("", ...Object.values(LEDGER_NATURE))
     .required(),
   description: Joi.string()
     .min(1)
@@ -19,12 +19,12 @@ const createSchema = Joi.object({
   parentId: Joi.objectId().allow("").required(),
 })
   .custom((obj, helpers) => {
-    if (obj.nature && obj.parent_id) {
+    if (obj.nature && obj.parentId) {
       return helpers.error("any.invalid", {
         message: "Primary group (with nature) cannot have a parent.",
       });
     }
-    if (!obj.nature && !obj.parent_id) {
+    if (!obj.nature && !obj.parentId) {
       return helpers.error("any.invalid", {
         message: "Child group must have a parent or nature must be defined.",
       });

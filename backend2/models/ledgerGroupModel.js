@@ -1,4 +1,4 @@
-const { Schema, model, Error } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const {
   LEDGER_TYPE,
@@ -42,32 +42,6 @@ const LedgerGroupSchema = new Schema(
 
 // Enforce uniqueness of name within the same book
 LedgerGroupSchema.index({ bookId: 1, name: 1 }, { unique: true });
-
-// Ensure mutual exclusivity between 'nature' and 'parent'
-function validateNatureAndParent(nature, parent) {
-  if (nature && parent) {
-    return new Error("Primary ledger group cannot have a parent.");
-  }
-  if (!nature && !parent) {
-    return new Error("Child ledger group must have a parent.");
-  }
-  return null;
-}
-
-LedgerGroupSchema.pre("save", function (next) {
-  const err = validateNatureAndParent(this.nature, this.parent);
-  return err ? next(err) : next();
-});
-
-LedgerGroupSchema.pre(["findOneAndUpdate", "updateOne"], function (next) {
-  const update = this.getUpdate();
-
-  const nature = update.nature ?? update.$set?.nature;
-  const parent = update.parent ?? update.$set?.parent;
-
-  const err = validateNatureAndParent(nature, parent);
-  return err ? next(err) : next();
-});
 
 LedgerGroupSchema.virtual("id").get(function () {
   return this._id;

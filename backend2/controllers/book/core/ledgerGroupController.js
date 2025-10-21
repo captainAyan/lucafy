@@ -5,7 +5,7 @@ const {
   createSchema,
   editSchema,
 } = require("../../../utilities/validation/book/core/ledgerGroupSchema");
-const ledgerGroupService = require("../../../services/book/core/ledgerGroupService");
+const ledgerGroupUseCase = require("../../../services/book/core/ledgerGroupUseCase");
 
 async function createLedgerGroup(req, res) {
   const { value: ledgerGroupValues, error } = createSchema.validate(req.body);
@@ -13,7 +13,7 @@ async function createLedgerGroup(req, res) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
-  const { ledgerGroup } = await ledgerGroupService.createLedgerGroup(
+  const ledgerGroup = await ledgerGroupUseCase.createLedgerGroup(
     req.book.id,
     ledgerGroupValues
   );
@@ -41,21 +41,18 @@ async function getAllLedgerGroups(req, res) {
 }
 
 async function editLedgerGroup(req, res) {
-  try {
-    const { error, value } = ledgerGroupSchema.validate(req.body);
-    if (error) return res.status(400).json({ error: error.details[0].message });
-
-    const updated = await ledgerGroupService.updateLedgerGroup(
-      req.params.id,
-      value
-    );
-    if (!updated)
-      return res.status(404).json({ error: "LedgerGroup not found" });
-
-    res.json(updated);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  const { value: ledgerGroupValues, error } = editSchema.validate(req.body);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
+
+  const ledgerGroup = await ledgerGroupUseCase.editLedgerGroup(
+    req.params.ledgerGroupId,
+    req.book.id,
+    ledgerGroupValues
+  );
+
+  res.status(StatusCodes.OK).json(ledgerGroup);
 }
 
 module.exports = {
