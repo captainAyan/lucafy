@@ -13,18 +13,28 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
   // checking parent of non-premitive ledger group
   if (parentId) {
     // checking if parent exists in the book
-    const ancestors = await ledgerGroupService.getAncestry(
-      bookId,
-      parentId,
-      LEDGER_GROUP_HIERARCHY_MAX_DEPTH
-    );
-
-    if (!ancestors) {
-      throw createHttpError(
-        StatusCodes.NOT_FOUND,
-        "Parent ledger group not found"
+    let parent;
+    try {
+      const p = await ledgerGroupService.getLedgerGroupByBookIdAndLedgerGroupId(
+        bookId,
+        parentId
+      ); // throws 404
+      const ancestors = await ledgerGroupService.getAncestry(
+        bookId,
+        parentId,
+        LEDGER_GROUP_HIERARCHY_MAX_DEPTH
       );
+      parent = { ...p.toObject(), ancestors };
+    } catch (err) {
+      if (err.status === StatusCodes.NOT_FOUND) {
+        throw createHttpError(
+          StatusCodes.NOT_FOUND,
+          "Parent ledger group not found"
+        );
+      } else throw err;
     }
+
+    const { ancestors } = parent;
 
     // Hierarchy depth check
     if (ancestors.length === LEDGER_GROUP_HIERARCHY_MAX_DEPTH - 1) {
@@ -34,17 +44,9 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
       );
     }
 
-    // cycle check
-    if (ancestors.some((ancestor) => ancestor._id.equals(parentId))) {
-      throw createHttpError(
-        StatusCodes.BAD_REQUEST,
-        "Circular ledger group hierarchy detected"
-      );
-    }
-
     // adding derived nature
     if (!nature) {
-      updatedLedgerGroupData.nature = ancestors[ancestors.length - 1].nature;
+      updatedLedgerGroupData.nature = parent.nature;
     }
   }
 
@@ -53,6 +55,7 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
     updatedLedgerGroupData
   );
 
+  /// ancestors of the created ledger group
   const ancestors = await ledgerGroupService.getAncestry(
     bookId,
     newLedgerGroup.id,

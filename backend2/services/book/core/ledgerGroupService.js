@@ -84,7 +84,7 @@ async function editLedgerGroup(id, bookId, ledgerGroupData) {
  * @param {string} bookId - The ID of the book the ledger group belongs to.
  * @param {string} id - The ID of the ledger group.
  * @param {number} maxDepth - Number of ancestors to look for
- * @returns {Array<LedgerGroup>} - an array of all the ledger group ancestors
+ * @returns {Promise<Array<LedgerGroup>>} - an array of all the ledger group ancestors
  */
 async function getAncestry(bookId, id, maxDepth) {
   const result = await LedgerGroup.aggregate([
@@ -102,15 +102,18 @@ async function getAncestry(bookId, id, maxDepth) {
     { $project: { ancestors: 1, _id: 0 } },
   ]);
 
-  const [{ ancestors }] = result; // ancestors = result[0].ancestors
-  const updatedAncestors = ancestors.map((ancestor) => ({
-    ...ancestor,
-    id: ancestor._id,
-  }));
+  if (result && result[0] && result[0].ancestors) {
+    const [{ ancestors }] = result; // ancestors = result[0].ancestors
+    const updatedAncestors = ancestors.map((ancestor) => ({
+      ...ancestor,
+      id: ancestor._id,
+    }));
 
-  console.log("ancestors", updatedAncestors);
+    console.log("ancestors", updatedAncestors);
 
-  return updatedAncestors;
+    return updatedAncestors;
+  }
+  return null;
 }
 
 module.exports = {
