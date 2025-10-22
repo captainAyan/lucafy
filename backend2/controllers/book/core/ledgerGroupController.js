@@ -22,13 +22,11 @@ async function createLedgerGroup(req, res) {
 }
 
 async function getLedgerGroupById(req, res) {
-  try {
-    const group = await ledgerGroupService.getLedgerGroupById(req.params.id);
-    if (!group) return res.status(404).json({ error: "LedgerGroup not found" });
-    res.json(group);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const group = await ledgerGroupUseCase.getLedgerGroup(
+    req.book.id,
+    req.params.ledgerGroupId
+  );
+  res.json(group);
 }
 
 async function getAllLedgerGroups(req, res) {

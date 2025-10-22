@@ -109,8 +109,6 @@ async function getAncestry(bookId, id, maxDepth) {
       id: ancestor._id,
     }));
 
-    console.log("ancestors", updatedAncestors);
-
     return updatedAncestors;
   }
   return null;

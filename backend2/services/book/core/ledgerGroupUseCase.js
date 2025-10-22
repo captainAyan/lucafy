@@ -6,6 +6,32 @@ const {
   LEDGER_GROUP_HIERARCHY_MAX_DEPTH,
 } = require("../../../constants/policies");
 
+/**
+ * @typedef {import('../../constants/typedefs').LedgerGroup} LedgerGroup
+ */
+
+/**
+ *
+ * @param {string} bookId
+ * @param {string} ledgerGroupId
+ * @returns {<LedgerGroup>} includes ancestors field
+ */
+async function getLedgerGroup(bookId, ledgerGroupId) {
+  const ledgerGroup =
+    await ledgerGroupService.getLedgerGroupByBookIdAndLedgerGroupId(
+      bookId,
+      ledgerGroupId
+    );
+
+  const ancestors = await ledgerGroupService.getAncestry(
+    bookId,
+    ledgerGroupId,
+    LEDGER_GROUP_HIERARCHY_MAX_DEPTH
+  );
+
+  return { ...ledgerGroup.toObject(), ancestors };
+}
+
 async function createLedgerGroup(bookId, ledgerGroupData) {
   const { parentId, nature } = ledgerGroupData;
   const updatedLedgerGroupData = { ...ledgerGroupData };
@@ -15,16 +41,7 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
     // checking if parent exists in the book
     let parent;
     try {
-      const p = await ledgerGroupService.getLedgerGroupByBookIdAndLedgerGroupId(
-        bookId,
-        parentId
-      ); // throws 404
-      const ancestors = await ledgerGroupService.getAncestry(
-        bookId,
-        parentId,
-        LEDGER_GROUP_HIERARCHY_MAX_DEPTH
-      );
-      parent = { ...p.toObject(), ancestors };
+      parent = await getLedgerGroup(bookId, parentId); // throws 404
     } catch (err) {
       if (err.status === StatusCodes.NOT_FOUND) {
         throw createHttpError(
@@ -50,22 +67,12 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
     }
   }
 
-  const newLedgerGroup = await ledgerGroupService.createLedgerGroup(
+  const createdLedgerGroup = await ledgerGroupService.createLedgerGroup(
     bookId,
     updatedLedgerGroupData
   );
 
-  /// ancestors of the created ledger group
-  const ancestors = await ledgerGroupService.getAncestry(
-    bookId,
-    newLedgerGroup.id,
-    LEDGER_GROUP_HIERARCHY_MAX_DEPTH
-  );
-
-  return {
-    ...newLedgerGroup.toObject(),
-    ancestors,
-  };
+  return getLedgerGroup(bookId, createdLedgerGroup.id);
 }
 
 async function editLedgerGroup(id, bookId, updateData) {
@@ -121,4 +128,4 @@ async function editLedgerGroup(id, bookId, updateData) {
   return updatedLedgerGroup;
 }
 
-module.exports = { createLedgerGroup, editLedgerGroup };
+module.exports = { getLedgerGroup, createLedgerGroup, editLedgerGroup };

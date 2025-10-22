@@ -49,6 +49,7 @@
  * @property {string} [nature] - one of `LEDGER_TYPE`
  * @property {LedgerGroup} [parent] - parent of this ledger group
  * @property {Book} book - the book
+ * @property {Array<LedgerGroup>} [ancestors] - array of ancestors
  * @property {Date} createdAt - Timestamp when the ledger group was created.
  * @property {Date} updatedAt - Timestamp when the ledger group was last updated.
  */
