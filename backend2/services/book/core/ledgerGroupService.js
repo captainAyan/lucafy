@@ -60,7 +60,7 @@ async function createLedgerGroup(bookId, { parentId, ...data }) {
 const getAllLedgerGroups = async () =>
   LedgerGroup.find().populate("parent").populate("book");
 
-async function editLedgerGroup(id, bookId, ledgerGroupData) {
+async function editLedgerGroup(bookId, id, ledgerGroupData) {
   const ledgerGroup = await getLedgerGroupByBookIdAndLedgerGroupId(bookId, id);
 
   const { parentId, data } = {
@@ -72,7 +72,7 @@ async function editLedgerGroup(id, bookId, ledgerGroupData) {
 
   Object.assign(ledgerGroup, data);
 
-  return await LedgerGroup.findByIdAndUpdate(ledgerGroup.id, ledgerGroup, {
+  return LedgerGroup.findByIdAndUpdate(ledgerGroup.id, ledgerGroup, {
     new: true,
     runValidators: true,
   }).populate("parent");
@@ -114,10 +114,47 @@ async function getAncestry(bookId, id, maxDepth) {
   return null;
 }
 
+/**
+ * Retrieves the descendants chain of a ledger group using MongoDB's $graphLookup.
+ *
+ * @param {string} bookId - The ID of the book the ledger group belongs to.
+ * @param {string} id - The ID of the ledger group.
+ * @param {number} maxDepth - Number levels of descendents to look for
+ * @returns {Promise<Array<LedgerGroup>>} - an array of all the ledger group descendants
+ */
+async function getDescendants(bookId, id, maxDepth) {
+  const result = await LedgerGroup.aggregate([
+    { $match: { _id: new ObjectId(id), book: new ObjectId(bookId) } },
+    {
+      $graphLookup: {
+        from: "ledgergroups",
+        startWith: "$_id",
+        connectFromField: "_id",
+        connectToField: "parent",
+        as: "descendants",
+        maxDepth,
+      },
+    },
+    { $project: { descendants: 1, _id: 0 } },
+  ]);
+
+  if (result && result[0] && result[0].descendants) {
+    const [{ descendants }] = result; // ancestors = result[0].ancestors
+    const updatedDescendants = descendants.map((descendant) => ({
+      ...descendant,
+      id: descendant._id,
+    }));
+
+    return updatedDescendants;
+  }
+  return null;
+}
+
 module.exports = {
   createLedgerGroup,
   getLedgerGroupByBookIdAndLedgerGroupId,
   getAllLedgerGroups,
   editLedgerGroup,
   getAncestry,
+  getDescendants,
 };
