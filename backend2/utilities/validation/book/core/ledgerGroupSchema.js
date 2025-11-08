@@ -7,7 +7,7 @@ const {
   LEDGER_GROUP_DESCRIPTION_MAX_LENGTH,
 } = require("../../../../constants/policies");
 
-const createSchema = Joi.object({
+const baseSchema = Joi.object({
   name: Joi.string().min(1).max(LEDGER_GROUP_NAME_MAX_LENGTH).required(),
   nature: Joi.string()
     .valid("", ...Object.values(LEDGER_NATURE))
@@ -17,7 +17,9 @@ const createSchema = Joi.object({
     .max(LEDGER_GROUP_DESCRIPTION_MAX_LENGTH)
     .required(),
   parentId: Joi.objectId().allow("").required(),
-})
+});
+
+const createSchema = baseSchema
   .custom((obj, helpers) => {
     if (obj.nature && obj.parentId) {
       return helpers.error("any.invalid", {
@@ -30,9 +32,9 @@ const createSchema = Joi.object({
       });
     }
     return obj;
-  }, "Parent/Nature consistency validation")
+  }, "ParentId/Nature consistency validation")
   .options({ stripUnknown: true });
 
-const editSchema = createSchema;
+const editSchema = baseSchema;
 
 module.exports = { createSchema, editSchema };

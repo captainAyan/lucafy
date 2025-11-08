@@ -1,5 +1,6 @@
 const createHttpError = require("http-errors");
 const { StatusCodes } = require("http-status-codes");
+const { startSession } = require("mongoose");
 
 const ledgerGroupService = require("./ledgerGroupService");
 const {
@@ -77,38 +78,39 @@ async function createLedgerGroup(bookId, ledgerGroupData) {
 
 async function editLedgerGroup(id, bookId, updateData) {
   const originalLedgerGroup = await getLedgerGroup(bookId, id);
-  const updatedLedgerGroup = { _id: originalLedgerGroup._id };
 
-  // update name and description
-  updatedLedgerGroup.name = updateData.name;
-  updatedLedgerGroup.description = updateData.description;
+  const updatedLedgerGroup = {
+    _id: originalLedgerGroup._id,
+    name: updateData.name,
+    description: updateData.description,
+  };
 
   const oldParentId = originalLedgerGroup.parent?._id?.toString() || "";
   const newParentId = updateData.parentId;
+  const parentChanged = oldParentId !== newParentId;
+  const natureChanged = originalLedgerGroup.nature !== updateData.nature;
 
   console.log("old parent id", oldParentId);
   console.log("new parent id", newParentId);
   console.log("comparison", oldParentId === newParentId);
+  console.log("parent changed", parentChanged);
+  console.log("nature changed", natureChanged);
+  console.log("og nature", originalLedgerGroup.nature);
+  console.log("new nature", updateData.nature);
 
-  // complicated changes (parent change or nature change)
-  if (
-    oldParentId !== newParentId ||
-    originalLedgerGroup.nature !== updateData.nature
-  ) {
+  if (parentChanged || natureChanged) {
     const descendants = await ledgerGroupService.getDescendants(
       bookId,
       id,
       LEDGER_GROUP_HIERARCHY_MAX_DEPTH
     );
 
-    // parent changed checks
-    if (oldParentId !== newParentId) {
-      // new parent assigned
-      if (newParentId !== "") {
+    if (parentChanged) {
+      if (newParentId) {
+        // case 1: new parent
+
         // Circular parenting check
-        if (
-          descendants.some((descendant) => descendant._id.equals(newParentId))
-        ) {
+        if (descendants.some((d) => d._id.equals(newParentId))) {
           throw createHttpError(
             StatusCodes.BAD_REQUEST,
             "Circular ledger group hierarchy detected"
@@ -117,21 +119,14 @@ async function editLedgerGroup(id, bookId, updateData) {
 
         // Check level depth
         const newParent = await getLedgerGroup(bookId, newParentId);
-        // const ancestors = await ledgerGroupService.getAncestry(
-        //   bookId,
-        //   newParentId,
-        //   LEDGER_GROUP_HIERARCHY_MAX_DEPTH
-        // );
-        const { ancestors } = newParent;
-
-        const ancestorDepth = ancestors.length + 1; // ancestors of the parent + parent itself
+        const ancestorDepth = newParent.ancestors.length + 1; // ancestors of the parent + parent itself
         const maxDescendantsDepth = getMaxDepthOfDescendants(descendants, id);
-
-        console.log("ancestors", ancestorDepth);
-        console.log("descendants", maxDescendantsDepth);
 
         // Calculate the deepest descendant level after move
         const maxDepthAfterMove = ancestorDepth + maxDescendantsDepth + 1;
+
+        console.log("ancestors", ancestorDepth);
+        console.log("descendants", maxDescendantsDepth);
 
         if (maxDepthAfterMove > LEDGER_GROUP_HIERARCHY_MAX_DEPTH) {
           throw createHttpError(
@@ -142,34 +137,70 @@ async function editLedgerGroup(id, bookId, updateData) {
 
         updatedLedgerGroup.parent = newParentId;
         updatedLedgerGroup.nature = newParent.nature;
-      }
-      // ledger-group turned into a primary ledger-group
-      else {
+      } else {
+        // case 2: remove parent, turned to primary group
+
+        if (updateData.nature === "")
+          throw createHttpError(
+            StatusCodes.BAD_GATEWAY,
+            "Primary ledger group requires nature"
+          );
+
         updatedLedgerGroup.parent = null;
-        updatedLedgerGroup.nature = updateData.nature;
+        updatedLedgerGroup.nature = updateData.nature; // updating nature
       }
-    }
-    // only nature changed
-    else if (originalLedgerGroup.nature !== updateData.nature) {
+    } else if (natureChanged) {
+      if (originalLedgerGroup.parent)
+        // case 4: has a prent, so nature change is not allowed
+        throw createHttpError(
+          StatusCodes.BAD_REQUEST,
+          "Nature of a ledger group cannot be changed directly if it has a parent"
+        );
+
+      // case 3: only nature changes and no parent
       updatedLedgerGroup.parent = null;
       updatedLedgerGroup.nature = updateData.nature;
     }
 
-    ///  DO THE COMPLEX UPDATE HERE
-    // test response
-    console.log("ALL CLEAR");
-    return { message: "test all clear" };
+    console.log("------------------COMPLEX UPDATE--------------------");
+    // return { message: "all clear" };
+    /// do the bulk update here
+
+    const session = await startSession();
+    session.startTransaction();
+
+    try {
+      const result = await ledgerGroupService.editLedgerGroup(
+        bookId,
+        id,
+        updatedLedgerGroup,
+        session
+      );
+
+      await ledgerGroupService.editLedgerGroups(
+        bookId,
+        descendants.map((d) => d._id),
+        { nature: updatedLedgerGroup.nature },
+        session
+      );
+
+      await session.commitTransaction();
+      session.endSession();
+
+      return result;
+    } catch (err) {
+      await session.abortTransaction();
+      session.endSession();
+      throw err;
+    }
   }
   // simple edit just save the update
-  return ledgerGroupService.editLedgerGroup(bookId, id, updatedLedgerGroup);
-
-  // Save updates
-  // await ledgerGroupService.updateLedgerGroup(bookId, id, updatedLedgerGroup);
-
-  // Optionally: propagate nature/level changes to children
-  // await updateChildrenNatureAndLevels(id);
-
-  // return updatedLedgerGroup;
+  console.log("------------------SIMPLE UPDATE--------------------");
+  try {
+    return ledgerGroupService.editLedgerGroup(bookId, id, updatedLedgerGroup);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // Helper function

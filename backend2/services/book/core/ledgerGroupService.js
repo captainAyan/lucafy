@@ -17,11 +17,17 @@ const LedgerGroup = require("../../../models/ledgerGroupModel");
  * @param {string} ledgerGroupId - The MongoDB ObjectId of the ledger group to retrieve.
  * @returns {Promise<LedgerGroup>} - The Ledger Group document if found, otherwise null.
  */
-async function getLedgerGroupByBookIdAndLedgerGroupId(bookId, ledgerGroupId) {
+async function getLedgerGroupByBookIdAndLedgerGroupId(
+  bookId,
+  ledgerGroupId,
+  session = null
+) {
   const ledgerGroup = await LedgerGroup.findOne({
     _id: ledgerGroupId,
     book: bookId,
-  }).populate("parent");
+  })
+    .session(session || undefined)
+    .populate("parent");
 
   if (!ledgerGroup) {
     throw createHttpError(StatusCodes.NOT_FOUND, "Ledger group not found");
@@ -57,25 +63,49 @@ async function createLedgerGroup(bookId, { parentId, ...data }) {
   }
 }
 
-const getAllLedgerGroups = async () =>
-  LedgerGroup.find().populate("parent").populate("book");
+const getAllLedgerGroups = async () => LedgerGroup.find().populate("parent");
 
-async function editLedgerGroup(bookId, id, ledgerGroupData) {
-  const ledgerGroup = await getLedgerGroupByBookIdAndLedgerGroupId(bookId, id);
+async function editLedgerGroup(bookId, id, ledgerGroupData, session = null) {
+  const ledgerGroup = await getLedgerGroupByBookIdAndLedgerGroupId(
+    bookId,
+    id,
+    session
+  );
 
-  const { parentId, data } = {
-    parent: ledgerGroupData.parentId || null,
-    ...ledgerGroupData,
-  };
+  Object.assign(ledgerGroup, ledgerGroupData);
 
-  console.log(data);
+  try {
+    return LedgerGroup.findByIdAndUpdate(ledgerGroup.id, ledgerGroup, {
+      new: true,
+      runValidators: true,
+      session,
+    }).populate("parent");
+  } catch (err) {
+    if (err.code === 11000) {
+      throw createHttpError(
+        StatusCodes.FORBIDDEN,
+        "Ledger group with same name already exists"
+      );
+    }
+    throw err;
+  }
+}
 
-  Object.assign(ledgerGroup, data);
+async function editLedgerGroups(bookId, ids, ledgerGroupData, session = null) {
+  const objectIds = ids.map((id) => new ObjectId(id));
+  // const objectIds = ids;
 
-  return LedgerGroup.findByIdAndUpdate(ledgerGroup.id, ledgerGroup, {
-    new: true,
-    runValidators: true,
-  }).populate("parent");
+  const result = await LedgerGroup.updateMany(
+    { _id: { $in: objectIds }, book: bookId },
+    { $set: ledgerGroupData },
+    { session, runValidators: true }
+  );
+
+  // return updated documents
+  return LedgerGroup.find({
+    _id: { $in: objectIds },
+    book: bookId,
+  }).session(session || undefined);
 }
 
 /**
@@ -88,7 +118,12 @@ async function editLedgerGroup(bookId, id, ledgerGroupData) {
  */
 async function getAncestry(bookId, id, maxDepth) {
   const result = await LedgerGroup.aggregate([
-    { $match: { _id: new ObjectId(id), book: new ObjectId(bookId) } },
+    {
+      $match: {
+        _id: ObjectId.createFromHexString(id),
+        book: ObjectId.createFromHexString(bookId),
+      },
+    },
     {
       $graphLookup: {
         from: "ledgergroups",
@@ -124,7 +159,12 @@ async function getAncestry(bookId, id, maxDepth) {
  */
 async function getDescendants(bookId, id, maxDepth) {
   const result = await LedgerGroup.aggregate([
-    { $match: { _id: new ObjectId(id), book: new ObjectId(bookId) } },
+    {
+      $match: {
+        _id: ObjectId.createFromHexString(id),
+        book: ObjectId.createFromHexString(bookId),
+      },
+    },
     {
       $graphLookup: {
         from: "ledgergroups",
@@ -155,6 +195,7 @@ module.exports = {
   getLedgerGroupByBookIdAndLedgerGroupId,
   getAllLedgerGroups,
   editLedgerGroup,
+  editLedgerGroups,
   getAncestry,
   getDescendants,
 };
