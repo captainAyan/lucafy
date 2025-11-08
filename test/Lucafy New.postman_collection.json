@@ -4007,12 +4007,1636 @@
 									]
 								},
 								{
-									"name": "New Request",
+									"name": "Get Ledger Group",
 									"request": {
 										"method": "GET",
-										"header": []
+										"header": [],
+										"url": {
+											"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/68a63851c735ce0700d1bc8e",
+											"host": [
+												"{{book_url}}"
+											],
+											"path": [
+												"689d02a29d9b7ecc7be8db53",
+												"core",
+												"ledgerGroup",
+												"68a63851c735ce0700d1bc8e"
+											]
+										}
 									},
-									"response": []
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/68a63851c735ce0700d1bc8e",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"68a63851c735ce0700d1bc8e"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=98; t=597"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Content-Length",
+													"value": "1044"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"414-8lrPsHBqmLV00u1Wzb53QCY9VY0\""
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 22 Oct 2025 22:17:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"_id\": \"68a63851c735ce0700d1bc8e\",\n    \"name\": \"c\",\n    \"nature\": \"asset\",\n    \"description\": \"abcdef\",\n    \"parent\": {\n        \"_id\": \"68a6384ac735ce0700d1bc83\",\n        \"name\": \"b\",\n        \"nature\": \"asset\",\n        \"description\": \"abcdef\",\n        \"parent\": \"68a63843c735ce0700d1bc79\",\n        \"book\": \"689d02a29d9b7ecc7be8db53\",\n        \"createdAt\": \"2025-08-20T21:04:10.649Z\",\n        \"updatedAt\": \"2025-08-20T21:04:10.649Z\",\n        \"id\": \"68a6384ac735ce0700d1bc83\"\n    },\n    \"book\": \"689d02a29d9b7ecc7be8db53\",\n    \"createdAt\": \"2025-08-20T21:04:17.957Z\",\n    \"updatedAt\": \"2025-08-20T21:04:17.957Z\",\n    \"id\": \"68a63851c735ce0700d1bc8e\",\n    \"ancestors\": [\n        {\n            \"_id\": \"68a63843c735ce0700d1bc79\",\n            \"name\": \"a\",\n            \"nature\": \"asset\",\n            \"description\": \"abcdef\",\n            \"parent\": null,\n            \"book\": \"689d02a29d9b7ecc7be8db53\",\n            \"createdAt\": \"2025-08-20T21:04:03.262Z\",\n            \"updatedAt\": \"2025-08-20T21:04:03.262Z\",\n            \"__v\": 0,\n            \"id\": \"68a63843c735ce0700d1bc79\"\n        },\n        {\n            \"_id\": \"68a6384ac735ce0700d1bc83\",\n            \"name\": \"b\",\n            \"nature\": \"asset\",\n            \"description\": \"abcdef\",\n            \"parent\": \"68a63843c735ce0700d1bc79\",\n            \"book\": \"689d02a29d9b7ecc7be8db53\",\n            \"createdAt\": \"2025-08-20T21:04:10.649Z\",\n            \"updatedAt\": \"2025-08-20T21:04:10.649Z\",\n            \"__v\": 0,\n            \"id\": \"68a6384ac735ce0700d1bc83\"\n        }\n    ]\n}"
+										},
+										{
+											"name": "Not found",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/68a63851c735ce0700d1bc8f",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"68a63851c735ce0700d1bc8f"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=97; t=585"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Content-Length",
+													"value": "658"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"292-A9vw0JhLS/rFYDhzzHUrr9ubQPg\""
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 22 Oct 2025 22:17:59 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 404,\n        \"message\": \"Ledger group not found\",\n        \"name\": \"NotFoundError\",\n        \"timestamp\": \"2025-10-22T22:17:59.458Z\",\n        \"stack\": \"NotFoundError: Ledger group not found\\n    at Object.getLedgerGroupByBookIdAndLedgerGroupId (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupService.js:27:11)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async Object.getLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:11:5)\\n    at async getLedgerGroupById (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:26:17)\"\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Edit Ledger Group",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093aa1b5de8572dbd66dbd\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+											"host": [
+												"{{book_url}}"
+											],
+											"path": [
+												"689d02a29d9b7ecc7be8db53",
+												"core",
+												"ledgerGroup",
+												"69093ab6b5de8572dbd66dce",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Same name already exists",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 a\",\r\n    \"nature\": \"asset\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093aa1b5de8572dbd66dbd\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=98; t=593"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "548"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"224-+R4hbWeN8jD4cGSF1Qdp/AFUys4\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:45:18 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 403,\n        \"message\": \"Ledger group with same name already exists\",\n        \"name\": \"ForbiddenError\",\n        \"timestamp\": \"2025-11-08T21:45:18.296Z\",\n        \"stack\": \"ForbiddenError: Ledger group with same name already exists\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupService.js:91:13)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Cannot change nature of non-primitive group nature",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"liability\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093aa1b5de8572dbd66dbd\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=97; t=527"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "607"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"25f-z9Gpk9w5Jg/U+2rCZwOnK0MygfU\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:46:24 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 400,\n        \"message\": \"Nature of a ledger group cannot be changed directly if it has a parent\",\n        \"name\": \"BadRequestError\",\n        \"timestamp\": \"2025-11-08T21:46:24.491Z\",\n        \"stack\": \"BadRequestError: Nature of a ledger group cannot be changed directly if it has a parent\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:155:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Ledger group not found",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"asset\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093aa1b5de8572dbd66dbc\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=96; t=449"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "777"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"309-KUvIWW/ODAL1eAV7jf42gMF8ulI\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:47:42 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 404,\n        \"message\": \"Ledger group not found\",\n        \"name\": \"NotFoundError\",\n        \"timestamp\": \"2025-11-08T21:47:42.534Z\",\n        \"stack\": \"NotFoundError: Ledger group not found\\n    at Object.getLedgerGroupByBookIdAndLedgerGroupId (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupService.js:33:11)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async getLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:22:5)\\n    at async Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:121:27)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Primitive group require nature",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Bad Gateway",
+											"code": 502,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=93; t=292"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "539"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"21b-GLi93893OfKdUzO5ewz4Df+5xdU\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:50:18 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 502,\n        \"message\": \"Primary ledger group requires nature\",\n        \"name\": \"BadGatewayError\",\n        \"timestamp\": \"2025-11-08T21:50:18.975Z\",\n        \"stack\": \"BadGatewayError: Primary ledger group requires nature\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:144:17)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Circular hierarchy",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093ac7b5de8572dbd66ddd\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=92; t=245"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "547"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"223-bfJYhSkvx3bLoM+2XGQmiG27GKI\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:51:06 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 400,\n        \"message\": \"Circular ledger group hierarchy detected\",\n        \"name\": \"BadRequestError\",\n        \"timestamp\": \"2025-11-08T21:51:06.369Z\",\n        \"stack\": \"BadRequestError: Circular ledger group hierarchy detected\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:114:17)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Exceeded hierarchy level",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093b4bb5de8572dbd66df5\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=91; t=211"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "557"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"22d-TBvA33b0gSixkoQQybNB9UyxHnU\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 21:51:40 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 400,\n        \"message\": \"Ledger group hierarchy cannot exceed 3 levels\",\n        \"name\": \"BadRequestError\",\n        \"timestamp\": \"2025-11-08T21:51:40.319Z\",\n        \"stack\": \"BadRequestError: Ledger group hierarchy cannot exceed 3 levels\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:132:17)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Parent ID same as ledger group ID",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093ab6b5de8572dbd66dce\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=99; t=600"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "561"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"231-S6azhNmstxoRsxiKSW31xpZrIBc\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 22:40:02 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date",
+													"domain": "",
+													"path": ""
+												}
+											],
+											"body": "{\n    \"error\": {\n        \"statusCode\": 400,\n        \"message\": \"Parent ID cannot be same as the ledger group ID\",\n        \"name\": \"BadRequestError\",\n        \"timestamp\": \"2025-11-08T22:40:02.210Z\",\n        \"stack\": \"BadRequestError: Parent ID cannot be same as the ledger group ID\\n    at Object.editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\services\\\\book\\\\core\\\\ledgerGroupUseCase.js:114:17)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at async editLedgerGroup (D:\\\\WebProjects\\\\accounting\\\\backend2\\\\controllers\\\\book\\\\core\\\\ledgerGroupController.js:47:23)\"\n    }\n}"
+										},
+										{
+											"name": "Success parent change",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"asset\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"69093b12b5de8572dbd66de9\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=94; t=224"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "496"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"1f0-xEnm3TJcB0m8NwrIOmjjlIWOBeE\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 23:09:54 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date",
+													"domain": "",
+													"path": ""
+												}
+											],
+											"body": "{\n    \"_id\": \"69093ab6b5de8572dbd66dce\",\n    \"name\": \"et 1 b\",\n    \"nature\": \"liability\",\n    \"description\": \"test\",\n    \"parent\": {\n        \"_id\": \"69093b12b5de8572dbd66de9\",\n        \"name\": \"et 2 x\",\n        \"nature\": \"liability\",\n        \"description\": \"test\",\n        \"parent\": null,\n        \"book\": \"689d02a29d9b7ecc7be8db53\",\n        \"createdAt\": \"2025-11-03T23:30:26.738Z\",\n        \"updatedAt\": \"2025-11-08T23:08:26.942Z\",\n        \"id\": \"69093b12b5de8572dbd66de9\"\n    },\n    \"book\": \"689d02a29d9b7ecc7be8db53\",\n    \"createdAt\": \"2025-11-03T23:28:54.488Z\",\n    \"updatedAt\": \"2025-11-08T23:09:53.947Z\",\n    \"id\": \"69093ab6b5de8572dbd66dce\"\n}"
+										},
+										{
+											"name": "Success primitive group nature change",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 a\",\r\n    \"nature\": \"income\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093aa1b5de8572dbd66dbd/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093aa1b5de8572dbd66dbd",
+														""
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=92; t=44"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "247"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"f7-ntXrBJADrku0huQiHRfEXUgsBig\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 23:12:54 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"_id\": \"69093aa1b5de8572dbd66dbd\",\n    \"name\": \"et 1 a\",\n    \"nature\": \"income\",\n    \"description\": \"test\",\n    \"parent\": null,\n    \"book\": \"689d02a29d9b7ecc7be8db53\",\n    \"createdAt\": \"2025-11-03T23:28:33.968Z\",\n    \"updatedAt\": \"2025-11-08T23:12:54.038Z\",\n    \"id\": \"69093aa1b5de8572dbd66dbd\"\n}"
+										},
+										{
+											"name": "Success simple update",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 a test\",\r\n    \"nature\": \"asset\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093aa1b5de8572dbd66dbd/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093aa1b5de8572dbd66dbd",
+														""
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=99; t=600"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"name": "Content-Type",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Content-Length",
+													"value": "251"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"fb-3QAJ1WCPv2o/TcmXlEkidtsIiwY\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 23:15:01 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"_id\": \"69093aa1b5de8572dbd66dbd\",\n    \"name\": \"et 1 a test\",\n    \"nature\": \"asset\",\n    \"description\": \"test\",\n    \"parent\": null,\n    \"book\": \"689d02a29d9b7ecc7be8db53\",\n    \"createdAt\": \"2025-11-03T23:28:33.968Z\",\n    \"updatedAt\": \"2025-11-08T23:15:01.505Z\",\n    \"id\": \"69093aa1b5de8572dbd66dbd\"\n}"
+										},
+										{
+											"name": "Success turning group into primary group",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"et 1 b\",\r\n    \"nature\": \"asset\",\r\n    \"description\": \"test\",\r\n    \"parentId\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{book_url}}/689d02a29d9b7ecc7be8db53/core/ledgerGroup/69093ab6b5de8572dbd66dce/",
+													"host": [
+														"{{book_url}}"
+													],
+													"path": [
+														"689d02a29d9b7ecc7be8db53",
+														"core",
+														"ledgerGroup",
+														"69093ab6b5de8572dbd66dce",
+														""
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Content-Security-Policy",
+													"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Resource-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Origin-Agent-Cluster",
+													"value": "?1"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "no-referrer"
+												},
+												{
+													"key": "Strict-Transport-Security",
+													"value": "max-age=31536000; includeSubDomains"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-DNS-Prefetch-Control",
+													"value": "off"
+												},
+												{
+													"key": "X-Download-Options",
+													"value": "noopen"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "SAMEORIGIN"
+												},
+												{
+													"key": "X-Permitted-Cross-Domain-Policies",
+													"value": "none"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "*"
+												},
+												{
+													"key": "RateLimit-Policy",
+													"value": "\"100-in-10min\"; q=100; w=600; pk=:ZWZmOGU3Y2E1MDY2:"
+												},
+												{
+													"key": "RateLimit",
+													"value": "\"100-in-10min\"; r=99; t=600"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Content-Length",
+													"value": "246"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"f6-fhKA4SmBTXCzonWzhbns/gFfw/E\""
+												},
+												{
+													"key": "Date",
+													"value": "Sat, 08 Nov 2025 23:28:51 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"_id\": \"69093ab6b5de8572dbd66dce\",\n    \"name\": \"et 1 b\",\n    \"nature\": \"asset\",\n    \"description\": \"test\",\n    \"parent\": null,\n    \"book\": \"689d02a29d9b7ecc7be8db53\",\n    \"createdAt\": \"2025-11-03T23:28:54.488Z\",\n    \"updatedAt\": \"2025-11-08T23:28:50.964Z\",\n    \"id\": \"69093ab6b5de8572dbd66dce\"\n}"
+										}
+									]
 								}
 							]
 						}
