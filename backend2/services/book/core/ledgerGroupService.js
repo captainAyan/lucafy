@@ -75,11 +75,17 @@ async function editLedgerGroup(bookId, id, ledgerGroupData, session = null) {
   Object.assign(ledgerGroup, ledgerGroupData);
 
   try {
-    return LedgerGroup.findByIdAndUpdate(ledgerGroup.id, ledgerGroup, {
-      new: true,
-      runValidators: true,
-      session,
-    }).populate("parent");
+    const update = await LedgerGroup.findByIdAndUpdate(
+      ledgerGroup.id,
+      ledgerGroup,
+      {
+        new: true,
+        runValidators: true,
+        session,
+      }
+    ).populate("parent");
+
+    return update;
   } catch (err) {
     if (err.code === 11000) {
       throw createHttpError(

@@ -109,6 +109,14 @@ async function editLedgerGroup(id, bookId, updateData) {
       if (newParentId) {
         // case 1: new parent
 
+        // Group id and group's parent id is same
+        if (originalLedgerGroup._id.toString() === newParentId) {
+          throw createHttpError(
+            StatusCodes.BAD_REQUEST,
+            "Parent ID cannot be same as the ledger group ID"
+          );
+        }
+
         // Circular parenting check
         if (descendants.some((d) => d._id.equals(newParentId))) {
           throw createHttpError(
@@ -162,9 +170,7 @@ async function editLedgerGroup(id, bookId, updateData) {
       updatedLedgerGroup.nature = updateData.nature;
     }
 
-    console.log("------------------COMPLEX UPDATE--------------------");
-    // return { message: "all clear" };
-    /// do the bulk update here
+    // do the bulk update
 
     const session = await startSession();
     session.startTransaction();
@@ -195,12 +201,7 @@ async function editLedgerGroup(id, bookId, updateData) {
     }
   }
   // simple edit just save the update
-  console.log("------------------SIMPLE UPDATE--------------------");
-  try {
-    return ledgerGroupService.editLedgerGroup(bookId, id, updatedLedgerGroup);
-  } catch (err) {
-    console.log(err);
-  }
+  return ledgerGroupService.editLedgerGroup(bookId, id, updatedLedgerGroup);
 }
 
 // Helper function
