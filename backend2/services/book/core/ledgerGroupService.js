@@ -98,10 +98,13 @@ async function editLedgerGroup(bookId, id, ledgerGroupData, session = null) {
 }
 
 async function editLedgerGroups(bookId, ids, ledgerGroupData, session = null) {
-  const objectIds = ids.map((id) => new ObjectId(id));
-  // const objectIds = ids;
+  const objectIds = ids.map((id) => {
+    if (id instanceof ObjectId) return id;
+    if (typeof id === "string") return ObjectId.createFromHexString(id);
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid IDs array");
+  });
 
-  const result = await LedgerGroup.updateMany(
+  await LedgerGroup.updateMany(
     { _id: { $in: objectIds }, book: bookId },
     { $set: ledgerGroupData },
     { session, runValidators: true }
