@@ -26,7 +26,7 @@ async function getLedgerGroupById(req, res) {
     req.book.id,
     req.params.ledgerGroupId
   );
-  res.json(group);
+  res.status(StatusCodes.OK).json(group);
 }
 
 async function getAllLedgerGroups(req, res) {
