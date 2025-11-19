@@ -4,8 +4,9 @@ const createHttpError = require("http-errors");
 const {
   createSchema,
   editSchema,
-} = require("../../../utilities/validation/ledgerSchema");
+} = require("../../../utilities/validation/book/core/ledgerSchema");
 const ledgerService = require("../../../services/book/core/ledgerService");
+const ledgerUseCase = require("../../../services/book/core/ledgerUseCase");
 
 async function getLedgers(req, res) {
   res.send("get ledgers");
@@ -16,27 +17,37 @@ async function getAllLedgers(req, res) {
 }
 
 async function getLedgerById(req, res) {
-  res.send("get ledger by id");
+  const ledger = await ledgerService.getLedgerByBookIdAndLedgerId(
+    req.book.id,
+    req.params.ledgerId
+  );
+  res.status(StatusCodes.OK).json(ledger);
 }
 
 async function createLedger(req, res) {
-  const { value: ledgerValues, error } = createSchema.validate();
+  const { value: ledgerValues, error } = createSchema.validate(req.body);
   if (error) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
-  // TODO check if the user is even allowed to create more ledgers.
 
-  const ledger = await ledgerService.createLedger(
-    ledgerValues,
-    req.book.id,
-    req.user.id
-  );
+  const ledger = await ledgerUseCase.createLedger(req.book.id, ledgerValues);
 
-  res.send("create ledger");
+  res.status(StatusCodes.CREATED).json(ledger);
 }
 
 async function editLedger(req, res) {
-  res.send("edit ledger");
+  const { value: ledgerValues, error } = editSchema.validate(req.body);
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
+
+  const ledger = await ledgerUseCase.editLedger(
+    req.params.ledgerId,
+    req.book.id,
+    ledgerValues
+  );
+
+  res.status(StatusCodes.OK).json(ledger);
 }
 
 module.exports = {
