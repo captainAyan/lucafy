@@ -30,6 +30,58 @@ async function getLedgerByBookIdAndLedgerId(bookId, ledgerId, session = null) {
 }
 
 /**
+ * Retrieves paginated list of Ledgers of a book by it's book id
+ *
+ * @param {string} bookId - MongoDB ObjectId of the book
+ * @param {number} page - Current page number
+ * @param {number} limit - Number of ledgers per page
+ * @param {string} order - Sort order
+ * @param {string} [keyword] - search keyword to filter ledgers
+ * @param {string} [ledgerGroupIds] - ledgerGroupIds for filtering (only ledgers with these ledger groups will be returned)
+ * @returns {Promise<{
+ *  skip: number,
+ *  limit: number,
+ *  total: number,
+ *  ledgers: Array<Ledger>
+ * }>}
+ */
+async function getLedgersByBookId(
+  bookId,
+  page,
+  limit,
+  order,
+  keyword,
+  ledgerGroupIds
+) {
+  const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
+
+  const query = {};
+
+  if (keyword && keyword.trim() !== "") {
+    const escaped = keyword.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "i");
+    query.$or = [
+      { name: { $regex: regex } },
+      { description: { $regex: regex } },
+    ];
+  }
+  query.book = bookId;
+
+  if (Array.isArray(ledgerGroupIds) && ledgerGroupIds.length > 0)
+    query.ledgerGroup = { $in: ledgerGroupIds };
+
+  const total = await Ledger.countDocuments(query);
+
+  const ledgers = await Ledger.find(query)
+    .sort(sortOrder)
+    .skip(page * limit)
+    .limit(limit)
+    .populate("ledgerGroup");
+
+  return { skip: page * limit, limit, total, ledgers };
+}
+
+/**
  * Creates a new Ledger in the database.
  *
  * @param {String} bookId - MongoDB ObjectId of the book
@@ -82,6 +134,7 @@ async function editLedger(bookId, id, ledgerData, session = null) {
 
 module.exports = {
   getLedgerByBookIdAndLedgerId,
+  getLedgersByBookId,
   createLedger,
   editLedger,
 };
