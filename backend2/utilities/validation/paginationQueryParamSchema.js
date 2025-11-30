@@ -23,7 +23,7 @@ const paginationQueryParamSchemaWithKeyword = Joi.object({
   keyword: Joi.string().allow("", null),
 }).options(schemaOptions);
 
-const paginationQueryParamSchemaForLedgers = Joi.object({
+const paginationQueryParamSchemaWithKeywordAndLedgerGroupId = Joi.object({
   ...baseSchema,
   keyword: Joi.string().allow("", null),
   ledgerGroupId: Joi.objectId().allow("").required(),
@@ -32,5 +32,5 @@ const paginationQueryParamSchemaForLedgers = Joi.object({
 module.exports = {
   paginationQueryParamSchema,
   paginationQueryParamSchemaWithKeyword,
-  paginationQueryParamSchemaForLedgers,
+  paginationQueryParamSchemaWithKeywordAndLedgerGroupId,
 };

@@ -8,14 +8,14 @@ const {
 const ledgerService = require("../../../services/book/core/ledgerService");
 const ledgerUseCase = require("../../../services/book/core/ledgerUseCase");
 const {
-  paginationQueryParamSchemaForLedgers,
+  paginationQueryParamSchemaWithKeywordAndLedgerGroupId,
 } = require("../../../utilities/validation/paginationQueryParamSchema");
 
 async function getLedgers(req, res) {
   const {
     value: { page, limit, order, keyword, ledgerGroupId },
     error,
-  } = paginationQueryParamSchemaForLedgers.validate(req.query);
+  } = paginationQueryParamSchemaWithKeywordAndLedgerGroupId.validate(req.query);
 
   if (error) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid query parameter");
