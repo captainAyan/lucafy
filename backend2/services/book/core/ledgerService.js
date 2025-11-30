@@ -37,7 +37,7 @@ async function getLedgerByBookIdAndLedgerId(bookId, ledgerId, session = null) {
  * @param {number} limit - Number of ledgers per page
  * @param {string} order - Sort order
  * @param {string} [keyword] - search keyword to filter ledgers
- * @param {string} [ledgerGroupIds] - ledgerGroupIds for filtering (only ledgers with these ledger groups will be returned)
+ * @param {Array[string]} [ledgerGroupIds] - ledgerGroupIds for filtering (only ledgers with these ledger groups will be returned)
  * @returns {Promise<{
  *  skip: number,
  *  limit: number,
