@@ -42,7 +42,7 @@ async function getLedgers(bookId, page, limit, order, keyword, ledgerGroupId) {
         ledgerGroupId
       );
 
-    const descendants = await ledgerGroupService.getDescendants(
+    const { descendants } = await ledgerGroupService.getDescendants(
       bookId,
       ledgerGroupId,
       LEDGER_GROUP_HIERARCHY_MAX_DEPTH

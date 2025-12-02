@@ -99,7 +99,7 @@ async function editLedgerGroup(id, bookId, updateData) {
   console.log("new nature", updateData.nature);
 
   if (parentChanged || natureChanged) {
-    const descendants = await ledgerGroupService.getDescendants(
+    const { descendants } = await ledgerGroupService.getDescendants(
       bookId,
       id,
       LEDGER_GROUP_HIERARCHY_MAX_DEPTH

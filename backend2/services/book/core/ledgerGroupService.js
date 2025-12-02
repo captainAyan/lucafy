@@ -164,10 +164,33 @@ async function getAncestry(bookId, id, maxDepth) {
  * @param {string} bookId - The ID of the book the ledger group belongs to.
  * @param {string} id - The ID of the ledger group.
  * @param {number} maxDepth - Number levels of descendents to look for
- * @returns {Promise<Array<LedgerGroup>>} - an array of all the ledger group descendants
+ * @param {object} [options] - Pagination options
+ * @param {number} [options.page] - Page number
+ * @param {number} [options.limit] - Items per page
+ * @param {string} [options.order] - 'newest' or 'oldest' (sorted by createdAt)
+ *
+ * @returns {Promise<{
+ *  skip: number,
+ *  limit: number,
+ *  total: number
+ *  descendants: Array<LedgerGroup>,
+ * }>}
  */
-async function getDescendants(bookId, id, maxDepth) {
-  const result = await LedgerGroup.aggregate([
+async function getDescendants(bookId, id, maxDepth, options = {}) {
+  const { page, limit, order } = options;
+
+  const sortOrder = order === "oldest" ? 1 : -1;
+  const paginationStages = [];
+
+  if (order && page && limit) {
+    const skip = (page - 1) * limit;
+    paginationStages.push({ $skip: skip });
+    paginationStages.push({ $limit: limit });
+    paginationStages.push({ $sort: { "descendants.createdAt": sortOrder } });
+  }
+
+  // main aggregation
+  const pipeline = [
     {
       $match: {
         _id: ObjectId.createFromHexString(id),
@@ -184,19 +207,71 @@ async function getDescendants(bookId, id, maxDepth) {
         maxDepth,
       },
     },
-    { $project: { descendants: 1, _id: 0 } },
-  ]);
+  ];
 
-  if (result && result[0] && result[0].descendants) {
-    const [{ descendants }] = result; // ancestors = result[0].ancestors
-    const updatedDescendants = descendants.map((descendant) => ({
-      ...descendant,
-      id: descendant._id,
-    }));
+  // If NO pagination or sorting — fallback to old behavior
+  const paginationRequested = paginationStages.length > 0;
 
-    return updatedDescendants;
+  if (!paginationRequested) {
+    pipeline.push({ $project: { descendants: 1, _id: 0 } });
+
+    const result = await LedgerGroup.aggregate(pipeline);
+
+    if (result && result[0] && result[0].descendants) {
+      const [{ descendants }] = result;
+
+      const updated = descendants.map((d) => ({
+        ...d,
+        id: d._id,
+      }));
+
+      return {
+        descendants: updated,
+        total: descendants.length,
+        skip: page * limit,
+        limit,
+      };
+    }
+
+    return { descendants: [], total: 0, skip: 0, limit: 0 };
   }
-  return null;
+
+  // If pagination IS requested — apply facet pipeline
+  pipeline.push(
+    { $unwind: "$descendants" },
+    {
+      $facet: {
+        data: [
+          ...paginationStages,
+          {
+            $group: {
+              _id: null,
+              descendants: { $push: "$descendants" },
+            },
+          },
+          { $project: { _id: 0, descendants: 1 } },
+        ],
+        total: [{ $count: "count" }],
+      },
+    }
+  );
+
+  const result = await LedgerGroup.aggregate(pipeline);
+
+  const dataBlock = result[0]?.data?.[0] || { descendants: [] };
+  const totalCount = result[0]?.total?.[0]?.count || 0;
+
+  const updatedDescendants = dataBlock.descendants.map((d) => ({
+    ...d,
+    id: d._id,
+  }));
+
+  return {
+    descendants: updatedDescendants,
+    skip: page * limit,
+    limit,
+    total: totalCount,
+  };
 }
 
 module.exports = {
