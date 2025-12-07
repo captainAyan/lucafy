@@ -208,7 +208,7 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
   const paginationStages = [];
 
   if (order && page && limit) {
-    const skip = (page - 1) * limit;
+    const skip = page * limit;
     paginationStages.push({ $skip: skip });
     paginationStages.push({ $limit: limit });
     paginationStages.push({ $sort: { "descendants.createdAt": sortOrder } });
