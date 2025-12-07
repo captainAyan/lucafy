@@ -6,6 +6,9 @@ const {
   editSchema,
 } = require("../../../utilities/validation/book/core/ledgerGroupSchema");
 const ledgerGroupUseCase = require("../../../services/book/core/ledgerGroupUseCase");
+const {
+  paginationQueryParamSchemaWithKeywordAndLedgerGroupId,
+} = require("../../../utilities/validation/paginationQueryParamSchema");
 
 async function createLedgerGroup(req, res) {
   const { value: ledgerGroupValues, error } = createSchema.validate(req.body);
@@ -38,6 +41,28 @@ async function getAllLedgerGroups(req, res) {
   }
 }
 
+async function getLedgerGroups(req, res) {
+  const {
+    value: { page, limit, order, keyword, ledgerGroupId },
+    error,
+  } = paginationQueryParamSchemaWithKeywordAndLedgerGroupId.validate(req.query);
+
+  if (error) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
+
+  const ledgerGroups = await ledgerGroupUseCase.getLedgerGroups(
+    req.book.id,
+    page,
+    limit,
+    order,
+    keyword,
+    ledgerGroupId
+  );
+
+  res.status(StatusCodes.OK).json(ledgerGroups);
+}
+
 async function editLedgerGroup(req, res) {
   const { value: ledgerGroupValues, error } = editSchema.validate(req.body);
   if (error) {
@@ -57,5 +82,6 @@ module.exports = {
   createLedgerGroup,
   getLedgerGroupById,
   getAllLedgerGroups,
+  getLedgerGroups,
   editLedgerGroup,
 };

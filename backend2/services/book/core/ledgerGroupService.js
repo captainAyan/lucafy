@@ -36,6 +36,31 @@ async function getLedgerGroupByBookIdAndLedgerGroupId(
   return ledgerGroup;
 }
 
+async function getLedgerGroups(bookId, page, limit, order, keyword) {
+  const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
+
+  const query = {};
+
+  if (keyword && keyword.trim() !== "") {
+    const escaped = keyword.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "i");
+    query.$or = [
+      { name: { $regex: regex } },
+      { description: { $regex: regex } },
+    ];
+  }
+  query.book = bookId;
+
+  const total = await LedgerGroup.countDocuments(query);
+
+  const ledgerGroups = await LedgerGroup.find(query)
+    .sort(sortOrder)
+    .skip(page * limit)
+    .limit(limit);
+
+  return { skip: page * limit, limit, total, ledgerGroups };
+}
+
 /**
  * Creates a new Ledger Group in the database.
  *
@@ -173,7 +198,7 @@ async function getAncestry(bookId, id, maxDepth) {
  *  skip: number,
  *  limit: number,
  *  total: number
- *  descendants: Array<LedgerGroup>,
+ *  ledgerGroups: Array<LedgerGroup>,
  * }>}
  */
 async function getDescendants(bookId, id, maxDepth, options = {}) {
@@ -226,14 +251,14 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
       }));
 
       return {
-        descendants: updated,
+        ledgerGroups: updated,
         total: descendants.length,
-        skip: page * limit,
-        limit,
+        skip: 0,
+        limit: 0,
       };
     }
 
-    return { descendants: [], total: 0, skip: 0, limit: 0 };
+    return { ledgerGroups: [], total: 0, skip: 0, limit: 0 };
   }
 
   // If pagination IS requested — apply facet pipeline
@@ -267,7 +292,7 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
   }));
 
   return {
-    descendants: updatedDescendants,
+    ledgerGroups: updatedDescendants,
     skip: page * limit,
     limit,
     total: totalCount,
@@ -277,6 +302,7 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
 module.exports = {
   createLedgerGroup,
   getLedgerGroupByBookIdAndLedgerGroupId,
+  getLedgerGroups,
   getAllLedgerGroups,
   editLedgerGroup,
   editLedgerGroups,

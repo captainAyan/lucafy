@@ -33,6 +33,37 @@ async function getLedgerGroup(bookId, ledgerGroupId) {
   return { ...ledgerGroup.toObject(), ancestors };
 }
 
+async function getLedgerGroups(
+  bookId,
+  page,
+  limit,
+  order,
+  keyword,
+  ledgerGroupId
+) {
+  if (ledgerGroupId && ledgerGroupId !== "") {
+    // Ensure the 404 is thrown if the ledger group is not found
+    await ledgerGroupService.getLedgerGroupByBookIdAndLedgerGroupId(
+      bookId,
+      ledgerGroupId
+    );
+
+    return ledgerGroupService.getDescendants(
+      bookId,
+      ledgerGroupId,
+      LEDGER_GROUP_HIERARCHY_MAX_DEPTH,
+      { page, limit, order }
+    );
+  }
+  return ledgerGroupService.getLedgerGroups(
+    bookId,
+    page,
+    limit,
+    order,
+    keyword
+  );
+}
+
 async function createLedgerGroup(bookId, ledgerGroupData) {
   const { parentId, nature } = ledgerGroupData;
   const updatedLedgerGroupData = { ...ledgerGroupData };
@@ -99,11 +130,12 @@ async function editLedgerGroup(id, bookId, updateData) {
   console.log("new nature", updateData.nature);
 
   if (parentChanged || natureChanged) {
-    const { descendants } = await ledgerGroupService.getDescendants(
-      bookId,
-      id,
-      LEDGER_GROUP_HIERARCHY_MAX_DEPTH
-    );
+    const { ledgerGroups: descendants } =
+      await ledgerGroupService.getDescendants(
+        bookId,
+        id,
+        LEDGER_GROUP_HIERARCHY_MAX_DEPTH
+      );
 
     if (parentChanged) {
       if (newParentId) {
@@ -226,4 +258,9 @@ function getMaxDepthOfDescendants(descendants, parentId) {
   return descendants.reduce((acc, d) => Math.max(acc, depth(d.id)), 0);
 }
 
-module.exports = { getLedgerGroup, createLedgerGroup, editLedgerGroup };
+module.exports = {
+  getLedgerGroup,
+  createLedgerGroup,
+  editLedgerGroup,
+  getLedgerGroups,
+};

@@ -26,7 +26,7 @@ const paginationQueryParamSchemaWithKeyword = Joi.object({
 const paginationQueryParamSchemaWithKeywordAndLedgerGroupId = Joi.object({
   ...baseSchema,
   keyword: Joi.string().allow("", null),
-  ledgerGroupId: Joi.objectId().allow("").required(),
+  ledgerGroupId: Joi.objectId().allow("").default(""),
 }).optional(schemaOptions);
 
 module.exports = {
