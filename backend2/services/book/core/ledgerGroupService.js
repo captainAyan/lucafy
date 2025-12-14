@@ -195,25 +195,13 @@ async function getAncestry(bookId, id, maxDepth) {
  * @param {string} [options.order] - 'newest' or 'oldest' (sorted by createdAt)
  *
  * @returns {Promise<{
- *  skip: number,
- *  limit: number,
+ *  [skip]: number,
+ *  [limit]: number,
  *  total: number
  *  ledgerGroups: Array<LedgerGroup>,
  * }>}
  */
-async function getDescendants(bookId, id, maxDepth, options = {}) {
-  const { page, limit, order } = options;
-
-  const sortOrder = order === "oldest" ? 1 : -1;
-  const paginationStages = [];
-
-  if (order && page && limit) {
-    const skip = page * limit;
-    paginationStages.push({ $skip: skip });
-    paginationStages.push({ $limit: limit });
-    paginationStages.push({ $sort: { "descendants.createdAt": sortOrder } });
-  }
-
+async function getDescendants(bookId, id, maxDepth, options = null) {
   // main aggregation
   const pipeline = [
     {
@@ -234,10 +222,8 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
     },
   ];
 
-  // If NO pagination or sorting — fallback to old behavior
-  const paginationRequested = paginationStages.length > 0;
-
-  if (!paginationRequested) {
+  if (options === null) {
+    // pagination not requested
     pipeline.push({ $project: { descendants: 1, _id: 0 } });
 
     const result = await LedgerGroup.aggregate(pipeline);
@@ -253,27 +239,32 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
       return {
         ledgerGroups: updated,
         total: descendants.length,
-        skip: 0,
-        limit: 0,
+        // no returning SKIP and LIMIT, as pagination is not requested
       };
     }
 
-    return { ledgerGroups: [], total: 0, skip: 0, limit: 0 };
+    return { ledgerGroups: [], total: 0 };
   }
 
-  // If pagination IS requested — apply facet pipeline
+  // pagination is requested
+  const { page, limit, order } = options;
+
+  const sortOrder = order === "oldest" ? 1 : -1;
+  const skip = page * limit;
+
+  const paginationStages = [];
+
+  paginationStages.push({ $skip: skip });
+  paginationStages.push({ $limit: limit });
+  paginationStages.push({ $sort: { "descendants.createdAt": sortOrder } });
+
   pipeline.push(
     { $unwind: "$descendants" },
     {
       $facet: {
         data: [
           ...paginationStages,
-          {
-            $group: {
-              _id: null,
-              descendants: { $push: "$descendants" },
-            },
-          },
+          { $group: { _id: null, descendants: { $push: "$descendants" } } },
           { $project: { _id: 0, descendants: 1 } },
         ],
         total: [{ $count: "count" }],
@@ -292,10 +283,10 @@ async function getDescendants(bookId, id, maxDepth, options = {}) {
   }));
 
   return {
-    ledgerGroups: updatedDescendants,
     skip: page * limit,
     limit,
     total: totalCount,
+    ledgerGroups: updatedDescendants,
   };
 }
 
