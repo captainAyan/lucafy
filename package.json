@@ -10,7 +10,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretty": "prettier --write .",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
+    "helper-lg": "node test/ledgerGroupHelper.js"
   },
   "author": "Captainayan",
   "license": "MIT",
@@ -40,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "inquirer": "^13.0.2",
     "newman": "^6.2.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3"
