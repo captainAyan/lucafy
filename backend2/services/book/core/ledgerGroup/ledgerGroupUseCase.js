@@ -5,10 +5,10 @@ const { startSession } = require("mongoose");
 const ledgerGroupService = require("./ledgerGroupService");
 const {
   LEDGER_GROUP_HIERARCHY_MAX_DEPTH,
-} = require("../../../constants/policies");
+} = require("../../../../constants/policies");
 
 /**
- * @typedef {import('../../constants/typedefs').LedgerGroup} LedgerGroup
+ * @typedef {import('../../../../constants/typedefs').LedgerGroup} LedgerGroup
  */
 
 /**

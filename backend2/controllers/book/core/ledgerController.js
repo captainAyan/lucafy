@@ -5,8 +5,8 @@ const {
   createSchema,
   editSchema,
 } = require("../../../utilities/validation/book/core/ledgerSchema");
-const ledgerService = require("../../../services/book/core/ledgerService");
-const ledgerUseCase = require("../../../services/book/core/ledgerUseCase");
+const ledgerService = require("../../../services/book/core/ledger/ledgerService");
+const ledgerUseCase = require("../../../services/book/core/ledger/ledgerUseCase");
 const {
   paginationQueryParamSchemaWithKeywordAndLedgerGroupId,
 } = require("../../../utilities/validation/paginationQueryParamSchema");

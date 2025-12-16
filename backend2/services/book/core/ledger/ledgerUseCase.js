@@ -1,8 +1,8 @@
-const ledgerGroupService = require("./ledgerGroupService");
+const ledgerGroupService = require("../ledgerGroup/ledgerGroupService");
 const ledgerService = require("./ledgerService");
 const {
   LEDGER_GROUP_HIERARCHY_MAX_DEPTH,
-} = require("../../../constants/policies");
+} = require("../../../../constants/policies");
 
 async function createLedger(bookId, ledgerData) {
   const { ledgerGroupId } = ledgerData;

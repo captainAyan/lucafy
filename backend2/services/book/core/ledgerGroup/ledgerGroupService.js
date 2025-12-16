@@ -4,10 +4,10 @@ const {
   Types: { ObjectId },
 } = require("mongoose");
 
-const LedgerGroup = require("../../../models/ledgerGroupModel");
+const LedgerGroup = require("../../../../models/ledgerGroupModel");
 
 /**
- * @typedef {import('../../constants/typedefs').LedgerGroup} LedgerGroup
+ * @typedef {import('../../../../constants/typedefs').LedgerGroup} LedgerGroup
  */
 
 /**

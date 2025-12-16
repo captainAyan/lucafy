@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const createHttpError = require("http-errors");
 
-const Ledger = require("../../../models/ledgerModel");
+const Ledger = require("../../../../models/ledgerModel");
 
 /**
  * @typedef {import('../../constants/typedefs').Ledger} Ledger
