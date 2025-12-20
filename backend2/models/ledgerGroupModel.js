@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const {
-  LEDGER_TYPE,
+  LEDGER_NATURE,
   LEDGER_GROUP_NAME_MAX_LENGTH,
   LEDGER_GROUP_DESCRIPTION_MAX_LENGTH,
 } = require("../constants/policies");
@@ -18,7 +18,7 @@ const LedgerGroupSchema = new Schema(
     nature: {
       type: String,
       required: true,
-      enum: LEDGER_TYPE,
+      enum: LEDGER_NATURE,
     },
     description: {
       type: String,

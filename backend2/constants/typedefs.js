@@ -46,7 +46,7 @@
  * @property {import("mongoose").ObjectId} _id - MongoDB ObjectId
  * @property {string} name - ledger group name
  * @property {string} description - ledger group description
- * @property {string} [nature] - one of `LEDGER_TYPE`
+ * @property {string} [nature] - one of `LEDGER_NATURE`
  * @property {LedgerGroup} [parent] - parent of this ledger group
  * @property {Book} book - the book
  * @property {Array<LedgerGroup>} [ancestors] - array of ancestors

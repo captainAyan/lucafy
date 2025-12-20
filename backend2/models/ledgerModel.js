@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const {
-  // LEDGER_TYPE,
   LEDGER_NAME_MAX_LENGTH,
   LEDGER_DESCRIPTION_MAX_LENGTH,
 } = require("../constants/policies");
