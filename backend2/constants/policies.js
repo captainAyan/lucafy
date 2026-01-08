@@ -42,6 +42,10 @@ exports.LEDGER_NATURE = Object.freeze({
   LIABILITY: "liability",
   EQUITY: "equity",
 });
+exports.LEDGER_SIDES = Object.freeze({
+  DEBIT: "debit",
+  CREDIT: "credit",
+});
 
 exports.LEDGER_GROUP_NAME_MAX_LENGTH = 50;
 exports.LEDGER_GROUP_DESCRIPTION_MAX_LENGTH = 200;

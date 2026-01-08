@@ -1,5 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 const createHttpError = require("http-errors");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 
 const Ledger = require("../../../../models/ledgerModel");
 
@@ -27,6 +30,26 @@ async function getLedgerByBookIdAndLedgerId(bookId, ledgerId, session = null) {
   }
 
   return ledger;
+}
+
+/**
+ * Retrives an array of ledger documents by their MongoDB ObjectIDs
+ *
+ * @param {string} bookId - The MongoDB ObjectId of the book
+ * @param {Array<string>} ledgerIds - array of ledger ids
+ * @returns {Array<Ledger>} - The array of Ledger documents
+ */
+async function getLedgersByBookIdAndLedgerIds(bookId, ledgerIds) {
+  const ledgerObjectIds = ledgerIds.map(
+    (id) => new ObjectId.createFromHexString(id)
+  );
+
+  const ledgers = await Ledger.find({
+    _id: { $in: ledgerObjectIds },
+    book: bookId,
+  });
+
+  return ledgers;
 }
 
 /**
@@ -134,6 +157,7 @@ async function editLedger(bookId, id, ledgerData, session = null) {
 
 module.exports = {
   getLedgerByBookIdAndLedgerId,
+  getLedgersByBookIdAndLedgerIds,
   getLedgersByBookId,
   createLedger,
   editLedger,

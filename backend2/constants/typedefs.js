@@ -62,8 +62,29 @@
  * @property {string} description - ledger description
  * @property {LedgerGroup} [ledgerGroup] - ledger group of this ledger
  * @property {Book} book - the book
- * @property {Date} createdAt - Timestamp when the ledger group was created.
- * @property {Date} updatedAt - Timestamp when the ledger group was last updated.
+ * @property {Date} createdAt - Timestamp when the ledger was created.
+ * @property {Date} updatedAt - Timestamp when the ledger was last updated.
  */
 
+/**
+ * @typedef {Object} Line
+ * @property {import("mongoose").ObjectId} id - MongoDB ObjectId
+ * @property {import("mongoose").ObjectId} _id - MongoDB ObjectId
+ * @property {Entry} entry - the entry
+ * @property {Ledger} Ledger - ledger of the entry line
+ * @property {Book} book - the book
+ * @property {string} side - one of `LEDGER_SIDES`
+ * @property {number} amount - amount of that line
+ * @property {Date} createdAt - Timestamp when the entry line was created.
+ * @property {Date} updatedAt - Timestamp when the entry line was last updated.
+ */
+
+/**
+ * @typedef {Object} Entry
+ * @property {import("mongoose").ObjectId} id - MongoDB ObjectId
+ * @property {import("mongoose").ObjectId} _id - MongoDB ObjectId
+ * @property {string} narration - entry narration
+ * @property {Date} createdAt - Timestamp when the entry was created.
+ * @property {Date} updatedAt - Timestamp when the entry was last updated.
+ */
 export {};
