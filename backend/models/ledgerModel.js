@@ -1,18 +1,11 @@
-const mongoose = require("mongoose");
-const {
-  INCOME,
-  EXPENDITURE,
-  ASSET,
-  LIABILITY,
-  EQUITY,
-} = require("../constants/ledgerTypes");
+const { Schema, model } = require("mongoose");
 
 const {
   LEDGER_NAME_MAX_LENGTH,
   LEDGER_DESCRIPTION_MAX_LENGTH,
 } = require("../constants/policies");
 
-const ledgerSchema = new mongoose.Schema(
+const LedgerSchema = new Schema(
   {
     name: {
       type: String,
@@ -20,11 +13,6 @@ const ledgerSchema = new mongoose.Schema(
       trim: true,
       minlength: 1,
       maxlength: LEDGER_NAME_MAX_LENGTH,
-    },
-    type: {
-      type: String,
-      required: true,
-      enum: [INCOME, EXPENDITURE, ASSET, LIABILITY, EQUITY],
     },
     description: {
       type: String,
@@ -38,21 +26,28 @@ const ledgerSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    user_id: {
-      type: mongoose.Schema.Types.ObjectId,
+    ledgerGroup: {
+      type: Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "LedgerGroup",
+    },
+    book: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Book",
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
-ledgerSchema.virtual("id").get(function () {
+// Enforce uniqueness of name within the same book
+LedgerSchema.index({ bookId: 1, name: 1 }, { unique: true });
+
+LedgerSchema.virtual("id").get(function () {
   return this._id;
 });
 
-ledgerSchema.set("toJSON", {
-  virtuals: true,
-});
+LedgerSchema.set("toObject", { virtuals: true, versionKey: false });
+LedgerSchema.set("toJSON", { virtuals: true, versionKey: false });
 
-module.exports = mongoose.model("Ledger", ledgerSchema);
+module.exports = model("Ledger", LedgerSchema);

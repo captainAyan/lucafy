@@ -6,10 +6,10 @@ const {
   register,
   changePassword,
 } = require("../../controllers/userController");
-const protect = require("../../middlewares/authMiddleware");
+const { protect } = require("../../middlewares/authMiddleware");
 
 router.post("/login", login);
 router.post("/register", register);
-router.put("/change-password", protect, changePassword);
+router.put("/changepassword", protect, changePassword);
 
 module.exports = router;

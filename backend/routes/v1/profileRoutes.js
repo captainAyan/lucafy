@@ -6,10 +6,9 @@ const {
   editProfile,
   deleteProfile,
 } = require("../../controllers/userController");
-const { protect } = require("../../middlewares/authMiddleware");
 
-router.get("/", protect, getProfile);
-router.put("/", protect, editProfile);
-router.delete("/", protect, deleteProfile);
+router.get("/", getProfile);
+router.put("/", editProfile);
+router.delete("/", deleteProfile);
 
 module.exports = router;

@@ -1,26 +1,43 @@
 const { StatusCodes } = require("http-status-codes");
+const { isHttpError } = require("http-errors");
 
-class ErrorResponse extends Error {
-  constructor(message, status) {
-    super(message);
-    this.status = status;
-  }
-}
+const logError = (err) => {
+  console.error("MESSAGE:", err.message);
+  console.error("NAME:", err.name);
+  console.error(
+    "STATUS CODE:",
+    `${err.status || StatusCodes.INTERNAL_SERVER_ERROR}`
+  );
+  console.error("STACK:", err.stack);
+};
 
-const errorHandler = (err, req, res, _) => {
+const errorHandler = (err, req, res, next) => {
   const isProd = process.env.NODE_ENV === "production";
 
-  res.status(err.status || StatusCodes.INTERNAL_SERVER_ERROR).send({
+  logError(err);
+
+  const statusCode = isHttpError(err)
+    ? err.status
+    : StatusCodes.INTERNAL_SERVER_ERROR;
+
+  const errorResponse = {
     error: {
-      message: isProd ? "Internal server error" : err.message,
-      stack: isProd ? null : err.stack,
-      type: err.type || 0,
-      code: err.code || 0,
+      statusCode,
+      message: err.message || "An unexpected error occurred",
+      name: err.name || "Error",
+      timestamp: new Date().toISOString(),
     },
-  });
+  };
+
+  if (err.details) {
+    errorResponse.error.details = err.details; // optional custom field
+  }
+
+  if (!isProd && err.stack) {
+    errorResponse.error.stack = err.stack;
+  }
+
+  res.status(statusCode).json(errorResponse);
 };
 
-module.exports = {
-  ErrorResponse,
-  errorHandler,
-};
+module.exports = errorHandler;
