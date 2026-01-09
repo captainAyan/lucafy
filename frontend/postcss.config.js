@@ -1,3 +1,5 @@
-module.exports = {
-  plugins: [require("tailwindcss"), require("autoprefixer")],
+import tailwindcss from "@tailwindcss/vite";
+
+export default {
+  plugins: [tailwindcss],
 };

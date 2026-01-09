@@ -1,48 +1,63 @@
 import { useSelector } from "react-redux";
-import Alert from "../components/Alert";
-import Loading from "../components/Loading";
-import TrialBalanceItem from "../components/TrialBalanceItem";
+import { LedgerTable, LedgerTableRow } from "../components/LedgerTable";
 import useTrialBalanceData from "../hooks/useTrialBalanceData";
+import {
+  ASSET,
+  EQUITY,
+  EXPENDITURE,
+  INCOME,
+  LIABILITY,
+} from "../constants/ledgerTypes";
 
 export default function TrialBalance() {
   const { token } = useSelector((state) => state.auth);
-  const { amountFormat: currencyFormat, currency } = useSelector(
-    (state) => state.preference
-  );
 
-  const {
-    isLoading,
-    data: trialBalanceItems,
-    error,
-  } = useTrialBalanceData(token);
+  const { isLoading, isSuccess, data, isError, error } =
+    useTrialBalanceData(token);
 
   return (
-    <div className="p-4 bg-base-200 mb-auto">
-      <center>
-        <div className="w-full max-w-sm sm:mt-4">
-          <h1 className="text-4xl font-bold text-left mb-8">Trial Balance</h1>
+    <>
+      <h1 className="text-4xl font-bold text-left mb-4">Trial Balance</h1>
 
-          {error ? <Alert message={error} /> : null}
+      <div className="bg-white rounded-xl mb-4">
+        {isLoading && <h1 className="text-xl text-center p-4">Loading...</h1>}
 
-          <div className="mb-4">{isLoading ? <Loading /> : null}</div>
+        <div className="p-4 flex flex-col">
+          <p className="text-sm break-all uppercase">
+            <span className="font-bold">As on date:</span>
+            <span className="ml-2">01/02/2025</span>
+          </p>
+        </div>
 
-          {trialBalanceItems.map((item) => {
+        <LedgerTable
+          debitBalance={data?.data?.reduce(
+            (drBal, d) =>
+              d.ledger.type === ASSET || d.ledger.type === EXPENDITURE
+                ? drBal + d.balance
+                : drBal,
+            0
+          )}
+          creditBalance={data?.data?.reduce(
+            (crBal, d) =>
+              d.ledger.type === LIABILITY ||
+              d.ledger.type === INCOME ||
+              d.ledger.type === EQUITY
+                ? crBal + d.balance
+                : crBal,
+            0
+          )}
+        >
+          {data?.data?.map((d) => {
             return (
-              <TrialBalanceItem
-                key={item.ledger.id}
-                ledger={item.ledger}
-                balance={item.balance}
-                currencyFormat={currencyFormat}
-                currencySymbol={currency}
+              <LedgerTableRow
+                balance={d.balance}
+                {...d.ledger}
+                key={d.ledger.id}
               />
             );
           })}
-
-          {!isLoading && trialBalanceItems.length === 0 ? (
-            <h1 className="text-2xl font-thin text-left mb-4">No Data</h1>
-          ) : null}
-        </div>
-      </center>
-    </div>
+        </LedgerTable>
+      </div>
+    </>
   );
 }

@@ -1,55 +1,56 @@
 import { Link } from "react-router-dom";
-import timeFormat from "../util/timeFormat";
-import amountFormat from "../util/amountFormat";
+import Amount from "../components/Amount";
+import Time from "./Time";
 
-export default function Entry(props) {
-  const {
-    id,
-    debit_ledger: debit,
-    credit_ledger: credit,
-    amount,
-    narration,
-    created_at,
-    currencySymbol,
-    currencyFormat,
-  } = props;
-  const time = timeFormat(created_at);
-  const formattedAmount = amountFormat(amount, currencyFormat, currencySymbol);
-
+export default function Entry({
+  id,
+  debit_ledger: debit,
+  credit_ledger: credit,
+  amount,
+  narration,
+  created_at,
+  className,
+}) {
   return (
-    <div className="card w-full max-w-sm bg-base-100 mb-4">
-      <div className="card-body sm:w-96 w-full text-left py-4 px-6">
-        <h1 className="text-2xs font-thin break-all uppercase">
-          <Link to={`/entry/${id}`} className="link text-blue-500">
-            #{id}
-          </Link>
-          <span className="ml-2">{time}</span>
-        </h1>
+    <div className={`bg-white rounded-xl ${className || ""}`}>
+      <p className="text-sm break-all uppercase">
+        <Link
+          to={`/entry/${id}`}
+          className="link text-blue-500 font-mono hover:underline"
+        >
+          <span>#{id}</span>
+        </Link>
+        <span className="ml-2">
+          <Time time={created_at} />
+        </span>
+      </p>
 
-        <div className="grid grid-rows-2 grid-flow-col">
-          <div className="col-span-1 row-span-1">
-            <Link to={`/ledger/${debit._id}`} title={debit.description}>
-              <h1 className="text-xl font-bold capitalize line-clamp-1">
-                {debit.name} A/c
+      <div className="flex flex-row justify-between w-full mt-1">
+        <div className="flex flex-col">
+          <div>
+            <Link to={`/ledger/${debit?._id}`} title={debit?.description}>
+              <h1 className="text-xl font-bold truncate">
+                <span className="capitalize">{debit?.name}</span> A/c
               </h1>
             </Link>
           </div>
-          <div className="col-span-1 mt-1">
-            <Link to={`/ledger/${credit._id}`} title={credit.description}>
-              <h1 className="text-2lg font-thin capitalize line-clamp-1">
-                {credit.name} A/c
+
+          <div className="mt-1 w-full">
+            <Link to={`/ledger/${credit?._id}`} title={credit?.description}>
+              <h1 className="text-2lg truncate">
+                To <span className="capitalize">{credit?.name}</span> A/c
               </h1>
             </Link>
-          </div>
-          <div className="col-span-2 row-span-2">
-            <h1 className="text-3xl font-thin break-all text-right mt-2">
-              {formattedAmount}
-            </h1>
           </div>
         </div>
-
-        <p className="text-sm break-words text-justify">({narration})</p>
+        <div className="flex flex-col justify-center">
+          <h1 className="text-3xl break-all ">
+            <Amount amount={amount} />
+          </h1>
+        </div>
       </div>
+
+      <p className="text-sm break-words text-justify mt-1">({narration})</p>
     </div>
   );
 }

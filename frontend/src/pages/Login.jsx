@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Formik, Form, ErrorMessage, Field } from "formik";
-
-import { login } from "../features/auth/authSlice";
+import { Formik, Form } from "formik";
 import axios from "axios";
+
+import { login } from "../features/authSlice";
 import { LOGIN_URL } from "../constants/api";
 import { LoginSchema } from "../util/userValidationSchema";
+import Button from "../components/Button";
+import Input from "../components/form/Input";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,14 +47,11 @@ export default function Login() {
   };
 
   return (
-    <div className="p-4 bg-base-200">
-      <center>
-        <div className="card w-full max-w-sm bg-base-100">
-          <div className="card-body sm:w-96 w-full">
-            <div className="card-title">
-              <h1 className="text-4xl font-bold">Login</h1>
-            </div>
-
+    <main className="h-full flex">
+      <div className="m-auto w-96">
+        <div className="bg-white rounded-xl p-8 w-full">
+          <h1 className="text-4xl font-bold">Login</h1>
+          <div className="mt-4">
             <Formik
               initialValues={{
                 email: "",
@@ -62,57 +61,42 @@ export default function Login() {
               onSubmit={async (values) => handleSubmit(values)}
             >
               <Form>
-                <div className="form-control">
-                  <label className="label" htmlFor="email">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <Field
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    className="input input-bordered"
-                    autoFocus
-                  />
-                  <span className="text-red-500 text-sm text-left">
-                    <ErrorMessage name="email" />
-                  </span>
-                </div>
-                <div className="form-control">
-                  <label className="label" htmlFor="password">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <Field
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="input input-bordered"
-                  />
-                  <span className="text-red-500 text-sm text-left">
-                    <ErrorMessage name="password" />
-                  </span>
-                </div>
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  autofocus
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
 
-                <p className="text-red-500 text-sm text-left">{helperText}</p>
+                <p className="inline-block text-sm py-2 mt-1 text-red-500">
+                  {helperText}
+                </p>
 
-                <div className="form-control mt-4">
-                  <button
-                    className={`btn btn-primary ${isLoading ? "loading" : ""}`}
-                    type="submit"
-                  >
-                    Login
-                  </button>
-                </div>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="mt-4 h-12 w-full"
+                  isLoading={isLoading}
+                >
+                  Login
+                </Button>
               </Form>
             </Formik>
-
-            <div className="form-control mt-2">
-              <Link to="/register" className="btn btn-outline btn-primary">
+            <Link to="/register">
+              <Button className="mt-2 h-12 w-full" variant="secondary">
                 Register
-              </Link>
-            </div>
+              </Button>
+            </Link>
           </div>
         </div>
-      </center>
-    </div>
+      </div>
+    </main>
   );
 }

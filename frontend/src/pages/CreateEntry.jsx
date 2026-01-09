@@ -1,200 +1,157 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Formik, Form, ErrorMessage, Field } from "formik";
+import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
 
+import Input from "../components/form/Input";
+import Textarea from "../components/form/Textarea";
+import SelectInput from "../components/form/SelectInput";
+import Button from "../components/Button";
 import { useAddEntryHook } from "../hooks/useEntryDataHook";
-import MiniLoading from "../components/MiniLoading";
 import { useAllLedgerDataHook } from "../hooks/useLedgerDataHook";
-import Alert from "../components/Alert";
 import { ENTRY_NARRATION_MAX_LENGTH } from "../constants/policies";
 import { EntryCreateSchema } from "../util/entryValidationSchema";
 
 export default function CreateEntry() {
   const { token } = useSelector((state) => state.auth);
 
-  const handleSubmit = async (data) => {
-    addEntry(data);
-  };
-
-  const {
-    mutate: addEntry,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useAddEntryHook(token);
-
-  const {
-    isLoading: isFetching,
-    error: fetchingError,
-    isError: isFetchingError,
-    data: fetchedData,
-  } = useAllLedgerDataHook(token);
-
-  const initialFormData = {
-    debit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
-    credit_ledger_id: fetchedData?.data?.ledgers[0]?.id, // default
-    amount: 0,
-    narration: "",
-  };
-
-  /**
-   * Following is the code for fixing an uncontrolled input error, that appeared
-   * after using enableReinitialize prop on Formik component.
-   *
-   * Solution Link:
-   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
-   */
-  const [index, setIndex] = useState(0);
+  const allLedgersFetching = useAllLedgerDataHook(token);
+  const [ledgers, setLedgers] = useState([]);
   useEffect(() => {
-    /**
-     * This should run on the first fetch only.
-     *
-     * On the event of the user leaving window and then coming back, the
-     * reactQuery refetches the data, which triggers this useEffect.
-     *
-     * We Don't want this to happen, as it resets the form.
-     */
-    if (index === 0) setIndex(index + 1);
-  }, [fetchedData]);
+    if (allLedgersFetching.isSuccess)
+      setLedgers(allLedgersFetching?.data?.data?.ledgers);
+  }, [allLedgersFetching?.data, allLedgersFetching?.isSuccess]);
 
-  /**
-   * Changing the key will reset the form, therefore we're increasing the key on
-   * every successful submit.
-   */
+  const addEntry = useAddEntryHook(token);
+
+  const notifyEntrySaveSuccess = () => toast.success("Entry saved");
+  const notifyEntrySaveError = () => toast.error("Cannot save entry");
+
   useEffect(() => {
-    if (isSuccess) setIndex(index + 1);
-  }, [isSuccess]);
+    if (addEntry?.isSuccess) notifyEntrySaveSuccess();
+    if (addEntry?.isError) notifyEntrySaveError();
+  }, [addEntry?.isSuccess, addEntry?.isError]);
 
   return (
-    <div className="p-4 bg-base-200">
-      <center>
-        <div className="card w-full max-w-sm bg-base-100">
-          <div className="card-body sm:w-96 w-full">
-            <div className="card-title">
-              <h1 className="text-4xl font-bold">Create Entry</h1>
-            </div>
+    <>
+      <h1 className="text-4xl font-bold text-left mb-4">Create Entry</h1>
 
-            {isFetchingError && (
-              <Alert message={fetchingError?.response?.data?.error?.message} />
-            )}
+      <div className="bg-white rounded-xl p-4">
+        {/* Loading view */}
+        {allLedgersFetching?.isLoading && (
+          <h1 className="text-xl text-center">Loading...</h1>
+        )}
+        {/* Error view */}
+        {allLedgersFetching?.isError && (
+          <div className="text-red-500">
+            <h1 className="text-4xl text-center pt-8">😢</h1>
+            <h1 className="text-xl text-center pt-4 pb-2">
+              There was an error.
+            </h1>
+            <p className="text-sm text-center pb-8">
+              {allLedgersFetching?.isError &&
+                allLedgersFetching?.error?.response?.data?.error?.message}
+            </p>
+          </div>
+        )}
 
-            <Formik
-              key={index}
-              initialValues={initialFormData}
-              validationSchema={EntryCreateSchema}
-              onSubmit={async (values) => handleSubmit(values)}
-            >
-              {({ values }) => (
-                <Form>
-                  <div className="form-control">
-                    <label className="label" htmlFor="debit_ledger_id">
-                      <span className="label-text">Debit</span>
-                      {isFetching ? <MiniLoading /> : null}
-                    </label>
-                    <Field
-                      as="select"
-                      className="select select-bordered capitalize"
-                      name="debit_ledger_id"
-                      autoFocus
-                    >
-                      {fetchedData?.data?.ledgers?.map((item) => {
-                        return (
-                          <option value={item.id} key={item.id}>
-                            {item.name} A/c
-                          </option>
-                        );
-                      })}
-                    </Field>
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="debit_ledger_id" />
-                    </span>
-                  </div>
+        {allLedgersFetching?.data && (
+          <Formik
+            enableReinitialize={true}
+            validationSchema={EntryCreateSchema}
+            initialValues={{
+              debit_ledger_id: ledgers?.at(0)?.id,
+              credit_ledger_id: ledgers?.at(0)?.id,
+              amount: 0,
+              narration: "",
+            }}
+            onSubmit={async (values, { resetForm }) => {
+              addEntry.mutate(values);
+              resetForm();
+            }}
+          >
+            {({ values }) => (
+              <Form>
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                  <SelectInput
+                    label="Debit Ledger"
+                    name="debit_ledger_id"
+                    autofocus={true}
+                    inputClassName="capitalize"
+                  >
+                    {ledgers?.map((ledger) => (
+                      <option value={ledger.id} key={ledger.id}>
+                        {ledger.name} A/c
+                      </option>
+                    ))}
+                  </SelectInput>
 
-                  <div className="form-control">
-                    <label className="label" htmlFor="credit_ledger_id">
-                      <span className="label-text">Credit</span>
-                    </label>
-                    <Field
-                      as="select"
-                      className="select select-bordered capitalize"
-                      name="credit_ledger_id"
-                    >
-                      {fetchedData?.data?.ledgers?.map((item) => {
-                        return (
-                          <option value={item.id} key={item.id}>
-                            {item.name} A/c
-                          </option>
-                        );
-                      })}
-                    </Field>
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="credit_ledger_id" />
-                    </span>
-                  </div>
+                  <SelectInput
+                    label="Credit Ledger"
+                    name="credit_ledger_id"
+                    inputClassName="capitalize"
+                  >
+                    {ledgers?.map((ledger) => (
+                      <option value={ledger.id} key={ledger.id}>
+                        {ledger.name} A/c
+                      </option>
+                    ))}
+                  </SelectInput>
 
-                  <div className="form-control">
-                    <label className="label" htmlFor="amount">
-                      <span className="label-text">Amount</span>
-                    </label>
-                    <Field
-                      type="number"
-                      placeholder="Amount"
-                      className="input input-bordered"
-                      name="amount"
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="amount" />
-                    </span>
-                  </div>
+                  <Input
+                    label="Amount"
+                    type="number"
+                    name="amount"
+                    placeholder="Amount"
+                  />
 
-                  <div className="form-control">
-                    <label className="label" htmlFor="narration">
-                      <span className="label-text">Narration</span>
-                    </label>
-                    <Field
-                      as="textarea"
-                      className="textarea textarea-bordered"
+                  <div>
+                    <Textarea
+                      label="Narration"
                       placeholder="Narration"
                       name="narration"
-                    ></Field>
-                    <label className="label">
-                      <span
-                        className={`label-text-alt ${
-                          values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
-                            ? "text-red-500"
-                            : null
-                        }`}
-                      >
-                        ({values?.narration?.length}/
-                        {ENTRY_NARRATION_MAX_LENGTH})
-                      </span>
-                    </label>
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="narration" />
+                    />
+                    <span
+                      className={`text-sm ${
+                        values?.narration?.length > ENTRY_NARRATION_MAX_LENGTH
+                          ? "text-red-500"
+                          : null
+                      }`}
+                    >
+                      ({values?.narration?.length}/{ENTRY_NARRATION_MAX_LENGTH})
                     </span>
                   </div>
+                </div>
 
-                  <p className="text-red-500 text-sm text-left">
-                    {isError && error?.response?.data?.error?.message}
-                  </p>
+                <p className="text-red-500 text-sm text-left">
+                  {addEntry?.isError &&
+                    addEntry?.error?.response?.data?.error?.message}
+                </p>
 
-                  <div className="form-control mt-2">
-                    <button
-                      className={`btn btn-primary ${
-                        isLoading ? "loading" : ""
-                      }`}
-                      type="submit"
-                    >
-                      {isSuccess ? "Saved 🎉" : "Save"}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </center>
-    </div>
+                <Button
+                  type="submit"
+                  className="h-12 w-auto px-4 mt-2"
+                  isLoading={addEntry.isPending}
+                >
+                  {addEntry?.isSuccess
+                    ? "Saved 🎉"
+                    : addEntry?.isPending
+                    ? "Saving..."
+                    : "Save"}
+                </Button>
+
+                <Button
+                  type="reset"
+                  className="h-12 w-auto px-4 mt-2 ms-4"
+                  variant="secondary"
+                >
+                  Reset
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        )}
+      </div>
+    </>
   );
 }

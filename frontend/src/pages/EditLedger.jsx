@@ -1,176 +1,166 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
+import { Link, useParams } from "react-router-dom";
 
-import MiniLoading from "../components/MiniLoading";
-import Alert from "../components/Alert";
+import {
+  INCOME,
+  EXPENDITURE,
+  ASSET,
+  LIABILITY,
+  EQUITY,
+} from "../constants/ledgerTypes";
+import Input from "../components/form/Input";
+import Textarea from "../components/form/Textarea";
+import SelectInput from "../components/form/SelectInput";
+import Button from "../components/Button";
 import {
   useEditLedgerHook,
   useLedgerDataHook,
 } from "../hooks/useLedgerDataHook";
-import LedgerSchema from "../util/ledgerValidationSchema";
-import {
-  ASSET,
-  EQUITY,
-  EXPENDITURE,
-  INCOME,
-  LIABILITY,
-} from "../constants/ledgerTypes";
 import { LEDGER_DESCRIPTION_MAX_LENGTH } from "../constants/policies";
+import LedgerSchema from "../util/ledgerValidationSchema";
+import Time from "../components/Time";
 
-export default function EditLedger() {
-  const { id } = useParams();
+export default function CreateELedger() {
   const { token } = useSelector((state) => state.auth);
+  const { id } = useParams();
+  const [ledger, setLedger] = useState({});
 
-  const {
-    mutate: editLedger,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useEditLedgerHook(token, id);
+  const ledgerData = useLedgerDataHook(token, id);
 
-  const {
-    isLoading: isFetching,
-    error: fetchingError,
-    isError: isFetchingError,
-    data: fetchedData,
-  } = useLedgerDataHook(token, id);
-
-  const initialFormData = {
-    name: fetchedData?.data?.name,
-    type: fetchedData?.data?.type,
-    description: fetchedData?.data?.description,
-  };
-
-  const handleSubmit = async (data) => {
-    editLedger(data);
-  };
-
-  /**
-   * Following is the code for fixing an uncontrolled input error, that appeared
-   * after using enableReinitialize prop on Formik component.
-   *
-   * Solution Link:
-   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
-   */
-  const [index, setIndex] = useState(0);
   useEffect(() => {
-    setIndex(index + 1);
-  }, [fetchedData]);
+    if (ledgerData?.isSuccess) setLedger(ledgerData?.data?.data);
+  }, [ledgerData?.data, ledgerData?.isSuccess]);
+
+  const editLedger = useEditLedgerHook(token, id);
+
+  const notifyLedgerSaveSuccess = () => toast.success("Update saved");
+  const notifyLedgerSaveError = () => toast.error("Cannot update ledger");
+
+  useEffect(() => {
+    if (editLedger?.isSuccess) notifyLedgerSaveSuccess();
+    if (editLedger?.isError) notifyLedgerSaveError();
+  }, [editLedger?.isSuccess, editLedger?.isError]);
 
   return (
-    <div className="p-4 bg-base-200">
-      <center>
-        <div className="card w-full max-w-sm bg-base-100">
-          <div className="card-body sm:w-96 w-full">
-            <div className="card-title">
-              <h1 className="text-4xl font-bold">Edit Ledger</h1>
-            </div>
+    <>
+      <h1 className="text-4xl font-bold text-left mb-4">Edit Ledger</h1>
 
-            {isFetchingError && (
-              <Alert message={fetchingError?.response?.data?.error?.message} />
-            )}
-
-            <h1 className="text-2xs font-thin break-all uppercase text-justify">
-              #{id}
+      <div className="bg-white rounded-xl p-4">
+        {/* Loading view */}
+        {ledgerData?.isLoading && (
+          <h1 className="text-xl text-center">Loading...</h1>
+        )}
+        {/* Error view */}
+        {ledgerData?.isError && (
+          <div className="text-red-500">
+            <h1 className="text-4xl text-center pt-8">😢</h1>
+            <h1 className="text-xl text-center pt-4 pb-2">
+              There was an error.
             </h1>
+            <p className="text-sm text-center pb-8">
+              {ledgerData?.isError &&
+                ledgerData?.error?.response?.data?.error?.message}
+            </p>
+          </div>
+        )}
 
-            <Formik
-              key={index}
-              initialValues={initialFormData}
-              enableReinitialize
-              validationSchema={LedgerSchema}
-              onSubmit={async (values) => handleSubmit(values)}
-            >
-              {({ values }) => (
-                <Form>
-                  <div className="form-control">
-                    <label className="label" htmlFor="name">
-                      <span className="label-text">Name</span>
+        {ledgerData?.data && (
+          <Formik
+            enableReinitialize={true}
+            validationSchema={LedgerSchema}
+            initialValues={{
+              name: ledger.name || "",
+              type: ledger.type || ASSET,
+              description: ledger.description || "",
+            }}
+            onSubmit={async (values) => {
+              editLedger.mutate(values);
+            }}
+          >
+            {({ values }) => (
+              <Form>
+                <p className="text-sm break-all uppercase">
+                  <Link
+                    to={`/ledger/${id}`}
+                    className="link text-blue-500 font-mono hover:underline"
+                  >
+                    <span>#{id}</span>
+                  </Link>
 
-                      {isFetching ? <MiniLoading /> : null}
-                    </label>
-                    <Field
-                      type="text"
-                      placeholder="Name"
-                      className="input input-bordered"
-                      name="name"
-                      autoFocus
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="name" />
-                    </span>
-                  </div>
-                  <div className="form-control">
-                    <label className="label" htmlFor="type">
-                      <span className="label-text">Type</span>
-                    </label>
-                    <Field
-                      as="select"
-                      className="select select-bordered"
-                      name="type"
-                    >
-                      <option value={ASSET}>Asset</option>
-                      <option value={LIABILITY}>Liability</option>
-                      <option value={INCOME}>Income</option>
-                      <option value={EXPENDITURE}>Expenditure</option>
-                      <option value={EQUITY}>Equity</option>
-                    </Field>
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="type" />
-                    </span>
-                  </div>
+                  {/* <span className="font-mono">#{ledger?.id}</span> */}
+                  <span className="ml-2">
+                    <Time time={ledger?.created_at} />
+                  </span>
+                </p>
 
-                  <div className="form-control">
-                    <label className="label" htmlFor="description">
-                      <span className="label-text">Description</span>
-                    </label>
-                    <Field
-                      as="textarea"
-                      className="textarea textarea-bordered"
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                  <Input
+                    label="Name"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                  />
+
+                  <SelectInput label="Type" name="type">
+                    <option value={ASSET}>Asset</option>
+                    <option value={LIABILITY}>Liability</option>
+                    <option value={INCOME}>Income</option>
+                    <option value={EXPENDITURE}>Expenditure</option>
+                    <option value={EQUITY}>Equity</option>
+                  </SelectInput>
+
+                  <div>
+                    <Textarea
+                      label="Description"
                       placeholder="Description"
                       name="description"
-                    ></Field>
-                    <label className="label">
-                      <span
-                        className={`label-text-alt ${
-                          values?.description?.length >
-                          LEDGER_DESCRIPTION_MAX_LENGTH
-                            ? "text-red-500"
-                            : null
-                        }`}
-                      >
-                        ({values?.description?.length}/
-                        {LEDGER_DESCRIPTION_MAX_LENGTH})
-                      </span>
-                    </label>
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="description" />
+                    />
+                    <span
+                      className={`text-sm ${
+                        values?.description?.length >
+                        LEDGER_DESCRIPTION_MAX_LENGTH
+                          ? "text-red-500"
+                          : null
+                      }`}
+                    >
+                      ({values?.description?.length}/
+                      {LEDGER_DESCRIPTION_MAX_LENGTH})
                     </span>
                   </div>
+                </div>
 
-                  <p className="text-red-500 text-sm text-left">
-                    {isError && error?.response?.data?.error?.message}
-                  </p>
+                <p className="text-red-500 text-sm text-left">
+                  {editLedger?.isError &&
+                    editLedger?.error?.response?.data?.error?.message}
+                </p>
 
-                  <div className="form-control mt-2">
-                    <button
-                      className={`btn btn-primary ${
-                        isLoading ? "loading" : ""
-                      }`}
-                      type="submit"
-                    >
-                      {isSuccess ? "Saved 🎉" : "Save"}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </center>
-    </div>
+                <Button
+                  type="submit"
+                  className="h-12 w-auto px-4 mt-2"
+                  isLoading={editLedger.isPending}
+                >
+                  {editLedger?.isSuccess
+                    ? "Saved 🎉"
+                    : editLedger?.isPending
+                    ? "Saving..."
+                    : "Save"}
+                </Button>
+
+                <Button
+                  type="reset"
+                  className="h-12 w-auto px-4 mt-2 ms-4"
+                  variant="secondary"
+                >
+                  Reset
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        )}
+      </div>
+    </>
   );
 }

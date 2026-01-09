@@ -1,5 +1,5 @@
-module.exports = {
+export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  plugins: [require("daisyui"), require("@tailwindcss/line-clamp")],
+  plugins: [],
   themes: ["light", "dark"],
 };

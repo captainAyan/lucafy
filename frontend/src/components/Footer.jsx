@@ -1,10 +1,7 @@
 export default function Footer() {
-  const year = new Date().getFullYear();
   return (
-    <footer className="footer items-center p-4 bg-neutral text-neutral-content">
-      <div className="items-center grid-flow-col">
-        <p>Copyright © {year} - All right reserved</p>
-      </div>
+    <footer className="bg-gray-800 text-white text-center p-4 mt-auto">
+      <p>&copy; {new Date().getFullYear()} Lucafy. All rights reserved.</p>
     </footer>
   );
 }

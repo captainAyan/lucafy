@@ -1,145 +1,185 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { EDIT_PROFILE_URL } from "../constants/api";
-import authConfig from "../util/authConfig";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
 
-import { updateUser } from "../features/auth/authSlice";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import Input from "../components/form/Input";
+import Textarea from "../components/form/Textarea";
+import Button from "../components/Button";
+import { useEditUserProfileHook } from "../hooks/useUserDataHook";
+import {
+  USER_BIO_MAX_LENGTH,
+  USER_LOCATION_MAX_LENGTH,
+} from "../constants/policies";
 import { ProfileSchema } from "../util/userValidationSchema";
+import { updateUser } from "../features/authSlice";
 
-export default function EditProfile() {
-  const { user, token } = useSelector((state) => state.auth);
+export default function CreateLedger() {
+  const { token, user } = useSelector((state) => state.auth);
 
-  const initialFormData = {
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    email: user?.email,
-  };
-
-  /**
-   * Following is the code for fixing an uncontrolled input error, that appeared
-   * after using enableReinitialize prop on Formik component.
-   *
-   * Solution Link:
-   * https://github.com/jaredpalmer/formik/issues/811#issuecomment-1059814695
-   */
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    setIndex(index + 1);
-  }, [user]);
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [responseData, setResponseData] = useState();
-  const [errorData, setErrorData] = useState();
+  const notifyProfileSaveSuccess = () => toast.success("Ledger saved");
+  const notifyProfileSaveError = () => toast.error("Cannot save ledger");
 
-  const [helperText, setHelperText] = useState("");
+  const editProfile = useEditUserProfileHook(token);
 
   useEffect(() => {
-    if (errorData) {
-      setHelperText(errorData.message);
+    if (editProfile?.isSuccess) {
+      notifyProfileSaveSuccess();
+      dispatch(updateUser(editProfile?.data?.data));
     }
-
-    if (responseData) {
-      dispatch(updateUser(responseData));
-      navigate("/profile");
-    }
-  }, [errorData, responseData, navigate, dispatch]);
-
-  const handleSubmit = (userData) => {
-    setIsLoading(true);
-    axios
-      .put(EDIT_PROFILE_URL, userData, authConfig(token))
-      .then(({ data }) => setResponseData(data))
-      .catch((error) => setErrorData(error.response.data.error))
-      .finally(() => setIsLoading(false));
-  };
+    if (editProfile?.isError) notifyProfileSaveError();
+  }, [
+    editProfile?.isSuccess,
+    editProfile?.isError,
+    editProfile?.data?.data,
+    dispatch,
+  ]);
 
   return (
-    <div className="p-4 bg-base-200">
-      <center>
-        <div className="card w-full max-w-sm bg-base-100">
-          <div className="card-body sm:w-96 w-full">
-            <div className="card-title">
-              <h1 className="text-4xl font-bold">Edit Profile</h1>
-            </div>
+    <>
+      <h1 className="text-4xl font-bold text-left mb-4">Edit Profile</h1>
 
-            <Formik
-              key={index}
-              initialValues={initialFormData}
-              enableReinitialize
-              validationSchema={ProfileSchema}
-              onSubmit={async (values) => handleSubmit(values)}
-            >
-              {() => (
-                <Form>
-                  <div className="form-control">
-                    <label className="label" htmlFor="firstName">
-                      <span className="label-text">First Name</span>
-                    </label>
-                    <Field
-                      type="text"
-                      name="firstName"
-                      placeholder="First Name"
-                      className="input input-bordered"
-                      autoFocus
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="firstName" />
-                    </span>
-                  </div>
-                  <div className="form-control">
-                    <label className="label" htmlFor="lastName">
-                      <span className="label-text">Last Name</span>
-                    </label>
-                    <Field
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                      className="input input-bordered"
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="lastName" />
-                    </span>
-                  </div>
+      <div className="bg-white rounded-xl p-4 mb-4">
+        <Formik
+          enableReinitialize={true}
+          validationSchema={ProfileSchema}
+          initialValues={{
+            firstName: user?.firstName || "",
+            middleName: user?.middleName || "",
+            lastName: user?.lastName || "",
+            email: user?.email || "",
+            location: user?.location || "",
+            organization: user?.organization || "",
+            jobTitle: user?.jobTitle || "",
+            bio: user?.bio || "",
+          }}
+          onSubmit={async (values) => {
+            editProfile.mutate(values);
+          }}
+        >
+          {({ values }) => (
+            <Form>
+              <div className="my-2">
+                <h3 className="text-base font-semibold text-gray-900">
+                  Personal
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                  This information will be displayed publicly so be careful what
+                  you share
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                <Input
+                  label="First Name *"
+                  type="text"
+                  name="firstName"
+                  placeholder="First name"
+                />
+                <Input
+                  label="Middle Name"
+                  type="text"
+                  name="middleName"
+                  placeholder="Middle name"
+                />
+                <Input
+                  label="Last Name *"
+                  type="text"
+                  name="lastName"
+                  placeholder="Last name"
+                />
+                <Input
+                  label="Email *"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
 
-                  <div className="form-control">
-                    <label className="label" htmlFor="email">
-                      <span className="label-text">Email</span>
-                    </label>
-                    <Field
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      className="input input-bordered"
-                    />
-                    <span className="text-red-500 text-sm text-left">
-                      <ErrorMessage name="email" />
-                    </span>
-                  </div>
+                <div>
+                  <Textarea
+                    label="Location"
+                    placeholder="Location"
+                    name="location"
+                  />
+                  <span
+                    className={`text-sm ${
+                      values?.location?.length > USER_LOCATION_MAX_LENGTH
+                        ? "text-red-500"
+                        : null
+                    }`}
+                  >
+                    ({values?.location?.length}/{USER_LOCATION_MAX_LENGTH})
+                  </span>
+                </div>
+              </div>
 
-                  <p className="text-red-500 text-sm text-left">{helperText}</p>
+              <div className="my-2">
+                <h3 className="text-base font-semibold text-gray-900">
+                  Professional
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                  These details help your colleagues look you up
+                </p>
+              </div>
 
-                  <div className="form-control mt-4">
-                    <button
-                      className={`btn btn-primary ${
-                        isLoading ? "loading" : ""
-                      }`}
-                      type="submit"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </center>
-    </div>
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2">
+                <Input
+                  label="Organization"
+                  type="text"
+                  name="organization"
+                  placeholder="Organization"
+                />
+
+                <Input
+                  label="Job Title"
+                  type="text"
+                  name="jobTitle"
+                  placeholder="Job title"
+                />
+
+                <div>
+                  <Textarea label="Bio" placeholder="Bio" name="bio" />
+                  <span
+                    className={`text-sm ${
+                      values?.bio?.length > USER_BIO_MAX_LENGTH
+                        ? "text-red-500"
+                        : null
+                    }`}
+                  >
+                    ({values?.bio?.length}/{USER_BIO_MAX_LENGTH})
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-red-500 text-sm text-left">
+                {editProfile?.isError &&
+                  editProfile?.error?.response?.data?.error?.message}
+              </p>
+
+              <Button
+                type="submit"
+                className="h-12 w-auto px-4 mt-2"
+                isLoading={editProfile.isPending}
+              >
+                {editProfile?.isSuccess
+                  ? "Saved 🎉"
+                  : editProfile?.isPending
+                  ? "Saving..."
+                  : "Save"}
+              </Button>
+
+              <Button
+                type="reset"
+                className="h-12 w-auto px-4 mt-2 ms-4"
+                variant="secondary"
+              >
+                Reset
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </>
   );
 }

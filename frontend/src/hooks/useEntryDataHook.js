@@ -6,40 +6,39 @@ import {
   EDIT_ENTRY_URL,
   GET_ENTRY_URL,
   NORMALIZE_ENTRY_URL,
-  SEARCH_ENTRY_URL,
 } from "../constants/api";
 
 export function useEntryDataHook(token, id) {
-  return useQuery(["entry", id], () =>
-    axios.get(`${GET_ENTRY_URL}${id}`, authConfig(token))
-  );
+  return useQuery({
+    queryKey: ["entry", id],
+    queryFn: () => axios.get(`${GET_ENTRY_URL}${id}`, authConfig(token)),
+  });
 }
 
 export function useAddEntryHook(token) {
   const queryClient = useQueryClient();
-  return useMutation(
-    (entry) => axios.post(CREATE_ENTRY_URL, entry, authConfig(token)),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries("journal");
-        queryClient.setQueryData(["entry", data?.data?.id], data);
-      },
-    }
-  );
+  return useMutation({
+    mutationFn: (entry) =>
+      axios.post(CREATE_ENTRY_URL, entry, authConfig(token)),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["journal"]);
+      queryClient.setQueryData(["entry", data?.data?.id], data);
+    },
+  });
 }
 
 export function useEditEntryHook(token, id) {
   const queryClient = useQueryClient();
-  return useMutation(
-    (entry) => axios.put(`${EDIT_ENTRY_URL}${id}`, entry, authConfig(token)),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData(["entry", id], (oldQueryData) => {
-          return { ...oldQueryData, data: { ...data?.data } };
-        });
-      },
-    }
-  );
+
+  return useMutation({
+    mutationKey: ["entry", id],
+    mutationFn: (entry) =>
+      axios.put(`${EDIT_ENTRY_URL}${id}`, entry, authConfig(token)),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["journal"]);
+      queryClient.setQueryData(["entry", id], data);
+    },
+  });
 }
 
 export function useEntryNormalizationHook(token, id) {
@@ -56,16 +55,17 @@ export function useEntryNormalizationHook(token, id) {
   );
 }
 
-export function useJournalDataHook(token, page) {
-  const query = new URLSearchParams({ page });
-  return useQuery(["journal", page], () =>
-    axios.get(`${GET_ENTRY_URL}?${query}`, authConfig(token))
-  );
-}
+export function useJournalDataHook(
+  token,
+  page = 1,
+  order = "newest",
+  limit = 10,
+  keyword = ""
+) {
+  const query = new URLSearchParams({ page, order, limit, keyword });
 
-export function useSearchDataHook(token, keyword, page) {
-  const query = new URLSearchParams({ page, search: keyword });
-  return useQuery(["entry-search", keyword, page], () =>
-    axios.get(`${SEARCH_ENTRY_URL}?${query}`, authConfig(token))
-  );
+  return useQuery({
+    queryKey: ["journal", query.toString()],
+    queryFn: () => axios.get(`${GET_ENTRY_URL}?${query}`, authConfig(token)),
+  });
 }
