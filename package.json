@@ -2,10 +2,13 @@
   "name": "accounting",
   "version": "1.0.0",
   "description": "A web based simple double entry system accounting application",
+  "type": "module",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend2/server.js",
-    "server": "nodemon backend2/server.js",
+    "start": "node dist/backend/server.js",
+    "server": "tsx watch backend/server.ts",
+    "build": "tsc",
+    "lint": "eslint .",
     "client": "npm run dev --prefix frontend2",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,18 +35,19 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^25.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "axios": "^1.10.0",
     "chai": "^5.2.0",
     "concurrently": "^9.1.2",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
     "inquirer": "^13.0.2",
     "newman": "^6.2.1",
     "nodemon": "^3.1.10",
-    "prettier": "^3.5.3"
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3"
   }
 }

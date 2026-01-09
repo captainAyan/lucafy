@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    /* Target & Runtime */
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext"],
+    "types": ["node"],
+
+    /* File Structure */
+    "rootDir": "backend",
+    "outDir": "dist/backend",
+
+    /* Strictness & Quality */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Compatibility */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+
+    /* Performance */
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "removeComments": true,
+    "sourceMap": true
+  },
+  "include": ["backend/**/*"],
+  "exclude": ["node_modules", "frontend", "dist"]
+}
