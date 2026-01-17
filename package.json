@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node dist/backend/server.js",
     "server": "tsx watch backend/server.ts",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "lint": "eslint .",
     "client": "npm run dev --prefix frontend2",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -32,10 +32,17 @@
     "json2csv": "^5.0.7",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/http-errors": "^2.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^25.0.3",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
@@ -48,6 +55,7 @@
     "newman": "^6.2.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.7.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

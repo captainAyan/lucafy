@@ -1,17 +1,24 @@
-const jwt = require("jsonwebtoken");
-const { StatusCodes } = require("http-status-codes");
-const createHttpError = require("http-errors");
+import process from "process";
 
-const { getUserById } = require("../services/userService");
+import type { Response, Request, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { StatusCodes } from "http-status-codes";
+import createHttpError from "http-errors";
 
-async function protect(req, res, next) {
+import { getUserById } from "../services/userService.js";
+
+export default async function protect(
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ")
   ) {
     try {
       const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const decoded = jwt.verify(token, process.env.SECRET_KEY as string);
 
       const user = await getUserById(decoded.id);
       req.user = user;
@@ -24,5 +31,3 @@ async function protect(req, res, next) {
     throw createHttpError(StatusCodes.UNAUTHORIZED, "Not authenticated");
   }
 }
-
-module.exports = protect;

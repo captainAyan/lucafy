@@ -1,24 +1,40 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const path = require("path");
-const { StatusCodes } = require("http-status-codes");
-const morgan = require("morgan");
-const rateLimit = require("express-rate-limit");
-const helmet = require("helmet");
-const cors = require("cors");
-const createHttpError = require("http-errors");
+import process from "process";
+import console from "console";
+import { fileURLToPath } from "url";
+import path from "path";
 
-const errorHandler = require("./middlewares/errorMiddleware");
-const { PER_MINUTE_REQUEST_LIMIT } = require("./constants/policies");
+import type { Application, Request, Response, NextFunction } from "express";
+import express from "express";
+import mongoose from "mongoose";
+import { StatusCodes } from "http-status-codes";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import cors from "cors";
+import createHttpError from "http-errors";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+import errorHandler from "./middlewares/errorMiddleware.js";
+import { PER_MINUTE_REQUEST_LIMIT } from "./constants/policies.js";
+import apiRoutes from "./routes/api.js";
 
-const port = process.env.PORT;
-const app = express();
+dotenv.config();
+
+const node_env: string = process.env.NODE_ENV as string;
+const port: number = Number(process.env.PORT) || 5000;
+const db: string = process.env.MONGODB_URI as string;
+
+const filename: string = fileURLToPath(import.meta.url);
+const dirname: string = path.dirname(filename);
+
+export const app: Application = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(morgan("tiny"));
+app.use(helmet());
+app.use(cors());
 
-const db = process.env.MONGODB_URI;
 mongoose
   .connect(db)
   .then(() => console.log("✅ MongoDB Connected"))
@@ -28,51 +44,51 @@ mongoose
   });
 
 // Graceful shutdown on SIGINT (e.g., Ctrl+C)
-process.on("SIGINT", async () => {
-  await mongoose.connection.close();
-  console.log("🛑 MongoDB disconnected on app termination");
-  process.exit(0); // Exit cleanly
+process.on("SIGINT", () => {
+  mongoose.connection
+    .close()
+    .then(() => {
+      console.log("🛑 MongoDB disconnected on app termination");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Error during disconnection:", err);
+      process.exit(1);
+    });
 });
-
-app.use(morgan("tiny"));
-
-app.use(helmet());
-
-app.use(cors());
 
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === "production" ? PER_MINUTE_REQUEST_LIMIT : false,
-  limit: 100,
+  limit: node_env === "production" ? PER_MINUTE_REQUEST_LIMIT : Infinity,
   standardHeaders: "draft-8",
   legacyHeaders: false,
-  handler: (req, res, next) => {
+  handler: (_req: Request, _res: Response, _next: NextFunction) => {
     throw createHttpError(StatusCodes.TOO_MANY_REQUESTS, "Too many requests");
   },
 });
 app.use(limiter); // limits all paths
 
-app.use("/api", require("./routes/api"));
+app.use("/api", apiRoutes);
 
 // Serve frontend
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
+if (node_env === "production") {
+  app.use(express.static(path.join(dirname, "../frontend/build")));
 
-  app.get("/{*any}", (req, res) =>
+  app.get("/{*any}", (_req: Request, res: Response) =>
     res.sendFile(
-      path.resolve(__dirname, "../", "frontend", "build", "index.html"),
+      path.resolve(dirname, "../", "frontend", "build", "index.html"),
     ),
   );
 } else {
-  app.get("/", (req, res) => res.send("Please set to production"));
+  app.get("/", (_req: Request, res: Response) =>
+    res.send("Please set to production"),
+  );
 }
 
-app.use("/{*any}", (req, res, next) => {
+app.use("/{*any}", (_req: Request, _res: Response, _next: NextFunction) => {
   throw createHttpError(StatusCodes.NOT_FOUND, "Not found");
 });
 
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
-
-module.exports = app;

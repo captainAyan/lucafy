@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const { StatusCodes } = require("http-status-codes");
-const createHttpError = require("http-errors");
+import bcrypt from "bcryptjs";
+import { StatusCodes } from "http-status-codes";
+import createHttpError from "http-errors";
 
-const User = require("../models/userModel");
+import User from "../models/userModel.js";
 
 /**
  * @typedef {import('../constants/typedefs').User} User
@@ -14,7 +14,7 @@ const User = require("../models/userModel");
  * @param {Object} userData - New user data.
  * @returns {Promise<User>} The created user.
  */
-async function createUser(userData) {
+export async function createUser(userData) {
   const { password } = userData;
 
   const salt = await bcrypt.genSalt(10);
@@ -46,7 +46,7 @@ async function createUser(userData) {
  * @param {string} id - MongoDB ObjectId of the user.
  * @returns {Promise<User>} The user with the given ID.
  */
-async function getUserById(id) {
+export async function getUserById(id) {
   const user = await User.findById(id, "-password");
   if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
   return user;
@@ -66,7 +66,7 @@ async function getUserById(id) {
  *  users: Array<User>
  * }>}
  */
-async function getUsers(page, limit, order, keyword) {
+export async function getUsers(page, limit, order, keyword) {
   const sortOrder = order === "oldest" ? "createdAt" : "-createdAt";
 
   const query = {};
@@ -103,7 +103,7 @@ async function getUsers(page, limit, order, keyword) {
  * @param {Partial<User>} userData - fields to update
  * @returns {Promise<User>} The updated user.
  */
-async function editUserById(id, userData) {
+export async function editUserById(id, userData) {
   const user = await getUserById(id);
   Object.assign(user, userData);
 
@@ -126,7 +126,7 @@ async function editUserById(id, userData) {
  * @param {string} plainPassword - Plaintext password.
  * @returns {Promise<User>} The authenticated user.
  */
-async function authenticateUser(email, plainPassword) {
+export async function authenticateUser(email, plainPassword) {
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid email or password");
@@ -136,7 +136,7 @@ async function authenticateUser(email, plainPassword) {
   if (!isMatch) {
     throw createHttpError(
       StatusCodes.UNAUTHORIZED,
-      "Invalid email or password"
+      "Invalid email or password",
     );
   }
 
@@ -151,7 +151,7 @@ async function authenticateUser(email, plainPassword) {
  * @param {string} newPassword - New plaintext password.
  * @returns {Promise<User>} The user with updated password.
  */
-async function changeUserPassword(id, oldPassword, newPassword) {
+export async function changeUserPassword(id, oldPassword, newPassword) {
   const user = await User.findById(id).select("+password");
   if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
 
@@ -167,12 +167,3 @@ async function changeUserPassword(id, oldPassword, newPassword) {
 
   return user;
 }
-
-module.exports = {
-  createUser,
-  getUserById,
-  getUsers,
-  editUserById,
-  authenticateUser,
-  changeUserPassword,
-};

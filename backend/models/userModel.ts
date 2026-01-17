@@ -1,5 +1,6 @@
-const { Schema, model } = require("mongoose");
-const {
+import { Schema, model } from "mongoose";
+
+import {
   USER_FIRST_NAME_MAX_LENGTH,
   USER_MIDDLE_NAME_MAX_LENGTH,
   USER_LAST_NAME_MAX_LENGTH,
@@ -11,7 +12,7 @@ const {
   ORGANIZATION_NAME_MAX_LENGTH,
   USER_BIO_MAX_LENGTH,
   USER_GENDER,
-} = require("../constants/policies");
+} from "../constants/policies.js";
 
 const UserSchema = new Schema(
   {
@@ -85,7 +86,7 @@ const UserSchema = new Schema(
       default: USER_GENDER.UNSPECIFIED,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 UserSchema.virtual("id").get(function () {
@@ -105,4 +106,4 @@ const options = {
 UserSchema.set("toObject", options);
 UserSchema.set("toJSON", options);
 
-module.exports = model("User", UserSchema);
+export default model("User", UserSchema);

@@ -1,6 +1,6 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const {
+import {
   USER_FIRST_NAME_MAX_LENGTH,
   USER_MIDDLE_NAME_MAX_LENGTH,
   USER_LAST_NAME_MAX_LENGTH,
@@ -12,9 +12,9 @@ const {
   USER_JOB_TITLE_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
   USER_GENDER,
-} = require("../../constants/policies");
+} from "../../constants/policies.js";
 
-const createSchema = Joi.object({
+export const createSchema = Joi.object({
   firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
   lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
   email: Joi.string().email().min(1).max(EMAIL_MAX_LENGTH).required(),
@@ -24,7 +24,7 @@ const createSchema = Joi.object({
     .required(),
 }).options({ stripUnknown: true });
 
-const editSchema = Joi.object({
+export const editSchema = Joi.object({
   firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
   middleName: Joi.string()
     .max(USER_MIDDLE_NAME_MAX_LENGTH)
@@ -45,16 +45,10 @@ const editSchema = Joi.object({
     .optional(),
 }).options({ stripUnknown: true });
 
-const passwordChangeSchema = Joi.object({
+export const passwordChangeSchema = Joi.object({
   oldPassword: Joi.string().required(),
   newPassword: Joi.string()
     .min(PASSWORD_MIN_LENGTH)
     .max(PASSWORD_MAX_LENGTH)
     .required(),
 }).options({ stripUnknown: true });
-
-module.exports = {
-  createSchema,
-  editSchema,
-  passwordChangeSchema,
-};
