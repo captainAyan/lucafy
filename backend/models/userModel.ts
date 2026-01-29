@@ -1,3 +1,4 @@
+import type { Document } from "mongoose";
 import { Schema, model } from "mongoose";
 
 import {
@@ -14,7 +15,23 @@ import {
   USER_GENDER,
 } from "../constants/policies.js";
 
-const UserSchema = new Schema(
+export interface UserDocument extends Document {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  email: string;
+  password: string;
+  bio?: string;
+  organization?: string;
+  jobTitle?: string;
+  address?: string;
+  dateOfBirth: Date | null;
+  gender?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const UserSchema = new Schema<UserDocument>(
   {
     firstName: {
       type: String,

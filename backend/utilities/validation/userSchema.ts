@@ -1,4 +1,4 @@
-import Joi from "joi";
+import { z } from "zod";
 
 import {
   USER_FIRST_NAME_MAX_LENGTH,
@@ -11,44 +11,59 @@ import {
   ORGANIZATION_NAME_MAX_LENGTH,
   USER_JOB_TITLE_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
-  USER_GENDER,
+  UserGender,
 } from "../../constants/policies.js";
 
-export const createSchema = Joi.object({
-  firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
-  lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
-  email: Joi.string().email().min(1).max(EMAIL_MAX_LENGTH).required(),
-  password: Joi.string()
-    .min(PASSWORD_MIN_LENGTH)
-    .max(PASSWORD_MAX_LENGTH)
-    .required(),
-}).options({ stripUnknown: true });
+export const createUserSchema = z
+  .object({
+    firstName: z.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH),
+    lastName: z.string().min(1).max(USER_LAST_NAME_MAX_LENGTH),
+    email: z.email().min(1).max(EMAIL_MAX_LENGTH),
+    password: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
+  })
+  .strip();
 
-export const editSchema = Joi.object({
-  firstName: Joi.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH).required(),
-  middleName: Joi.string()
-    .max(USER_MIDDLE_NAME_MAX_LENGTH)
-    .allow("")
-    .optional(),
-  lastName: Joi.string().min(1).max(USER_LAST_NAME_MAX_LENGTH).required(),
-  email: Joi.string().email().min(1).max(EMAIL_MAX_LENGTH).required(),
-  bio: Joi.string().max(USER_BIO_MAX_LENGTH).allow("").optional(),
-  organization: Joi.string()
-    .max(ORGANIZATION_NAME_MAX_LENGTH)
-    .allow("")
-    .optional(),
-  jobTitle: Joi.string().max(USER_JOB_TITLE_MAX_LENGTH).allow("").optional(),
-  address: Joi.string().max(ADDRESS_MAX_LENGTH).allow("").optional(),
-  dateOfBirth: Joi.date().optional().allow(null),
-  gender: Joi.string()
-    .valid(...Object.values(USER_GENDER)) // .allow("") is not needed as USER_GENDER.UNSPECIFIED = ""
-    .optional(),
-}).options({ stripUnknown: true });
+export const userLoginSchema = z
+  .object({
+    email: z.email().min(1).max(EMAIL_MAX_LENGTH),
+    password: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
+  })
+  .strip();
 
-export const passwordChangeSchema = Joi.object({
-  oldPassword: Joi.string().required(),
-  newPassword: Joi.string()
-    .min(PASSWORD_MIN_LENGTH)
-    .max(PASSWORD_MAX_LENGTH)
-    .required(),
-}).options({ stripUnknown: true });
+export const editUserSchema = z
+  .object({
+    firstName: z.string().min(1).max(USER_FIRST_NAME_MAX_LENGTH),
+    middleName: z
+      .string()
+      .max(USER_MIDDLE_NAME_MAX_LENGTH)
+      .optional()
+      .or(z.literal("")),
+    lastName: z.string().min(1).max(USER_LAST_NAME_MAX_LENGTH),
+    email: z.email().min(1).max(EMAIL_MAX_LENGTH),
+    bio: z.string().max(USER_BIO_MAX_LENGTH).optional().or(z.literal("")),
+    organization: z
+      .string()
+      .max(ORGANIZATION_NAME_MAX_LENGTH)
+      .optional()
+      .or(z.literal("")),
+    jobTitle: z
+      .string()
+      .max(USER_JOB_TITLE_MAX_LENGTH)
+      .optional()
+      .or(z.literal("")),
+    address: z.string().max(ADDRESS_MAX_LENGTH).optional().or(z.literal("")),
+    dateOfBirth: z.date().nullable().optional(),
+    gender: z.enum(UserGender).optional(),
+  })
+  .strip();
+
+export const passwordChangeSchema = z
+  .object({
+    oldPassword: z.string().required(),
+    newPassword: z
+      .string()
+      .min(PASSWORD_MIN_LENGTH)
+      .max(PASSWORD_MAX_LENGTH)
+      .required(),
+  })
+  .options({ stripUnknown: true });

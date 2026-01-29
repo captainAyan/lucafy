@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import createHttpError from "http-errors";
 
-import { getUserById } from "../services/userService.js";
+import { getUserById } from "../services/user/userDao.js";
 
 export default async function protect(
   req: Request,

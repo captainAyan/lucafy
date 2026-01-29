@@ -4,10 +4,16 @@ export const ENTRY_LIMIT = 100;
 export const PER_MINUTE_REQUEST_LIMIT = 100;
 export const DEFAULT_PAGINATION_LIMIT = 10;
 
+export enum SortOrder {
+  NEWEST_FIRST = "newest",
+  OLDEST_FIRST = "oldest",
+}
+
 export const ORGANIZATION_NAME_MAX_LENGTH = 100;
 export const ADDRESS_MAX_LENGTH = 200;
 
 export const BOOK_MEMBER_ROLE = Object.freeze({
+  // TODO rename to BookMemberRole
   ADMIN: "admin",
   MEMBER: "member",
 });
@@ -24,12 +30,13 @@ export const USER_MIDDLE_NAME_MAX_LENGTH = 100;
 export const USER_LAST_NAME_MAX_LENGTH = 100;
 export const USER_BIO_MAX_LENGTH = 200;
 export const USER_JOB_TITLE_MAX_LENGTH = 100;
-export const USER_GENDER = Object.freeze({
-  MALE: "male",
-  FEMALE: "female",
-  OTHER: "other",
-  UNSPECIFIED: "",
-});
+
+export enum UserGender {
+  MALE = "male",
+  FEMALE = "female",
+  OTHER = "other",
+  UNSPECIFIED = "",
+}
 
 export const LEDGER_NAME_MAX_LENGTH = 50;
 export const LEDGER_DESCRIPTION_MAX_LENGTH = 200;
@@ -37,6 +44,7 @@ export const LEDGER_DESCRIPTION_MAX_LENGTH = 200;
 export const ENTRY_NARRATION_MAX_LENGTH = 200;
 
 export const LEDGER_NATURE = Object.freeze({
+  // TODO LedgerNature
   INCOME: "income",
   EXPENDITURE: "expenditure",
   ASSET: "asset",
@@ -44,6 +52,7 @@ export const LEDGER_NATURE = Object.freeze({
   EQUITY: "equity",
 });
 export const LEDGER_SIDES = Object.freeze({
+  // TODO LedgerSides
   DEBIT: "debit",
   CREDIT: "credit",
 });

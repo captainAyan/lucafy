@@ -8,41 +8,50 @@ import {
   createUser,
   getUserById as _getUserById,
   editUserById,
-  changeUserPassword,
   getUsers as _getUsers,
-} from "../services/userService.js";
+} from "../services/user/userService.js";
 import {
-  createSchema,
-  editSchema,
+  createUserSchema,
+  editUserSchema,
   passwordChangeSchema,
+  userLoginSchema,
 } from "../utilities/validation/userSchema.js";
 import { paginationQueryParamSchemaWithKeyword } from "../utilities/validation/paginationQueryParamSchema.js";
+import type CreateUserDto from "../dtos/user/createUserDto.js";
+import type UserLoginDto from "../dtos/user/userLoginDto.js";
+import type UserResponseDto from "../dtos/user/userResponseDto.js";
+import type AuthenticationResponseDto from "../dtos/user/authenticationResponseDto.js";
 
 export async function login(req: Request, res: Response) {
-  const { email, password } = req.body;
+  const result = userLoginSchema.safeParse(req.body);
 
-  const user = await authenticateUser(email, password);
-  const response = {
-    user,
-    token: generateToken({ id: user.id }),
-  };
-
-  res.status(StatusCodes.OK).json(response);
-}
-
-export async function register(req: Request, res: Response) {
-  const { value: body, error } = createSchema.validate(req.body);
-  if (error) {
+  if (!result.success) {
     throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
   }
 
-  const user = await createUser(body);
-  const response = {
-    user,
-    token: generateToken({ id: user.id }),
-  };
+  const loginData: UserLoginDto = result.data;
 
-  res.status(StatusCodes.CREATED).json(response);
+  const auth: AuthenticationResponseDto = await authenticateUser(loginData);
+
+  res.status(StatusCodes.OK).json(auth);
+}
+
+export async function register(req: Request, res: Response) {
+  const result = createUserSchema.safeParse(req.body);
+
+  if (!result.success) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
+  }
+
+  const data: CreateUserDto = result.data;
+
+  const registeredUser = await createUser(data);
+  const auth = await authenticateUser({
+    email: data.email,
+    password: data.password,
+  });
+
+  res.status(StatusCodes.CREATED).json(auth);
 }
 
 export async function getProfile(req: Request, res: Response) {

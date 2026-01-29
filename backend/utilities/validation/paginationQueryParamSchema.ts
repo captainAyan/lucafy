@@ -1,7 +1,10 @@
 import Joi from "joi";
 import joiObjectid from "joi-objectid";
 
-import { DEFAULT_PAGINATION_LIMIT } from "../../constants/policies.js";
+import {
+  DEFAULT_PAGINATION_LIMIT,
+  SortOrder,
+} from "../../constants/policies.js";
 
 const objectId = joiObjectid(Joi);
 
@@ -11,7 +14,9 @@ const baseSchema = {
     .integer()
     .valid(DEFAULT_PAGINATION_LIMIT, 20, 50)
     .default(DEFAULT_PAGINATION_LIMIT),
-  order: Joi.string().valid("oldest", "newest").default("newest"),
+  order: Joi.string()
+    .valid(SortOrder.NEWEST_FIRST, SortOrder.OLDEST_FIRST)
+    .default(SortOrder.NEWEST_FIRST),
 };
 
 const schemaOptions = { stripUnknown: true, convert: true };
