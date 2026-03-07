@@ -12,7 +12,7 @@ import {
   USER_JOB_TITLE_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
   UserGender,
-} from "../../constants/policies.js";
+} from "../constants/policies.js";
 
 export const createUserSchema = z
   .object({
@@ -57,13 +57,7 @@ export const editUserSchema = z
   })
   .strip();
 
-export const passwordChangeSchema = z
-  .object({
-    oldPassword: z.string().required(),
-    newPassword: z
-      .string()
-      .min(PASSWORD_MIN_LENGTH)
-      .max(PASSWORD_MAX_LENGTH)
-      .required(),
-  })
-  .options({ stripUnknown: true });
+export const passwordChangeSchema = z.object({
+  oldPassword: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
+  newPassword: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
+});

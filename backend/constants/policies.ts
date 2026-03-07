@@ -2,9 +2,15 @@ export const LEDGER_LIMIT = 20;
 export const ENTRY_LIMIT = 100;
 
 export const PER_MINUTE_REQUEST_LIMIT = 100;
-export const DEFAULT_PAGINATION_LIMIT = 10;
 
-export enum SortOrder {
+export enum PaginationLimit {
+  TEN = 10,
+  TWENTY = 20,
+  FIFTY = 50,
+  DEFAULT = TEN,
+}
+
+export enum PaginationSortOrder {
   NEWEST_FIRST = "newest",
   OLDEST_FIRST = "oldest",
 }

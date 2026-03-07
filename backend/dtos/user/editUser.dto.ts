@@ -1,6 +1,6 @@
 import type { z } from "zod";
 
-import type { editUserSchema } from "../../utilities/validation/userSchema.js";
+import type { editUserSchema } from "../../validators/user.schema.js";
 
 type EditUserDto = z.infer<typeof editUserSchema>;
 

@@ -1,6 +1,6 @@
 import type { z } from "zod";
 
-import type { createUserSchema } from "../../utilities/validation/userSchema.js";
+import type { createUserSchema } from "../../validators/user.schema.js";
 
 type CreateUserDto = z.infer<typeof createUserSchema>;
 

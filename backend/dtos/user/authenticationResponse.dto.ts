@@ -1,4 +1,4 @@
-import type UserResponseDto from "./userResponseDto.js";
+import type UserResponseDto from "./userResponse.dto.js";
 
 export default interface AuthenticationResponseDto {
   user: UserResponseDto;

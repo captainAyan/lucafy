@@ -1,3 +1,5 @@
+import type { UserGender } from "../../constants/policies.js";
+
 export default interface UserResponseDto {
   id: string;
   firstName: string;
@@ -8,8 +10,6 @@ export default interface UserResponseDto {
   organization?: string;
   jobTitle?: string;
   address?: string;
-  dateOfBirth: string | null;
-  gender?: string;
-  createdAt: string;
-  updatedAt: string;
+  dateOfBirth: Date | null;
+  gender?: UserGender;
 }

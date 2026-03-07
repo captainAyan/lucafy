@@ -12,8 +12,8 @@ import {
   USER_JOB_TITLE_MAX_LENGTH,
   ORGANIZATION_NAME_MAX_LENGTH,
   USER_BIO_MAX_LENGTH,
-  USER_GENDER,
-} from "../constants/policies.js";
+} from "../../constants/policies.js";
+import { UserGender } from "../../constants/policies.js";
 
 export interface UserDocument extends Document {
   firstName: string;
@@ -26,7 +26,7 @@ export interface UserDocument extends Document {
   jobTitle?: string;
   address?: string;
   dateOfBirth: Date | null;
-  gender?: string;
+  gender?: UserGender;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -99,8 +99,8 @@ const UserSchema = new Schema<UserDocument>(
     },
     gender: {
       type: String,
-      enum: USER_GENDER,
-      default: USER_GENDER.UNSPECIFIED,
+      enum: Object.values(UserGender),
+      default: UserGender.UNSPECIFIED,
     },
   },
   { timestamps: true },
@@ -123,4 +123,4 @@ const options = {
 UserSchema.set("toObject", options);
 UserSchema.set("toJSON", options);
 
-export default model("User", UserSchema);
+export default model<UserDocument>("User", UserSchema);

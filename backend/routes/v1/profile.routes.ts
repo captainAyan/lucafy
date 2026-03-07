@@ -4,7 +4,7 @@ import {
   getProfile,
   editProfile,
   deleteProfile,
-} from "../../controllers/userController.js";
+} from "../../controllers/user.controller.js";
 
 const router = Router();
 

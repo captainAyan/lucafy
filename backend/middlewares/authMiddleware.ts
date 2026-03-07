@@ -5,7 +5,11 @@ import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import createHttpError from "http-errors";
 
-import { getUserById } from "../services/user/userDao.js";
+import { userService as containerUserService } from "../container.js";
+import type UserService from "../services/user.service.js";
+import type User from "../domain/user/user.domain.js";
+
+const userService: UserService = containerUserService;
 
 export default async function protect(
   req: Request,
@@ -20,7 +24,14 @@ export default async function protect(
       const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.SECRET_KEY as string);
 
-      const user = await getUserById(decoded.id);
+      // check if the decoded payload has teh key "id"
+      if (typeof decoded === "string" || !("id" in decoded)) {
+        throw createHttpError(StatusCodes.UNAUTHORIZED, "Invalid token");
+      }
+
+      const userId = decoded.id;
+
+      const user: User = await userService.getUserById(userId);
       req.user = user;
 
       next();
