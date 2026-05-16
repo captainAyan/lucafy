@@ -1,12 +1,21 @@
-const { Schema, model } = require("mongoose");
+import type { Document } from "mongoose";
+import { Schema, model } from "mongoose";
 
-const {
+import {
   ORGANIZATION_NAME_MAX_LENGTH,
   ADDRESS_MAX_LENGTH,
-  CURRENCY_CODE_ENUM,
-} = require("../constants/policies");
+} from "../../constants/policies.js";
+import { CurrencyCode } from "../../constants/currencyCodes.js";
 
-const BookSchema = new Schema(
+export interface BookDocument extends Document {
+  organization: string;
+  address: string;
+  currencyCode: CurrencyCode;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const BookSchema = new Schema<BookDocument>(
   {
     organization: {
       type: String,
@@ -25,17 +34,13 @@ const BookSchema = new Schema(
     currencyCode: {
       type: String,
       required: true,
-      enum: CURRENCY_CODE_ENUM,
+      enum: CurrencyCode,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-BookSchema.virtual("id").get(function () {
-  return this._id.toHexString();
-});
 
 BookSchema.set("toObject", { virtuals: true, versionKey: false });
 BookSchema.set("toJSON", { virtuals: true, versionKey: false });
 
-module.exports = model("Book", BookSchema);
+export default model<BookDocument>("Book", BookSchema);

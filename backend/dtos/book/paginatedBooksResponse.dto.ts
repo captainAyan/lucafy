@@ -2,13 +2,13 @@ import type {
   PaginationLimit,
   PaginationSortOrder,
 } from "../../constants/policies.js";
-import type UserResponseDto from "./userResponse.dto.js";
+import type BookResponseDto from "./bookResponse.dto.js";
 
-export default interface PaginatedUsersResponseDto {
+export default interface PaginatedBooksResponseDto {
   page: number;
   skip: number;
   total: number;
   limit: PaginationLimit;
   order: PaginationSortOrder;
-  users: UserResponseDto[];
+  book: BookResponseDto[];
 }

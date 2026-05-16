@@ -1,8 +1,15 @@
-const { Schema, model } = require("mongoose");
+import type { Document, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 
-const {
-  BOOK_MEMBER_ROLE: { ADMIN, MEMBER },
-} = require("../constants/policies");
+import { BookMemberRole } from "../../constants/policies.js";
+
+export interface BookMemberDocument extends Document {
+  user: Types.ObjectId;
+  book: Types.ObjectId;
+  role: BookMemberRole;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 const BookMemberSchema = new Schema(
   {
@@ -18,20 +25,16 @@ const BookMemberSchema = new Schema(
     },
     role: {
       type: String,
-      enum: [ADMIN, MEMBER],
+      enum: BookMemberRole,
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 BookMemberSchema.index({ user: 1, book: 1 }, { unique: true });
 
-BookMemberSchema.virtual("id").get(function () {
-  return this._id.toHexString();
-});
-
 BookMemberSchema.set("toObject", { virtuals: true, versionKey: false });
 BookMemberSchema.set("toJSON", { virtuals: true, versionKey: false });
 
-module.exports = model("BookMember", BookMemberSchema);
+export default model<BookMemberDocument>("BookMember", BookMemberSchema);

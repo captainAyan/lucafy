@@ -4,16 +4,15 @@ import type { UserDocument } from "../models/mongo/user.model.js";
 import type AuthenticationResponseDto from "../dtos/user/authenticationResponse.dto.js";
 import type User from "../domain/user/user.domain.js";
 import type UserCredentials from "../domain/user/userCredentials.domain.js";
-import type {
-  AuthenticationResult,
-  PaginatedUsersResult,
-} from "../services/user.service.js";
+import type PaginatedUsersResultDto from "../dtos/user/paginatedUsersResult.dto.js";
+import type AuthenticationResultDto from "../dtos/user/authenticationResult.dto.js";
+import { getSkip } from "../utilities/paginationHelper.js";
 
 export function mapUserDomainObjectToUserResponseDto(
   user: User,
 ): UserResponseDto {
   return {
-    id: user._id.toString(),
+    id: user.id,
     firstName: user.firstName,
     middleName: user.middleName,
     lastName: user.lastName,
@@ -27,8 +26,8 @@ export function mapUserDomainObjectToUserResponseDto(
   };
 }
 
-export function mapAuthenticationResultToAuthenticationResponseDto(
-  authenticationResult: AuthenticationResult,
+export function mapAuthenticationResultDtoToAuthenticationResponseDto(
+  authenticationResult: AuthenticationResultDto,
 ): AuthenticationResponseDto {
   return {
     user: mapUserDomainObjectToUserResponseDto(authenticationResult.user),
@@ -36,12 +35,12 @@ export function mapAuthenticationResultToAuthenticationResponseDto(
   };
 }
 
-export function mapPaginatedUserResultToPaginatedUsersResponseDto(
-  result: PaginatedUsersResult,
+export function mapPaginatedUsersResultDtoToPaginatedUsersResponseDto(
+  result: PaginatedUsersResultDto,
 ): PaginatedUsersResponseDto {
   return {
     page: result.page,
-    skip: result.page * result.limit,
+    skip: getSkip(result.page, result.limit),
     total: result.total,
     limit: result.limit,
     order: result.order,

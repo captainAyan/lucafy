@@ -4,7 +4,7 @@ import { isValidObjectId } from "mongoose";
 import { PaginationLimit, PaginationSortOrder } from "../constants/policies.js";
 
 const baseSchema = {
-  page: z.coerce.number().int().min(0).default(0),
+  page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce
     .number()
     .int()

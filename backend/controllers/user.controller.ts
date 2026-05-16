@@ -4,10 +4,6 @@ import createHttpError from "http-errors";
 
 import { userService as containerUserService } from "../container.js";
 import type UserService from "../services/user.service.js";
-import type {
-  AuthenticationResult,
-  PaginatedUsersResult,
-} from "../services/user.service.js";
 import {
   createUserSchema,
   editUserSchema,
@@ -23,11 +19,14 @@ import type UserResponseDto from "../dtos/user/userResponse.dto.js";
 import type PaginatedUsersResponseDto from "../dtos/user/paginatedUsersResponse.dto.js";
 import type AuthenticatedRequest from "../types/authenticatedRequest.js";
 import {
-  mapAuthenticationResultToAuthenticationResponseDto,
-  mapPaginatedUserResultToPaginatedUsersResponseDto,
+  mapAuthenticationResultDtoToAuthenticationResponseDto,
+  mapPaginatedUsersResultDtoToPaginatedUsersResponseDto,
   mapUserDomainObjectToUserResponseDto,
 } from "../mappers/user.mapper.js";
 import type User from "../domain/user/user.domain.js";
+import type PaginationOptions from "../types/paginationOptions.js";
+import type PaginatedUsersResultDto from "../dtos/user/paginatedUsersResult.dto.js";
+import type AuthenticationResultDto from "../dtos/user/authenticationResult.dto.js";
 
 const userService: UserService = containerUserService;
 
@@ -39,11 +38,11 @@ export async function login(req: Request, res: Response) {
 
   const loginData: UserLoginDto = result.data;
 
-  const authResult: AuthenticationResult =
+  const authResultDto: AuthenticationResultDto =
     await userService.authenticateUser(loginData);
 
   const response: AuthenticationResponseDto =
-    mapAuthenticationResultToAuthenticationResponseDto(authResult);
+    mapAuthenticationResultDtoToAuthenticationResponseDto(authResultDto);
 
   res.status(StatusCodes.OK).json(response);
 }
@@ -56,10 +55,11 @@ export async function register(req: Request, res: Response) {
 
   const data: CreateUserDto = result.data;
 
-  const authResult: AuthenticationResult = await userService.registerUser(data);
+  const authResultDto: AuthenticationResultDto =
+    await userService.registerUser(data);
 
   const response: AuthenticationResponseDto =
-    mapAuthenticationResultToAuthenticationResponseDto(authResult);
+    mapAuthenticationResultDtoToAuthenticationResponseDto(authResultDto);
 
   res.status(StatusCodes.CREATED).json(response);
 }
@@ -113,18 +113,24 @@ export async function getUsers(req: AuthenticatedRequest, res: Response) {
   }
 
   const { page, limit, order, keyword } = result.data;
+  const paginationOptions: PaginationOptions = { page, limit, order };
 
-  const usersPaginatedResponse: PaginatedUsersResult =
-    await userService.getUsers(page, limit, order, keyword ?? "");
+  const paginatedResultDto: PaginatedUsersResultDto =
+    await userService.getUsersPaginated(keyword ?? "", paginationOptions);
 
   const response: PaginatedUsersResponseDto =
-    mapPaginatedUserResultToPaginatedUsersResponseDto(usersPaginatedResponse);
+    mapPaginatedUsersResultDtoToPaginatedUsersResponseDto(paginatedResultDto);
 
   res.status(StatusCodes.OK).json(response);
 }
 
 export async function getUserById(req: AuthenticatedRequest, res: Response) {
-  const user: User = await userService.getUserById(req.params.userId);
+  const userId: string = String(req.params.userId);
+  if (!userId) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, "User Id is required");
+  }
+
+  const user: User = await userService.getUserById(userId);
   const response = mapUserDomainObjectToUserResponseDto(user);
   res.status(StatusCodes.OK).json(response);
 }

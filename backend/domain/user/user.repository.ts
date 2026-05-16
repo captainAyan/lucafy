@@ -1,7 +1,5 @@
-import type {
-  PaginationLimit,
-  PaginationSortOrder,
-} from "../../constants/policies.js";
+import type { UserGender } from "../../constants/policies.js";
+import type PaginationOptions from "../../types/paginationOptions.js";
 import type User from "./user.domain.js";
 import type UserCredentials from "./userCredentials.domain.js";
 
@@ -16,12 +14,10 @@ export default interface UserRepository {
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
 
-  findAll(options: {
-    page: number;
-    limit: PaginationLimit;
-    order: PaginationSortOrder;
-    keyword: string;
-  }): Promise<User[]>;
+  findAllPaginated(
+    keyword: string,
+    options: PaginationOptions,
+  ): Promise<User[]>;
 
   count(keyword?: string): Promise<number>;
 
@@ -29,8 +25,15 @@ export default interface UserRepository {
     id: string,
     data: Partial<{
       firstName: string;
+      middleName: string;
       lastName: string;
       email: string;
+      bio: string;
+      organization: string;
+      jobTitle: string;
+      address: string;
+      dateOfBirth: Date;
+      gender: UserGender;
     }>,
   ): Promise<User | null>;
 

@@ -14,15 +14,15 @@ import cors from "cors";
 import createHttpError from "http-errors";
 import dotenv from "dotenv";
 
-import errorHandler from "./middlewares/errorMiddleware.js";
+import errorHandler from "./middlewares/error.middleware.js";
 import { PER_MINUTE_REQUEST_LIMIT } from "./constants/policies.js";
 import apiRoutes from "./routes/api.js";
 
 dotenv.config();
 
-const node_env: string = process.env.NODE_ENV as string;
+const node_env: string = process.env.NODE_ENV!;
 const port: number = Number(process.env.PORT) || 5000;
-const db: string = process.env.MONGODB_URI as string;
+const db: string = process.env.MONGODB_URI!;
 
 const filename: string = fileURLToPath(import.meta.url);
 const dirname: string = path.dirname(filename);

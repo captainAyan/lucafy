@@ -1,5 +1,6 @@
-import type { PaginationLimit, UserGender } from "../../constants/policies.js";
-import { PaginationSortOrder } from "../../constants/policies.js";
+import { Types } from "mongoose";
+
+import type { UserGender } from "../../constants/policies.js";
 import type User from "../../domain/user/user.domain.js";
 import type UserRepository from "../../domain/user/user.repository.js";
 import type UserCredentials from "../../domain/user/userCredentials.domain.js";
@@ -10,6 +11,8 @@ import {
 } from "../../mappers/user.mapper.js";
 import type { UserDocument } from "../../models/mongo/user.model.js";
 import userModel from "../../models/mongo/user.model.js";
+import type PaginationOptions from "../../types/paginationOptions.js";
+import { getSkip, getSortOrder } from "../../utilities/paginationHelper.js";
 
 export default class MongoUserRepository implements UserRepository {
   async create(userData: {
@@ -23,30 +26,30 @@ export default class MongoUserRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<User | null> {
-    const user: UserDocument | null = await userModel.findById(id, "-password");
+    if (!Types.ObjectId.isValid(id)) return null;
+
+    const user: UserDocument | null = await userModel
+      .findById(id, "-password")
+      .lean();
     if (!user) return null;
+
     return mapUserDocumentToUserDomainObject(user);
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const user: UserDocument | null = await userModel.findOne({ email });
+    const user: UserDocument | null = await userModel.findOne({ email }).lean();
     if (!user) return null;
+
     return mapUserDocumentToUserDomainObject(user);
   }
 
-  async findAll({
-    page = 0,
-    limit,
-    order,
-    keyword = "",
-  }: {
-    page: number;
-    limit: PaginationLimit;
-    order: PaginationSortOrder;
-    keyword: string;
-  }): Promise<User[]> {
-    const sortOrder =
-      order === PaginationSortOrder.OLDEST_FIRST ? "createdAt" : "-createdAt";
+  async findAllPaginated(
+    keyword: string,
+    options: PaginationOptions,
+  ): Promise<User[]> {
+    const { page, limit, order } = options;
+    const skip = getSkip(page, limit);
+    const sortOrder = getSortOrder(order);
 
     const query = {};
 
@@ -63,8 +66,9 @@ export default class MongoUserRepository implements UserRepository {
     const users: UserDocument[] = await userModel
       .find(query)
       .sort(sortOrder)
-      .skip(page * limit)
-      .limit(limit);
+      .skip(skip)
+      .limit(limit)
+      .lean();
 
     return mapUserDocumentsToUserDomainObjects(users);
   }
@@ -100,32 +104,42 @@ export default class MongoUserRepository implements UserRepository {
       gender: UserGender;
     }>,
   ): Promise<User | null> {
+    if (!Types.ObjectId.isValid(id)) return null;
+
     const user: UserDocument | null = await userModel.findById(id);
     if (!user) return null;
 
     Object.assign(user, data);
     const updatedUser: UserDocument = await user.save();
+
     return mapUserDocumentToUserDomainObject(updatedUser);
   }
 
   async updatePassword(id: string, passwordHash: string): Promise<User | null> {
+    if (!Types.ObjectId.isValid(id)) return null;
+
     const user: UserDocument | null = await userModel.findById(id);
     if (!user) return null;
 
     user.password = passwordHash;
     const updatedUser: UserDocument = await user.save();
+
     return mapUserDocumentToUserDomainObject(updatedUser);
   }
 
   async findCredentialsByEmail(email: string): Promise<UserCredentials | null> {
     const user: UserDocument | null = await userModel.findOne({ email });
     if (!user) return null;
+
     return mapUserDocumentToUserCredentialsDomainObject(user);
   }
 
   async findCredentialsById(id: string): Promise<UserCredentials | null> {
+    if (!Types.ObjectId.isValid(id)) return null;
+
     const user: UserDocument | null = await userModel.findById(id);
     if (!user) return null;
+
     return mapUserDocumentToUserCredentialsDomainObject(user);
   }
 }

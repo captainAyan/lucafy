@@ -2,38 +2,16 @@ import bcrypt from "bcryptjs";
 import createHttpError from "http-errors";
 import { StatusCodes } from "http-status-codes";
 
-import {
-  mapUserDomainObjectToUserResponseDto,
-  mapUserDomainObjectAndTokenToAuthenticationResponseDto,
-  mapPaginatedUsersResponseDto,
-} from "../mappers/user.mapper.js";
 import type CreateUserDto from "../dtos/user/createUser.dto.js";
-import type UserResponseDto from "../dtos/user/userResponse.dto.js";
-import type PaginatedUsersResponseDto from "../dtos/user/paginatedUsersResponse.dto.js";
-import type {
-  PaginationLimit,
-  PaginationSortOrder,
-} from "../constants/policies.js";
 import type EditUserDto from "../dtos/user/editUser.dto.js";
-import type AuthenticationResponseDto from "../dtos/user/authenticationResponse.dto.js";
 import tokenGenerator from "../utilities/tokenGenerator.js";
 import type UserLoginDto from "../dtos/user/userLogin.dto.js";
 import type UserRepository from "../domain/user/user.repository.js";
 import type User from "../domain/user/user.domain.js";
 import type UserCredentials from "../domain/user/userCredentials.domain.js";
-
-export interface AuthenticationResult {
-  user: User;
-  token: string;
-}
-
-export interface PaginatedUsersResult {
-  users: User[];
-  page: number;
-  total: number;
-  limit: number;
-  order: PaginationSortOrder;
-}
+import type PaginationOptions from "../types/paginationOptions.js";
+import type AuthenticationResultDto from "../dtos/user/authenticationResult.dto.js";
+import type PaginatedUsersResultDto from "../dtos/user/paginatedUsersResult.dto.js";
 
 export default class UserService {
   constructor(private readonly userRepo: UserRepository) {}
@@ -58,11 +36,12 @@ export default class UserService {
       throw createHttpError(StatusCodes.BAD_REQUEST, "Invalid input error");
     }
 
-    // return mapUserDomainObjectToUserResponseDto(user);
     return user;
   }
 
-  async registerUser(userData: CreateUserDto): Promise<AuthenticationResult> {
+  async registerUser(
+    userData: CreateUserDto,
+  ): Promise<AuthenticationResultDto> {
     await this.createUser(userData);
     return await this.authenticateUser({
       email: userData.email,
@@ -73,39 +52,32 @@ export default class UserService {
   async getUserById(id: string): Promise<User> {
     const user: User | null = await this.userRepo.findById(id);
     if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
-    // return mapUserDomainObjectToUserResponseDto(user);
     return user;
   }
 
-  async getUsers(
-    page: number,
-    limit: PaginationLimit,
-    order: PaginationSortOrder,
+  async getUsersPaginated(
     keyword: string,
-  ): Promise<PaginatedUsersResult> {
-    const users: User[] = await this.userRepo.findAll({
-      page,
-      limit,
-      order,
+    paginationOptions: PaginationOptions,
+  ): Promise<PaginatedUsersResultDto> {
+    const users: User[] = await this.userRepo.findAllPaginated(
       keyword,
-    });
+      paginationOptions,
+    );
 
     const total: number = await this.userRepo.count(keyword);
 
-    // return mapPaginatedUsersResponseDto(page, skip, total, limit, order, users);
-    return { page, total, limit, order, users };
+    return { ...paginationOptions, total, users };
   }
 
   async editUserById(id: string, userData: EditUserDto): Promise<User> {
     const user: User | null = await this.userRepo.updateById(id, userData);
     if (!user) throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
-    // return mapUserDomainObjectToUserResponseDto(user);
     return user;
   }
 
   async authenticateUser(
     loginData: UserLoginDto,
-  ): Promise<AuthenticationResult> {
+  ): Promise<AuthenticationResultDto> {
     const userCredentials: UserCredentials | null =
       await this.userRepo.findCredentialsByEmail(loginData.email);
     if (!userCredentials)
@@ -125,10 +97,6 @@ export default class UserService {
       );
     }
 
-    // return mapUserDomainObjectAndTokenToAuthenticationResponseDto(
-    //   userCredentials.user,
-    //   tokenGenerator({ id: userCredentials.user.id }),
-    // );
     return {
       user: userCredentials.user,
       token: tokenGenerator({ id: userCredentials.user.id }),
@@ -160,7 +128,6 @@ export default class UserService {
     if (!updatedUser)
       throw createHttpError(StatusCodes.NOT_FOUND, "User not found");
 
-    // return mapUserDomainObjectToUserResponseDto(updatedUser);
     return userCredentials.user;
   }
 }

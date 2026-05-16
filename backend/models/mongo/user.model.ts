@@ -67,7 +67,7 @@ const UserSchema = new Schema<UserDocument>(
       required: true,
       minlength: PASSWORD_MIN_LENGTH,
       maxlength: PASSWORD_MAX_LENGTH,
-      select: false,
+      // select: false,
     },
     bio: {
       type: String,

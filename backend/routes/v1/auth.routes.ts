@@ -5,7 +5,7 @@ import {
   register,
   changePassword,
 } from "../../controllers/user.controller.js";
-import protect from "../../middlewares/authMiddleware.js";
+import protect from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 

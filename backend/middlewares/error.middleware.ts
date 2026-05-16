@@ -22,7 +22,7 @@ function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
-  const isProd = process.env.NODE_ENV === "production";
+  const isProd = process.env.NODE_ENV! === "production";
 
   logError(err);
 

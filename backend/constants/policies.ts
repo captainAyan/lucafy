@@ -18,14 +18,10 @@ export enum PaginationSortOrder {
 export const ORGANIZATION_NAME_MAX_LENGTH = 100;
 export const ADDRESS_MAX_LENGTH = 200;
 
-export const BOOK_MEMBER_ROLE = Object.freeze({
-  // TODO rename to BookMemberRole
-  ADMIN: "admin",
-  MEMBER: "member",
-});
-
-import currencyCode from "./currencyCodes.js";
-export const CURRENCY_CODE_ENUM = currencyCode;
+export enum BookMemberRole {
+  ADMIN = "admin",
+  MEMBER = "member",
+}
 
 export const EMAIL_MAX_LENGTH = 100;
 export const PASSWORD_MIN_LENGTH = 6;

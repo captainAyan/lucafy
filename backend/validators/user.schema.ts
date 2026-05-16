@@ -52,7 +52,7 @@ export const editUserSchema = z
       .optional()
       .or(z.literal("")),
     address: z.string().max(ADDRESS_MAX_LENGTH).optional().or(z.literal("")),
-    dateOfBirth: z.date().nullable().optional(),
+    dateOfBirth: z.date().optional(),
     gender: z.enum(UserGender).optional(),
   })
   .strip();

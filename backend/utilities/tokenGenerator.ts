@@ -7,7 +7,7 @@ export interface TokenData {
 }
 
 export default function (data: TokenData): string {
-  return jwt.sign(data, process.env.SECRET_KEY as string, {
+  return jwt.sign(data, process.env.SECRET_KEY!, {
     expiresIn: "30d",
   });
 }
